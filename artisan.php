@@ -101,7 +101,7 @@ function artisan_migrate_minimum() {
         email VARCHAR(255),
         password VARCHAR(255),
         isAdmin int,
-        role_id int REFERENCES role(id)
+        role_id int REFERENCES roles(id)
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
@@ -121,7 +121,7 @@ function artisan_migrate_minimum() {
 
     // Third : Alter tables to add Foreign Keys
     echo "\nADDING ALL MINIMUM FOREIGN KEYS : ";
-    $request =  'ALTER TABLE user 
+    $request =  'ALTER TABLE users 
                 ADD CONSTRAINT fk1_role_id
                 FOREIGN KEY (role_id) REFERENCES roles(id)
                 ON DELETE RESTRICT
@@ -144,7 +144,7 @@ function artisan_seed_minimum() {
     // second : seed tables
     function seedRoles(){
         echo "ADD RECORDS IN TABLE roles : ";
-        $roles=['Employee','Utilisateur','Admin'];
+        $roles=['Employee','Utilisateur'];
         foreach ($roles as $role) {
             Connection::insert('roles',['name'=>$role], null);
             echo '-';
@@ -161,9 +161,9 @@ function artisan_seed_minimum() {
             'firstName' => $firstName,
             'lastName' => $lastName, 
             'email' => $email, 
-            'password' => sha1('pwsio'), 
-            'role_id' => $faker->numberBetween(1,3),
-            'isAdmin' => $isAdmin
+            'password' => sha1('pwsio'),
+            'isAdmin' => $isAdmin,
+            'role_id' => $faker->numberBetween(1,2)
         ];
         //var_dump($user);
         // Make sure it dosen't aleadry exists
@@ -181,7 +181,7 @@ function artisan_seed_minimum() {
             'role_id' => 1,
             'isAdmin' => 1
         ];
-       Connection::insert('user', $user, null);
+       Connection::insert('users', $user, null);
     }
 
     function seedUsers($nbUsers)
