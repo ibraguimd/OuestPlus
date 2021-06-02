@@ -78,24 +78,7 @@ function artisan_seed_project() {
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     echo "\n";
 
-    function seed_exemple($nbRows){
-        echo "ADD RECORDS IN TABLE example : ";
-        $faker = Faker\Factory::create('fr_FR');
-
-       for ($i=0;$i<$nbRows;$i++){
-           // Add a new random record in the table
-            $row = [
-                'name' => $faker->text()
-                ];
-
-            Connection::insert('example', $row);
-            echo "-";
-        }
-        echo "\n";
-    }
-
     // Thrid : calls the seeders functions here
-    seed_exemple(100);
 }
 
 
@@ -177,8 +160,8 @@ function artisan_seed_minimum() {
         ];
         //var_dump($user);
         // Make sure it dosen't aleadry exists
-        if(Connection::safeQuery('select count(*) as count from user where email=?', [$user['email']])[0]['count']==0) {
-            Connection::insert('user', $user);
+        if(Connection::safeQuery('select count(*) as count from user where email=?', [$user['email']],null)[0]['count']==0) {
+            Connection::insert('user', $user,null);
         }
     }
 
