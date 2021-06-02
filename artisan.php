@@ -106,8 +106,6 @@ function artisan_migrate_minimum() {
     echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS user;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS role;')) ? '-' : 'x';
-    echo (0 ==Connection::exec('DROP TABLE IF EXISTS can;')) ? '-' : 'x';
-    echo (0 ==Connection::exec('DROP TABLE IF EXISTS permission;')) ? '-' : 'x';
     echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     
     // Second : Create tables
@@ -128,20 +126,8 @@ function artisan_migrate_minimum() {
                 name VARCHAR(50)
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
-    
-    $request=   'CREATE TABLE IF NOT EXISTS can (
-                id int AUTO_INCREMENT PRIMARY KEY,
-                role_id int REFERENCES role(id),
-                permission_id int REFERENCES permission(id)
-                );';
-    echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
-    $request =  'CREATE TABLE IF NOT EXISTS permission (
-                id int AUTO_INCREMENT PRIMARY KEY,
-                control VARCHAR(50),
-                action VARCHAR(50)
-                );';
-    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
 
     // Third : Alter tables to add Foreign Keys
     echo "\nADDING ALL MINIMUM FOREIGN KEYS : ";
@@ -152,20 +138,6 @@ function artisan_migrate_minimum() {
                 ON UPDATE RESTRICT;';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
-    $request =  'ALTER TABLE can 
-                ADD CONSTRAINT fk2_role_id
-                FOREIGN KEY (role_id) REFERENCES role(id)
-                ON DELETE RESTRICT
-                ON UPDATE RESTRICT;';
-    echo (0 ==Connection::exec($request)) ? '-' : 'x';
-
-    $request =  'ALTER TABLE can 
-                ADD CONSTRAINT fk_permission_id
-                FOREIGN KEY (permission_id) REFERENCES permission(id)
-                ON DELETE RESTRICT
-                ON UPDATE RESTRICT;';
-    echo (0 ==Connection::exec($request)) ? '-' : 'x';
-    echo "\n";
 
 }
 
@@ -176,55 +148,17 @@ function artisan_seed_minimum() {
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE user')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE role')) ? '-' : 'x';
-    echo (0 == Connection::exec('TRUNCATE can')) ? '-' : 'x';
-    echo (0 == Connection::exec('TRUNCATE permission')) ? '-' : 'x';
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     echo "\n";
     
     // second : seed tables
     function seedRoles(){
         echo "ADD RECORDS IN TABLE role : ";
-        $roles=['Directeur de service','Membre de service','Commercial'];
+        $roles=['Employee','Utilisateur','Admin'];
         foreach ($roles as $role) {
-            Connection::insert('role',['name'=>$role]);
-            echo '-';
-        } 
-        echo "\n";
-    }
-
-    function seedPermisions(){
-        echo "ADD RECORDS IN TABLE permission : ";
-        $permissions=[
-                        ['control'=>'user','action'=>'default'],
-                        ['control'=>'user','action'=>'details'],
-                        ['control'=>'user','action'=>'modify'],
-                        ['control'=>'user','action'=>'viewall'],
-                    ];
-        foreach ($permissions as $permission) {
-            Connection::insert('permission',['control'=>$permission['control'],'action'=>$permission['action']]);
+            Connection::insert('role',['name'=>$role], null);
             echo '-';
         }
-        echo "\n";
-    }
-
-    function seedCan(){
-        echo "ADD RECORDS IN TABLE can : ";
-        $cans=[
-                ['role_id'=>1,'permission_id'=>1],
-                ['role_id'=>1,'permission_id'=>2],
-                ['role_id'=>1,'permission_id'=>3],
-                ['role_id'=>1,'permission_id'=>4],
-                ['role_id'=>2,'permission_id'=>1],
-                ['role_id'=>2,'permission_id'=>2],
-                ['role_id'=>2,'permission_id'=>3],
-                ['role_id'=>3,'permission_id'=>1],
-                ['role_id'=>3,'permission_id'=>2],
-                ['role_id'=>3,'permission_id'=>3],
-            ];
-        foreach ($cans as $can) {
-            Connection::insert('can',['role_id'=>$can['role_id'],'permission_id'=>$can['permission_id']]);
-            echo '-';
-        } 
         echo "\n";
     }
 
@@ -257,7 +191,7 @@ function artisan_seed_minimum() {
             'role_id' => 1,
             'isAdmin' => 1
         ];
-       Connection::insert('user', $user);
+       Connection::insert('user', $user, null);
     }
 
     function seedUsers($nbUsers)
@@ -278,10 +212,6 @@ function artisan_seed_minimum() {
     }
     //roles
     seedRoles();
-    //permissions
-    seedPermisions();
-    //can
-    seedCan();
     //users
     seedUsers(100);
 
