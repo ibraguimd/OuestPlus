@@ -3,7 +3,7 @@
 class FeatureController{
     public static function switchAction($userAction){
         $user = unserialize($_SESSION['user']);
-        if(!$user->isAdmin()){
+        if($user->isAdmin()){
             header('Location:?route=dashboard');
         }
 

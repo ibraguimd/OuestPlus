@@ -35,7 +35,7 @@ Supprimer des enregistrements
         $result=Connection::safeQuery($request,$requestParams);
         if(isset($result[0])) {
             // Créer un role
-            $role = new Role($result[0]['role_id'],$result[0]['name']);
+            $role = new Roles($result[0]['role_id'],$result[0]['name']);
             // Créer un user avec ce rôle
             $user = new User($result[0]['id'],
                             $result[0]['firstName'],

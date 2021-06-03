@@ -3,7 +3,7 @@
 /**
  * Class User
  */
-class User extends Model
+class Users extends Model
 {
     /**
      * @var int
@@ -30,7 +30,7 @@ class User extends Model
      */
     private $isAdmin;
     /**
-     * @var Role
+     * @var Roles
      */
     // private $role;
 
@@ -135,12 +135,12 @@ class User extends Model
     }
 
     /**
-     * @return Role
+     * @return Roles
      */
 
-    public function getRole(): Role
+    public function getRole(): Roles
     {
-        $this->role= Role::find($this->role_id);
+        $this->role= Roles::find($this->role_id);
         return $this->role;
     }
 

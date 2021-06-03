@@ -27,7 +27,7 @@ switch ($argv[1]) {
         break;
     default :
         var_dump(" This option doesn't exist !");
-    break;
+        break;
 }
 
 
@@ -71,7 +71,7 @@ function artisan_seed_project() {
     // Here is the beginning of your project. You can seed all the tables you need
     // A exemple is made with a table named "exemple"
 
-    // First : empty your tables 
+    // First : empty your tables
     echo "EMPTY ALL YOUR TABLES : ";
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE example')) ? '-' : 'x';
@@ -83,7 +83,7 @@ function artisan_seed_project() {
 
 
 function artisan_migrate_minimum() {
-    
+
     // First : drop tables if exists
     echo "DROPPING ALL MINIMUM TABLES : ";
     echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
@@ -93,7 +93,7 @@ function artisan_migrate_minimum() {
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS departments;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS tasks;')) ? '-' : 'x';
     echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
-    
+
     // Second : Create tables
     echo "\nCREATING ALL MINIMUM TABLES : ";
 
@@ -137,7 +137,7 @@ function artisan_migrate_minimum() {
         creationDate DATE,
         scheduledDate DATE,
         doneDate DATE,
-        workDuration TIME, 
+        workDuration TIME,
         department_id int REFERENCES departments(id),
         user_id int REFERENCES users(id)
         );';
@@ -146,7 +146,7 @@ function artisan_migrate_minimum() {
 
     // Third : Alter tables to add Foreign Keys
     echo "\nADDING ALL MINIMUM FOREIGN KEYS : ";
-    $request =  'ALTER TABLE users 
+    $request =  'ALTER TABLE users
                 ADD CONSTRAINT fk1_role_id
                 FOREIGN KEY (role_id) REFERENCES roles(id)
                 ON DELETE RESTRICT
@@ -185,7 +185,7 @@ function artisan_migrate_minimum() {
 }
 
 function artisan_seed_minimum() {
-    
+
     // First : empty tables
     echo "EMPTY ALL MINIMUM TABLES : ";
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
@@ -196,7 +196,7 @@ function artisan_seed_minimum() {
     echo (0 == Connection::exec('TRUNCATE histories')) ? '-' : 'x';
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     echo "\n";
-    
+
     // second : seed tables
     function seedRoles(){
         echo "ADD RECORDS IN TABLE roles : ";
@@ -215,8 +215,8 @@ function artisan_seed_minimum() {
         $email=strtolower(utf8_decode($firstName[0])).'.'.strtolower(utf8_decode($lastName)).'@test.fr';
         $user = [
             'firstName' => $firstName,
-            'lastName' => $lastName, 
-            'email' => $email, 
+            'lastName' => $lastName,
+            'email' => $email,
             'password' => sha1('pwsio'),
             'isAdmin' => $isAdmin,
             'role_id' => $faker->numberBetween(1,2)
@@ -231,13 +231,13 @@ function artisan_seed_minimum() {
     function seedUserSIO(){
         $user = [
             'firstName' => 'user',
-            'lastName' => 'SIO', 
-            'email' => 'usersio@test.fr', 
-            'password' => sha1('pwsio'), 
+            'lastName' => 'SIO',
+            'email' => 'usersio@test.fr',
+            'password' => sha1('pwsio'),
             'role_id' => 1,
-            'isAdmin' => 1
+            'isAdmin'=> 1
         ];
-       Connection::insert('users', $user, null);
+        Connection::insert('users', $user, null);
     }
 
     function seedUsers($nbUsers)
@@ -246,19 +246,19 @@ function artisan_seed_minimum() {
         seedUserSIO();
         echo '-';
         for ($i=0;$i<$nbUsers;$i++){
-            if ($i==0){
-                seedRandomUser(1);
-            }
-            else{
-                seedRandomUser(0);
-            }
-            echo '-';
+                if ($i==0){
+                    seedRandomUser(1);
+                }
+                else{
+                    seedRandomUser(0);
+                }
+                echo '-';
         }
-        echo "\n";      
+        echo "\n";
     }
 
 
-        function seedHistories()
+    function seedHistories()
     {
 //        $timestamp= mt_rand(0,1);
 //        $date = date("Y-m-d",$timestamp);
@@ -282,9 +282,19 @@ function artisan_seed_minimum() {
                 ];
             if(Connection::safeQuery('select count(*) as count from departments where name=?', [$departments['name']],null)[0]['count']==0) {
                 Connection::insert('departments', $departments,null);
-        }
+            }
 
         }
+    }
+
+    function dateUpper($date)
+    {
+        $faker = Faker\Factory::create('fr_Fr');
+        $nextDate = $faker->date();
+        while (strtotime($nextDate)<strtotime($date)){
+            $nextDate=$faker->date();
+        }
+        return $nextDate;
     }
 
     function seedTasks($nbTasks){
@@ -294,8 +304,8 @@ function artisan_seed_minimum() {
             $description = $faker->text(11);
             $location = $faker->postcode;
             $creationDate = $faker->date();
-            $scheduledDate = $faker->date();
-            $doneDate = $faker->date();
+            $scheduledDate = dateUpper($creationDate);
+            $doneDate = dateUpper($scheduledDate);
             $workDuration = $faker->time();
             $departmentId = $faker->numberBetween(1,30);
             $userId = $faker->numberBetween(1,100);
@@ -334,7 +344,5 @@ function artisan_seed_minimum() {
     seedTasks(100);
 
 
-    
+
 }
-
-
