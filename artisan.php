@@ -175,7 +175,7 @@ function artisan_migrate_minimum() {
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
     $request =  'ALTER TABLE tasks
-                ADD CONSTRAINT fk1_user_id
+                ADD CONSTRAINT fk2_user_id
                 FOREIGN KEY (user_id) REFERENCES users(id)
                 ON DELETE RESTRICT
                 ON UPDATE RESTRICT;';
@@ -258,10 +258,43 @@ function artisan_seed_minimum() {
     }
 
     function seedHistories()
+    {
+//        $timestamp= mt_rand(0,1);
+//        $date = date("Y-m-d",$timestamp);
+//
+//        $history= [
+//            'datetime' => $date
+//
+//        ];
+    }
+
+    function seedDepartments($nbDepartments)
+    {
+        for ($i=0;$i<$nbDepartments;$i++)
+        {
+            $faker = Faker\Factory::create('fr_FR');
+            $description = $faker->city;
+            var_dump($description);
+            $departments=
+                [
+                    'name' => $description
+                ];
+            if(Connection::safeQuery('select count(*) as count from departments where name=?', [$departments['name']],null)[0]['count']==0) {
+                Connection::insert('departments', $departments,null);
+        }
+
+        }
+    }
+
+
     //roles
     seedRoles();
     //users
     seedUsers(100);
+    //histories
+    seedHistories();
+    //departments
+    seedDepartments(30);
 
 
     
