@@ -118,7 +118,8 @@ function artisan_migrate_minimum() {
 
     $request =  'CREATE TABLE IF NOT EXISTS roles (
                 id int AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(50)
+                name VARCHAR(50),
+                authorization int
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
