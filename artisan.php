@@ -259,13 +259,13 @@ function artisan_seed_minimum() {
 
     function seedHistories()
     {
-//        $timestamp= mt_rand(0,1);
-//        $date = date("Y-m-d",$timestamp);
-//
-//        $history= [
-//            'datetime' => $date
-//
-//        ];
+        $timestamp= mt_rand(0,1);
+        $date = date("Y-m-d",$timestamp);
+
+        $history= [
+            'datetime' => $date
+
+        ];
     }
 
     function seedDepartments($nbDepartments)
