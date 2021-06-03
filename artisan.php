@@ -257,15 +257,16 @@ function artisan_seed_minimum() {
         echo "\n";      
     }
 
-    function seedHistories()
+
+        function seedHistories()
     {
-        $timestamp= mt_rand(0,1);
-        $date = date("Y-m-d",$timestamp);
-
-        $history= [
-            'datetime' => $date
-
-        ];
+//        $timestamp= mt_rand(0,1);
+//        $date = date("Y-m-d",$timestamp);
+//
+//        $history= [
+//            'datetime' => $date
+//
+//        ];
     }
 
     function seedDepartments($nbDepartments)
@@ -286,6 +287,40 @@ function artisan_seed_minimum() {
         }
     }
 
+    function seedTasks($nbTasks){
+        for ($i=0;$i<$nbTasks;$i++){
+            $faker = Faker\Factory::create('fr_FR');
+            $title = $faker->paragraph();
+            $description = $faker->text(11);
+            $location = $faker->postcode;
+            $creationDate = $faker->date();
+            $scheduledDate = $faker->date();
+            $doneDate = $faker->date();
+            $workDuration = $faker->time();
+            $departmentId = $faker->numberBetween(1,30);
+            $userId = $faker->numberBetween(1,100);
+
+            $task = [
+                'title' => $title,
+                'description' => $description,
+                'location' => $location,
+                'creationDate' => $creationDate,
+                'scheduledDate' => $scheduledDate,
+                'doneDate' => $doneDate,
+                'workDuration' => $workDuration,
+                'department_id' => $departmentId,
+                'user_id' => $userId
+            ];
+
+            // Make sure it dosen't aleadry exists
+            if (Connection::safeQuery('select count(*) as count from tasks where title=?', [$task['title']], null)[0]['count']==0)
+            {
+                Connection::insert('tasks', $task, null);
+            }
+        }
+
+    }
+
 
     //roles
     seedRoles();
@@ -294,7 +329,9 @@ function artisan_seed_minimum() {
     //histories
     seedHistories();
     //departments
-    seedDepartments(30);
+    seedDepartments(80);
+    //tasks
+    seedTasks(100);
 
 
     
