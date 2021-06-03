@@ -11,6 +11,11 @@ class TaskListController
                 self::defaultAction();
                 break;
         }
-
     }
+        private static function defaultAction()
+    {
+        $tabTitle="Liste des tâches";
+        include('../page/taskList/index.php');
+    }
+
 }
