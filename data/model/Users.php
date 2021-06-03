@@ -119,22 +119,6 @@ class Users extends Model
     }
 
     /**
-     * @return bool
-     */
-    public function isAdmin(): bool
-    {
-        return $this->isAdmin;
-    }
-
-    /**
-     * @param bool $isAdmin
-     */
-    public function setIsAdmin(bool $isAdmin): void
-    {
-        $this->isAdmin = $isAdmin;
-    }
-
-    /**
      * @return Roles
      */
 
@@ -142,6 +126,11 @@ class Users extends Model
     {
         $this->role= Roles::find($this->role_id);
         return $this->role;
+    }
+
+    public function isDirection()
+    {
+        return $this->getRole()->isDirection();
     }
 
 }

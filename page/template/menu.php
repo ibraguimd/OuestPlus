@@ -2,7 +2,9 @@
     <a href="?route=dashboard" class="nav-link">
         <i class="nav-icon fas fa-tachometer-alt"></i>
         <p class="text-light">
-            Tableau de bord
+            <?php
+
+            ?>Tableau de bord
         </p>
     </a>
 </li>

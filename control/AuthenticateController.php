@@ -43,7 +43,14 @@ class AuthenticateController{
         else{
             // L'utilisateur a le droit d'accès
             $_SESSION['user']=serialize($user);
-            header('location:./?route=dashboard');
+            if ($user->isDirection() == true)
+            {
+                header('location:./?route=dashboard');
+            }
+            else
+            {
+                header('location:./?route=task');
+            }
         }
     }
 
