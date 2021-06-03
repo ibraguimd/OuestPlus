@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class User
+ * Class Users
  */
 class Users extends Model
 {

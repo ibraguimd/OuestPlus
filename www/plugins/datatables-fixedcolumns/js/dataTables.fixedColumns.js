@@ -476,7 +476,7 @@ $.extend( FixedColumns.prototype , {
 
 	/**
 	 * Initialisation for FixedColumns
-	 *  @param   {Object} oInit User settings for initialisation
+	 *  @param   {Object} oInit Users settings for initialisation
 	 *  @returns {void}
 	 *  @private
 	 */
