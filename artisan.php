@@ -90,10 +90,22 @@ function artisan_migrate_minimum() {
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS users;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS roles;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS histories;')) ? '-' : 'x';
+    echo (0 ==Connection::exec('DROP TABLE IF EXISTS departments;')) ? '-' : 'x';
+    echo (0 ==Connection::exec('DROP TABLE IF EXISTS tasks;')) ? '-' : 'x';
     echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     
     // Second : Create tables
     echo "\nCREATING ALL MINIMUM TABLES : ";
+
+    $request =  'CREATE TABLE IF NOT EXISTS histories (
+                id int AUTO_INCREMENT PRIMARY KEY,
+                datetime DATE,
+                description VARCHAR(255),
+                task_id int REFERENCES tasks(id),
+                user_id int REFERENCES users(id)
+                );';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
     $request =  'CREATE TABLE IF NOT EXISTS users (
         id int AUTO_INCREMENT PRIMARY KEY,
         firstName VARCHAR(255),
@@ -111,11 +123,24 @@ function artisan_migrate_minimum() {
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
-    $request =  'CREATE TABLE IF NOT EXISTS histories (
+    $request =  'CREATE TABLE IF NOT EXISTS departments (
                 id int AUTO_INCREMENT PRIMARY KEY,
-                datetime DATE,
-                description VARCHAR(255)
+                name VARCHAR(255)
                 );';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
+    $request =  'CREATE TABLE IF NOT EXISTS tasks (
+        id int AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255),
+        description VARCHAR(255),
+        location VARCHAR(255),
+        creationDate DATE,
+        scheduledDate DATE,
+        doneDate DATE,
+        workDuration TIME, 
+        department_id int REFERENCES departments(id),
+        user_id int REFERENCES users(id)
+        );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
 
@@ -124,6 +149,34 @@ function artisan_migrate_minimum() {
     $request =  'ALTER TABLE users 
                 ADD CONSTRAINT fk1_role_id
                 FOREIGN KEY (role_id) REFERENCES roles(id)
+                ON DELETE RESTRICT
+                ON UPDATE RESTRICT;';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
+    $request =  'ALTER TABLE histories
+                ADD CONSTRAINT fk1_task_id
+                FOREIGN KEY (task_id) REFERENCES tasks(id)
+                ON DELETE RESTRICT
+                ON UPDATE RESTRICT;';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
+    $request =  'ALTER TABLE histories
+                ADD CONSTRAINT fk1_user_id
+                FOREIGN KEY (user_id) REFERENCES users(id)
+                ON DELETE RESTRICT
+                ON UPDATE RESTRICT;';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
+    $request =  'ALTER TABLE tasks
+                ADD CONSTRAINT fk1_department_id
+                FOREIGN KEY (department_id) REFERENCES departments(id)
+                ON DELETE RESTRICT
+                ON UPDATE RESTRICT;';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
+    $request =  'ALTER TABLE tasks
+                ADD CONSTRAINT fk1_user_id
+                FOREIGN KEY (user_id) REFERENCES users(id)
                 ON DELETE RESTRICT
                 ON UPDATE RESTRICT;';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
@@ -138,6 +191,9 @@ function artisan_seed_minimum() {
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE users')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE roles')) ? '-' : 'x';
+    echo (0 == Connection::exec('TRUNCATE departments')) ? '-' : 'x';
+    echo (0 == Connection::exec('TRUNCATE tasks')) ? '-' : 'x';
+    echo (0 == Connection::exec('TRUNCATE histories')) ? '-' : 'x';
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     echo "\n";
     
@@ -200,6 +256,8 @@ function artisan_seed_minimum() {
         }
         echo "\n";      
     }
+
+    function seedHistories()
     //roles
     seedRoles();
     //users
