@@ -1387,7 +1387,7 @@ $.fn.dataTable.ColReorder = ColReorder;
 $.fn.DataTable.ColReorder = ColReorder;
 
 
-// Register a new feature with DataTables
+// Register a new taskList with DataTables
 if ( typeof $.fn.dataTable == "function" &&
      typeof $.fn.dataTableExt.fnVersionCheck == "function" &&
      $.fn.dataTableExt.fnVersionCheck('1.10.8') )

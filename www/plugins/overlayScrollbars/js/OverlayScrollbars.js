@@ -2722,7 +2722,7 @@
                 }
 
                 /**
-                 * The mouse enter event of the host element. This event is only needed for the autoHide feature.
+                 * The mouse enter event of the host element. This event is only needed for the autoHide taskList.
                  */
                 function hostOnMouseEnter() {
                     if (_scrollbarsAutoHideLeave)
@@ -2730,7 +2730,7 @@
                 }
 
                 /**
-                 * The mouse leave event of the host element. This event is only needed for the autoHide feature.
+                 * The mouse leave event of the host element. This event is only needed for the autoHide taskList.
                  */
                 function hostOnMouseLeave() {
                     if (_scrollbarsAutoHideLeave && !_bodyElement.hasClass(_classNameDragging))
@@ -2738,7 +2738,7 @@
                 }
 
                 /**
-                 * The mouse move event of the host element. This event is only needed for the autoHide "move" feature.
+                 * The mouse move event of the host element. This event is only needed for the autoHide "move" taskList.
                  */
                 function hostOnMouseMove() {
                     if (_scrollbarsAutoHideMove) {
@@ -4057,7 +4057,7 @@
                                 removeClass(_hostElement, _classNameHostRTL);
                         }
 
-                        //manage the resize feature (CSS3 resize "polyfill" for this plugin)
+                        //manage the resize taskList (CSS3 resize "polyfill" for this plugin)
                         if (_isBody)
                             addClass(_hostElement, _classNameHostResizeDisabled);
                         if (resizeChanged) {
@@ -4113,7 +4113,7 @@
                             }
                         }
 
-                        //manage the scrollbars auto hide feature (auto hide them after specific actions)
+                        //manage the scrollbars auto hide taskList (auto hide them after specific actions)
                         if (scrollbarsAutoHideChanged || ignoreOverlayScrollbarHidingChanged) {
                             if (_scrollbarsAutoHideLeave || _scrollbarsAutoHideMove) {
                                 setupHostMouseTouchEvents(true);

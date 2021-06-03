@@ -1999,13 +1999,13 @@ function _init ( settings ) {
 	return new Buttons( api, opts ).container();
 }
 
-// DataTables `dom` feature option
+// DataTables `dom` taskList option
 DataTable.ext.feature.push( {
 	fnInit: _init,
 	cFeature: "B"
 } );
 
-// DataTables 2 layout feature
+// DataTables 2 layout taskList
 if ( DataTable.ext.features ) {
 	DataTable.ext.features.register( 'buttons', _init );
 }

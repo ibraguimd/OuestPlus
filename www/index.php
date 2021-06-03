@@ -33,8 +33,8 @@ switch ($route){
     case 'dashboard':
         DashboardController::switchAction($action);
     break;
-    case 'feature':
-        FeatureController::switchAction($action);
+    case 'taskList':
+        TaskListController::switchAction($action);
     break;
     case 'authenticate':
         AuthenticateController::switchAction($action);

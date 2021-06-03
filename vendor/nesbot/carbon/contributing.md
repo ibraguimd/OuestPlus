@@ -38,7 +38,7 @@ Replace `<username>` with your GitHub username.
 Then, you can work on the master or create a specific branch for your development:
 
 ```shell
-git checkout -b my-feature-branch -t origin/master
+git checkout -b my-taskList-branch -t origin/master
 ```
 
 You can now edit the "Carbon" directory contents.

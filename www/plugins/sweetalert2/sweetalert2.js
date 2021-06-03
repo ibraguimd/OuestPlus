@@ -889,7 +889,7 @@
    *   https://github.com/tc39/proposal-private-methods
    *   https://github.com/babel/babel/pull/7555
    * Once we have the changes from that PR in Babel, and our core class fits reasonable in *one module*
-   *   then we can use that language feature.
+   *   then we can use that language taskList.
    */
   var privateProps = {
     promise: new WeakMap(),
@@ -1942,7 +1942,7 @@
    *   https://github.com/tc39/proposal-private-methods
    *   https://github.com/babel/babel/pull/7555
    * Once we have the changes from that PR in Babel, and our core class fits reasonable in *one module*
-   *   then we can use that language feature.
+   *   then we can use that language taskList.
    */
   var privateMethods = {
     swalPromiseResolve: new WeakMap()
