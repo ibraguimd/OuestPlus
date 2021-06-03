@@ -112,7 +112,6 @@ function artisan_migrate_minimum() {
         lastName VARCHAR(255),
         email VARCHAR(255),
         password VARCHAR(255),
-        isAdmin int,
         role_id int REFERENCES roles(id)
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
@@ -208,7 +207,7 @@ function artisan_seed_minimum() {
         echo "\n";
     }
 
-    function seedRandomUser($isAdmin){
+    function seedRandomUser(){
         $faker = Faker\Factory::create('fr_FR');
         $firstName=$faker->firstName();
         $lastName=$faker->lastName();
@@ -218,7 +217,6 @@ function artisan_seed_minimum() {
             'lastName' => $lastName, 
             'email' => $email, 
             'password' => sha1('pwsio'),
-            'isAdmin' => $isAdmin,
             'role_id' => $faker->numberBetween(1,2)
         ];
         //var_dump($user);
@@ -234,8 +232,7 @@ function artisan_seed_minimum() {
             'lastName' => 'SIO', 
             'email' => 'usersio@test.fr', 
             'password' => sha1('pwsio'), 
-            'role_id' => 1,
-            'isAdmin' => 1
+            'role_id' => 1
         ];
        Connection::insert('users', $user, null);
     }
@@ -246,12 +243,7 @@ function artisan_seed_minimum() {
         seedUserSIO();
         echo '-';
         for ($i=0;$i<$nbUsers;$i++){
-            if ($i==0){
-                seedRandomUser(1);
-            }
-            else{
-                seedRandomUser(0);
-            }
+            seedRandomUser();
             echo '-';
         }
         echo "\n";      
@@ -287,6 +279,16 @@ function artisan_seed_minimum() {
         }
     }
 
+    function dateUpper($date)
+    {
+        $faker = Faker\Factory::create('fr_FR');
+        $nextDate = $faker->date();
+        while(strtotime($nextDate)<strtotime($date)){
+            $nextDate=$faker->date();
+        }
+        return $nextDate;
+    }
+
     function seedTasks($nbTasks){
         for ($i=0;$i<$nbTasks;$i++){
             $faker = Faker\Factory::create('fr_FR');
@@ -294,8 +296,8 @@ function artisan_seed_minimum() {
             $description = $faker->text(11);
             $location = $faker->postcode;
             $creationDate = $faker->date();
-            $scheduledDate = $faker->date();
-            $doneDate = $faker->date();
+            $scheduledDate = dateUpper($creationDate);
+            $doneDate = dateUpper($scheduledDate);
             $workDuration = $faker->time();
             $departmentId = $faker->numberBetween(1,30);
             $userId = $faker->numberBetween(1,100);

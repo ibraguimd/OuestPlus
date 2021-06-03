@@ -2,9 +2,9 @@
 
 
 /**
- * Class Role
+ * Class Roles
  */
-class Role extends Model
+class Roles extends Model
 {
     /**
      * @var int

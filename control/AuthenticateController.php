@@ -31,7 +31,7 @@ class AuthenticateController{
     private static function loginAction($email,$password)
     {
         // Appel du modèle pour chercher le mail et le mdp crypté dans la bdd
-        $user=User::findOneWithCredentials($email,$password);
+        $user=Users::findOneWithCredentials($email,$password);
 
         if (!$user){
             // Pas d'utilisateur avec ce mail et ce mot de passe. On prépare un message pour la vue
