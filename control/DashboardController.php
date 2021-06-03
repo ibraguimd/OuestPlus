@@ -16,7 +16,7 @@ class DashboardController{
         $user = unserialize($_SESSION['user']);
         $role = strtolower($user->getRole()->getName());
 
-        if ($role !== "direction de l'entreprise"){
+        if ($user->isDirection() !== true){
             echo "Vous n'avez pas les droits pour accéder à cette page !";
         }
         else
