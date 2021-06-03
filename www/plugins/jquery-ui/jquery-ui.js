@@ -4038,7 +4038,7 @@ var formResetMixin = $.ui.formResetMixin = {
 // need to detect <1.8, this is a simple check that should suffice. Checking
 // for "1.7." would be a bit safer, but the version string is 1.7, not 1.7.0
 // and we'll never reach 1.70.0 (if we do, we certainly won't be supporting
-// 1.7 anymore). See #11197 for why we're not using feature detection.
+// 1.7 anymore). See #11197 for why we're not using taskList detection.
 if ( $.fn.jquery.substring( 0, 3 ) === "1.7" ) {
 
 	// Setters for .innerWidth(), .innerHeight(), .outerWidth(), .outerHeight()

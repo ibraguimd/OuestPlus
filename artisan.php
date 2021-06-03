@@ -118,7 +118,8 @@ function artisan_migrate_minimum() {
 
     $request =  'CREATE TABLE IF NOT EXISTS roles (
                 id int AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(50)
+                name VARCHAR(50),
+                authorization int
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
@@ -199,7 +200,7 @@ function artisan_seed_minimum() {
     // second : seed tables
     function seedRoles(){
         echo "ADD RECORDS IN TABLE roles : ";
-        $roles=['Employee','Utilisateur'];
+        $roles=['Employee','Service de maintenance','Direction de l\'entreprise'];
         foreach ($roles as $role) {
             Connection::insert('roles',['name'=>$role], null);
             echo '-';
@@ -237,13 +238,31 @@ function artisan_seed_minimum() {
        Connection::insert('users', $user, null);
     }
 
+    function seedDirecteur(){
+        $faker = Faker\Factory::create('fr_FR');
+        $firstName=$faker->firstName();
+        $lastName=$faker->lastName();
+        $email=strtolower(utf8_decode($firstName[0])).'.'.strtolower(utf8_decode($lastName)).'@test.fr';
+        $directeur = [
+            'firstname' => $firstName,
+            'lastname' => $lastName,
+            'email' => $email,
+            'password' => sha1('pwsio'),
+            'role_id' => 3
+        ];
+        Connection::insert('users', $directeur, null);
+    }
+
     function seedUsers($nbUsers)
     {
         echo "ADD RECORDS IN TABLE user : ";
         seedUserSIO();
+        seedDirecteur();
         echo '-';
         for ($i=0;$i<$nbUsers;$i++){
             seedRandomUser();
+
+
             echo '-';
         }
         echo "\n";      

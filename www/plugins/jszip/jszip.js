@@ -577,7 +577,7 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
         // other archive managers too.
         // This field is usually used without the utf8 flag, with a non
         // unicode path in the header (winrar, winzip). This helps (a bit)
-        // with the messy Windows' default compressed folders feature but
+        // with the messy Windows' default compressed folders taskList but
         // breaks on p7zip which doesn't seek the unicode path extra field.
         // So for now, UTF-8 everywhere !
         unicodePathExtraField =

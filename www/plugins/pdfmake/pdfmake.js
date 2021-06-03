@@ -37454,7 +37454,7 @@ NameTable.process = function (stream) {
       language = record.platformID + '-' + record.languageID;
     }
 
-    // if the nameID is >= 256, it is a font feature record (AAT)
+    // if the nameID is >= 256, it is a font taskList record (AAT)
     var key = record.nameID >= 256 ? 'fontFeatures' : NAMES[record.nameID] || record.nameID;
     if (records[key] == null) {
       records[key] = {};
@@ -39294,7 +39294,7 @@ var BaseValues = new r.Struct({
 });
 
 var FeatMinMaxRecord = new r.Struct({
-  tag: new r.String(4), // 4-byte feature identification tag-must match FeatureTag in FeatureList
+  tag: new r.String(4), // 4-byte taskList identification tag-must match FeatureTag in FeatureList
   minCoord: new r.Pointer(r.uint16, BaseCoord, { type: 'parent' }), // May be NULL
   maxCoord: new r.Pointer(r.uint16, BaseCoord, { type: 'parent' }) // May be NULL
 });
@@ -42409,7 +42409,7 @@ var OTMapping = {
 
   hkna: feature('alternateKana', 'alternateHorizKana'),
   vkna: feature('alternateKana', 'alternateVertKana'),
-  // hngl: feature 'transliteration', 'hanjaToHangulSelector' # deprecated
+  // hngl: taskList 'transliteration', 'hanjaToHangulSelector' # deprecated
 
   ital: feature('italicCJKRoman', 'CJKItalicRoman'),
   lnum: feature('numberCase', 'upperCaseNumbers'),
@@ -42469,7 +42469,7 @@ var OTMapping = {
   ss20: feature('stylisticAlternatives', 'stylisticAltTwenty')
 };
 
-// salt: feature 'stylisticAlternatives', 'stylisticAltOne' # hmm, which one to choose
+// salt: taskList 'stylisticAlternatives', 'stylisticAltOne' # hmm, which one to choose
 
 // Add cv01-cv99 features
 for (var i = 1; i <= 99; i++) {
@@ -43520,7 +43520,7 @@ var AATLayoutEngine = function () {
 /**
  * ShapingPlans are used by the OpenType shapers to store which
  * features should by applied, and in what order to apply them.
- * The features are applied in groups called stages. A feature
+ * The features are applied in groups called stages. A taskList
  * can be applied globally to all glyphs, or locally to only
  * specific glyphs.
  *
@@ -44122,7 +44122,7 @@ var OTProcessor = function () {
       changed = true;
     }
 
-    // Build a feature lookup table
+    // Build a taskList lookup table
     if (changed) {
       this.features = {};
       if (this.language) {
@@ -44441,7 +44441,7 @@ var OTProcessor = function () {
     var _this = this;
 
     return this.match(sequenceIndex, sequence, function (component, glyph) {
-      // If the current feature doesn't apply to this glyph,
+      // If the current taskList doesn't apply to this glyph,
       if (!(_this.currentFeature in glyph.features)) {
         return false;
       }
@@ -45495,7 +45495,7 @@ function initialReordering(font, glyphs, plan) {
     // and has more than one consonant, Ra is excluded from candidates for
     // base consonants.
     if (indicConfig.rephPos !== POSITIONS.Ra_To_Become_Reph && features.rphf && start + 3 <= end && (indicConfig.rephMode === 'Implicit' && !isJoiner(glyphs[start + 2]) || indicConfig.rephMode === 'Explicit' && glyphs[start + 2].shaperInfo.category === CATEGORIES.ZWJ)) {
-      // See if it matches the 'rphf' feature.
+      // See if it matches the 'rphf' taskList.
       var _g = [glyphs[start].copy(), glyphs[start + 1].copy(), glyphs[start + 2].copy()];
       if (wouldSubstitute(_g.slice(0, 2), 'rphf') || indicConfig.rephMode === 'Explicit' && wouldSubstitute(_g, 'rphf')) {
         limit += 2;
@@ -45763,10 +45763,10 @@ function initialReordering(font, glyphs, plan) {
       // Old-spec eye-lash Ra needs special handling.  From the
       // spec:
       //
-      // "The feature 'below-base form' is applied to consonants
+      // "The taskList 'below-base form' is applied to consonants
       // having below-base forms and following the base consonant.
       // The exception is vattu, which may appear below half forms
-      // as well as below the base glyph. The feature 'below-base
+      // as well as below the base glyph. The taskList 'below-base
       // form' will be applied to all such occurrences of Ra as well."
       //
       // Test case: U+0924,U+094D,U+0930,U+094d,U+0915
@@ -45796,7 +45796,7 @@ function initialReordering(font, glyphs, plan) {
           }
 
           // Mark the subsequent stuff with 'cfar'.  Used in Khmer.
-          // Read the feature spec.
+          // Read the taskList spec.
           // This allows distinguishing the following cases with MS Khmer fonts:
           // U+1784,U+17D2,U+179A,U+17D2,U+1782
           // U+1784,U+17D2,U+1782,U+17D2,U+179A
@@ -45822,7 +45822,7 @@ function initialReordering(font, glyphs, plan) {
 
           // ZWJ/ZWNJ should disable CJCT.  They do that by simply
           // being there, since we don't skip them for the CJCT
-          // feature (ie. F_MANUAL_ZWJ)
+          // taskList (ie. F_MANUAL_ZWJ)
 
           // A ZWNJ disables HALF.
           if (nonJoiner) {
@@ -46103,11 +46103,11 @@ function finalReordering(font, glyphs, plan) {
       for (var _i23 = base + 1; _i23 < end; _i23++) {
         if (glyphs[_i23].features.pref) {
           // 1. Only reorder a glyph produced by substitution during application
-          //    of the <pref> feature. (Note that a font may shape a Ra consonant with
-          //    the feature generally but block it in certain contexts.)
+          //    of the <pref> taskList. (Note that a font may shape a Ra consonant with
+          //    the taskList generally but block it in certain contexts.)
 
           // Note: We just check that something got substituted.  We don't check that
-          // the <pref> feature actually did it...
+          // the <pref> taskList actually did it...
           //
           // Reorder pref only if it ligated.
           if (glyphs[_i23].isLigated && !glyphs[_i23].isMultiplied) {
@@ -46218,7 +46218,7 @@ var UniversalShaper = (_temp$3 = _class$7 = function (_DefaultShaper) {
     // Scripts that need this are handled by the Arabic shaper, not implemented here for now.
     // plan.addStage(['isol', 'init', 'medi', 'fina', 'med2', 'fin2', 'fin3'], false);
 
-    // Standard topographic presentation and positional feature application
+    // Standard topographic presentation and positional taskList application
     plan.addStage(['abvs', 'blws', 'pres', 'psts', 'dist', 'abvm', 'blwm']);
   };
 
@@ -46282,7 +46282,7 @@ function setupSyllables$1(font, glyphs) {
       glyphs[i].shaperInfo = new USEInfo(categories$1[useCategory(glyphs[i])], tags[0], syllable);
     }
 
-    // Assign rphf feature
+    // Assign rphf taskList
     var limit = glyphs[start].shaperInfo.category === 'R' ? 1 : Math.min(3, end - start);
     for (var _i2 = start; _i2 < start + limit; _i2++) {
       glyphs[_i2].features.rphf = true;
@@ -50715,10 +50715,10 @@ var TTFFont = (_class = function () {
   };
 
   /**
-   * An array of all [OpenType feature tags](https://www.microsoft.com/typography/otspec/featuretags.htm)
+   * An array of all [OpenType taskList tags](https://www.microsoft.com/typography/otspec/featuretags.htm)
    * (or mapped AAT tags) supported by the font.
-   * The features parameter is an array of OpenType feature tags to be applied in addition to the default set.
-   * If this is an AAT font, the OpenType feature tags are mapped to AAT features.
+   * The features parameter is an array of OpenType taskList tags to be applied in addition to the default set.
+   * If this is an AAT font, the OpenType taskList tags are mapped to AAT features.
    *
    * @type {string[]}
    */
