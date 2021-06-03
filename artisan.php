@@ -112,6 +112,7 @@ function artisan_migrate_minimum() {
         lastName VARCHAR(255),
         email VARCHAR(255),
         password VARCHAR(255),
+        isAdmin int,
         role_id int REFERENCES roles(id)
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
@@ -207,7 +208,7 @@ function artisan_seed_minimum() {
         echo "\n";
     }
 
-    function seedRandomUser(){
+    function seedRandomUser($isAdmin){
         $faker = Faker\Factory::create('fr_FR');
         $firstName=$faker->firstName();
         $lastName=$faker->lastName();
@@ -217,6 +218,7 @@ function artisan_seed_minimum() {
             'lastName' => $lastName, 
             'email' => $email, 
             'password' => sha1('pwsio'),
+            'isAdmin' => $isAdmin,
             'role_id' => $faker->numberBetween(1,2)
         ];
         //var_dump($user);
@@ -232,7 +234,8 @@ function artisan_seed_minimum() {
             'lastName' => 'SIO', 
             'email' => 'usersio@test.fr', 
             'password' => sha1('pwsio'), 
-            'role_id' => 1
+            'role_id' => 1,
+            'isAdmin' => 1
         ];
        Connection::insert('users', $user, null);
     }
@@ -243,7 +246,13 @@ function artisan_seed_minimum() {
         seedUserSIO();
         echo '-';
         for ($i=0;$i<$nbUsers;$i++){
-            seedRandomUser();
+            if ($i==0){
+                seedRandomUser(1);
+            }
+            else {
+                seedRandomUser(0);
+            }
+
             echo '-';
         }
         echo "\n";      
