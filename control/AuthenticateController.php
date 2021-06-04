@@ -48,8 +48,8 @@ class AuthenticateController{
                 header('location:./?route=dashboard');
             }
             else
-            {
-                header('location:./?route=taskList');
+           {
+               header('location:./?route=taskList');
             }
         }
     }

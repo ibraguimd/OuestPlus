@@ -159,7 +159,7 @@ function artisan_migrate_minimum() {
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
     // Third : Alter tables to add Foreign Keys
-    echo "\nADDING ALL MINIMUM FOREIGN KEYS : ";
+    echo "\nADDING ALL MINIMUM FOREIGN KEYS : \n";
     $request =  'ALTER TABLE users 
                 ADD CONSTRAINT fk1_role_id
                 FOREIGN KEY (role_id) REFERENCES roles(id)
@@ -362,22 +362,20 @@ function artisan_seed_minimum() {
 
     function seedCapacities()
     {
-        echo "ADD RECORDS IN TABLE capacities : ";
-        $labels=['addTasks','assignTasks','deleteTasks'];
-        $descriptions=['Ajouter des tâches','Assigner des tâches','Supprimer des tâches'];
-        $compteur= count($labels);
-        $i=0;
-        while($i!=$compteur)
+        for ($i=0;$i<3;$i++)
         {
-            $capacities=[
+            echo "ADD RECORDS IN TABLE capacities : ";
+            $labels=['addTasks','assignTasks','deleteTasks'];
+            $descriptions=['Ajouter des tâches','Assigner des tâches','Supprimer des tâches'];
+            $capacities= [
                 'label' => $labels[$i],
                 'description' => $descriptions[$i]
             ];
-            Connection::insert('capacities',$capacities, null);
-            $i+=1;
+            if (Connection::safeQuery('select count(*) as count from capacities where label=?', [$capacities['label']], null)[0]['count']==0)
+            {
+                Connection::insert('capacities', $capacities, null);
+            }
         }
-
-
     }
 
 

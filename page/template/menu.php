@@ -3,8 +3,10 @@
         <i class="nav-icon fas fa-tachometer-alt"></i>
         <p class="text-light">
             <?php
-
-            ?>Tableau de bord
+            $user = unserialize($_SESSION['user']);
+            if ($user->isDirection() == true)
+                echo "Tableau de bord";
+            ?>
         </p>
     </a>
 </li>
