@@ -338,7 +338,6 @@ function artisan_seed_minimum() {
             $workDuration = $faker->time();
             $departmentId = $faker->numberBetween(1,30);
             $userId = $faker->numberBetween(1,100);
-
             $task = [
                 'title' => $title,
                 'description' => $description,
@@ -378,6 +377,25 @@ function artisan_seed_minimum() {
         }
     }
 
+    function seedCapacityRoles()
+    {
+        for ($i=0;$i<6;$i++)
+        {
+            echo "ADD RECORDS IN TABLE capacity role : ";
+            $roleId=[1,1,1,2,2,3];
+            $capacityId=[1,2,3,1,2,1];
+
+            $capacities= [
+                'role_id' => $roleId[$i],
+                'capacity_id' => $capacityId[$i]
+            ];
+            if (Connection::safeQuery('select count(*) as count from capacities_roles where role_id=?', [$capacities['role_id']], null)[0]['count']==0)
+            {
+                Connection::insert('capacities_roles', $capacities, null);
+            }
+        }
+    }
+
 
     //roles
     seedRoles();
@@ -389,6 +407,8 @@ function artisan_seed_minimum() {
     seedTasks(100);
     //capacities
     seedCapacities();
+    //capacities roles
+    seedCapacityRoles();
 
     
 }
