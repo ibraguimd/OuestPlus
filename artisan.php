@@ -366,6 +366,7 @@ function artisan_seed_minimum() {
             echo "ADD RECORDS IN TABLE capacities : ";
             $labels=['addTasks','assignTasks','deleteTasks'];
             $descriptions=['Ajouter des tâches','Assigner des tâches','Supprimer des tâches'];
+
             $capacities= [
                 'label' => $labels[$i],
                 'description' => $descriptions[$i]
@@ -395,7 +396,6 @@ function artisan_seed_minimum() {
             }
         }
     }
-
 
     //roles
     seedRoles();

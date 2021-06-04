@@ -128,9 +128,9 @@ class Users extends Model
         return $this->role;
     }
 
-    public function isDirection()
-    {
-        return $this->getRole()->isDirection();
-    }
+//    public function isDirection()
+//    {
+//        return $this->getRole()->isDirection();
+//    }
 
 }
