@@ -366,14 +366,11 @@ function artisan_seed_minimum() {
         $labels=['addTasks','assignTasks','deleteTasks'];
         $descriptions=['Ajouter des tâches','Assigner des tâches','Supprimer des tâches'];
         foreach ($labels as $label) {
-            Connection::insert('roles',['label'=>$label], null);
-            echo '-';
-        }
-        foreach ($descriptions as $description) {
-            Connection::insert('roles',['label'=>$label], null);
+            Connection::insert('capacities',['label'=>$label], null);
             echo '-';
         }
         echo "\n";
+
     }
 
 
@@ -385,7 +382,8 @@ function artisan_seed_minimum() {
     seedDepartments(80);
     //tasks
     seedTasks(100);
-
+    //capacities
+    seedCapacities();
 
     
 }
