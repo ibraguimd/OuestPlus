@@ -120,7 +120,7 @@ function artisan_migrate_minimum() {
 
     $request =  'CREATE TABLE IF NOT EXISTS roles (
                 id int AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(50),
+                label VARCHAR(255)
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
@@ -232,7 +232,7 @@ function artisan_seed_minimum() {
         echo "ADD RECORDS IN TABLE roles : ";
         $roles=['Employee','Service de maintenance','Direction de l\'entreprise'];
         foreach ($roles as $role) {
-            Connection::insert('roles',['name'=>$role], null);
+            Connection::insert('roles',['label'=>$role], null);
             echo '-';
         }
         echo "\n";
@@ -298,18 +298,6 @@ function artisan_seed_minimum() {
         echo "\n";      
     }
 
-
-        function seedHistories()
-    {
-//        $timestamp= mt_rand(0,1);
-//        $date = date("Y-m-d",$timestamp);
-//
-//        $history= [
-//            'datetime' => $date
-//
-//        ];
-    }
-
     function seedDepartments($nbDepartments)
     {
         for ($i=0;$i<$nbDepartments;$i++)
@@ -372,13 +360,27 @@ function artisan_seed_minimum() {
 
     }
 
+    function seedCapacities()
+    {
+        echo "ADD RECORDS IN TABLE capacities : ";
+        $labels=['addTasks','assignTasks','deleteTasks'];
+        $descriptions=['Ajouter des tâches','Assigner des tâches','Supprimer des tâches'];
+        foreach ($labels as $label) {
+            Connection::insert('roles',['label'=>$label], null);
+            echo '-';
+        }
+        foreach ($descriptions as $description) {
+            Connection::insert('roles',['label'=>$label], null);
+            echo '-';
+        }
+        echo "\n";
+    }
+
 
     //roles
     seedRoles();
     //users
     seedUsers(100);
-    //histories
-    seedHistories();
     //departments
     seedDepartments(80);
     //tasks
