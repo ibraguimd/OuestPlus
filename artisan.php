@@ -92,6 +92,8 @@ function artisan_migrate_minimum() {
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS histories;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS departments;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS tasks;')) ? '-' : 'x';
+    echo (0 ==Connection::exec('DROP TABLE IF EXISTS capacities;')) ? '-' : 'x';
+    echo (0 ==Connection::exec('DROP TABLE IF EXISTS capacities_roles;')) ? '-' : 'x';
     echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     
     // Second : Create tables
@@ -143,6 +145,19 @@ function artisan_migrate_minimum() {
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    $request =  'CREATE TABLE IF NOT EXISTS capacities (
+        id int AUTO_INCREMENT PRIMARY KEY,
+        label VARCHAR(255),
+        description VARCHAR(255)
+        );';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
+    $request =  'CREATE TABLE IF NOT EXISTS capacities_roles (
+        id int AUTO_INCREMENT PRIMARY KEY,
+        role_id int REFERENCES roles(id),
+        capacitie_id int REFERENCES capacities(id)
+        );';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
     // Third : Alter tables to add Foreign Keys
     echo "\nADDING ALL MINIMUM FOREIGN KEYS : ";
@@ -181,6 +196,20 @@ function artisan_migrate_minimum() {
                 ON UPDATE RESTRICT;';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    $request =  'ALTER TABLE capacities_roles
+                ADD CONSTRAINT fk2_role_id
+                FOREIGN KEY (role_id) REFERENCES roles(id)
+                ON DELETE RESTRICT
+                ON UPDATE RESTRICT;';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
+    $request =  'ALTER TABLE capacities_roles
+                ADD CONSTRAINT fk2_capacity_id
+                FOREIGN KEY (capacity_id) REFERENCES capacities(id)
+                ON DELETE RESTRICT
+                ON UPDATE RESTRICT;';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
 
 }
 
@@ -194,6 +223,8 @@ function artisan_seed_minimum() {
     echo (0 == Connection::exec('TRUNCATE departments')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE tasks')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE histories')) ? '-' : 'x';
+    echo (0 == Connection::exec('TRUNCATE capacities')) ? '-' : 'x';
+    echo (0 == Connection::exec('TRUNCATE capacities_roles')) ? '-' : 'x';
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     echo "\n";
     
