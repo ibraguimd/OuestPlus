@@ -365,11 +365,18 @@ function artisan_seed_minimum() {
         echo "ADD RECORDS IN TABLE capacities : ";
         $labels=['addTasks','assignTasks','deleteTasks'];
         $descriptions=['Ajouter des tâches','Assigner des tâches','Supprimer des tâches'];
-        foreach ($labels as $label) {
-            Connection::insert('capacities',['label'=>$label], null);
-            echo '-';
+        $compteur= count($labels);
+        $i=0;
+        while($i!=$compteur)
+        {
+            $capacities=[
+                'label' => $labels[$i],
+                'description' => $descriptions[$i]
+            ];
+            Connection::insert('capacities',$capacities, null);
+            $i+=1;
         }
-        echo "\n";
+
 
     }
 
