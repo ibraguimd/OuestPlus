@@ -155,7 +155,7 @@ function artisan_migrate_minimum() {
     $request =  'CREATE TABLE IF NOT EXISTS capacities_roles (
         id int AUTO_INCREMENT PRIMARY KEY,
         role_id int REFERENCES roles(id),
-        capacitie_id int REFERENCES capacities(id)
+        capacity_id int REFERENCES capacities(id)
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
