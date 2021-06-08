@@ -12,10 +12,11 @@ class DashboardController{
     }
     private static function defaultAction()
     {
+
         $tabTitle="Tableau de bord";
         $user = unserialize($_SESSION['user']);
         $role = strtolower($user->getRole()->getLabel());
-
+        if($user->can(''))
         include('../page/dashboard/index.php');
 
         //$warehouses = userData_warehouses($_SESSION['user']['id']);

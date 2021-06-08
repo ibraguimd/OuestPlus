@@ -1,5 +1,4 @@
 <?php include ('../page/template/header.php'); ?>
-
     <div class="col-sm-12">
         <div class="card-body">
             <form method="post" action=".?route=taskList&action=edit">
@@ -32,7 +31,7 @@
                         echo '</div>';
                         echo '<div class="form-group col-md-2">';
                         echo '<label for="inputPassword4">Durée de travail</label>';
-                        echo '<input type="time" class="form-control" name="workDuration" placeholder="Durée du travail" value="'.$taskToUpdate->getWorkDuration().'">';
+                        echo '<input type="time" step="1" class="form-control" name="workDuration" placeholder="Durée du travail" value="'.$taskToUpdate->getWorkDuration().'">';
                         echo '</div>';
                         echo '</div>';
                         echo '<button type="submit" class="btn btn-primary">'.'Modifier'.'</button>';
@@ -73,7 +72,6 @@
                 echo '</tr>';
             }
             ?>
-s
         </tbody>
     </table>
 </div>
