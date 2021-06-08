@@ -78,4 +78,5 @@ class Connection {
         $query='INSERT INTO `'.$table.'`('.implode(',',$keys).') VALUES('.implode(',',$points).');';
         return Connection::safeQuery($query,array_values($values),$className);
     }
+
 }

@@ -30,6 +30,11 @@ class Model
         return Connection::insert(self::_getTable(),$params,get_called_class());
     }
 
+    public static function update($title,$description,$location,$scheduledDate,$doneDate,$workDuration,$id){
+        $request = 'UPDATE '.self::_getTable().' SET '.' title=?,description=?,location=?,scheduledDate=?,doneDate=?,workDuration=?'.' WHERE id=?';
+        return Connection::safeQuery($request,[$title,$description,$location,$scheduledDate,$doneDate,$workDuration,$id],get_called_class());
+    }
+
     public static function find($id){
         return self::where('id ='.$id)[0];
     }

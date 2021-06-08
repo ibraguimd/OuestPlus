@@ -33,7 +33,6 @@ class TaskListController
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
         $tasks = Tasks::tasks($user->getId());
-
         $idTask=$request['idTask'];
 
         $taskToUpdate=Tasks::find($idTask);
@@ -43,7 +42,10 @@ class TaskListController
 
     private static function editAction($request)
     {
-
-       var_dump($request);
+        $tabTitle="Liste des tâches";
+        $user = unserialize($_SESSION['user']);
+        $tasks = Tasks::tasks($user->getId());
+        Tasks::update($request['title'],$request['description'],$request['location'],$request['scheduledDate'],$request['doneDate'],$request['workDuration'],$request['idTask']);
+        header('Location:.?route=taskList');
     }
 }
