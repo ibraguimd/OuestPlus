@@ -11,10 +11,6 @@ class Roles extends Model
      */
     private $id;
     private $authorization;
-    /**
-     * @var string
-     */
-    private $name;
 
     /**
      * @return int
@@ -32,12 +28,9 @@ class Roles extends Model
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getDescription()
     {
-        return $this->name;
+        return $this->description;
     }
 
     /**
@@ -49,34 +42,19 @@ class Roles extends Model
     }
 
     /**
-     * @param string $name
+     * @param string $label
      */
-    public function setName(string $name): void
+    public function setLabel(string $label): void
     {
-        $this->name = $name;
+        $this->label = $label;
     }
 
-//    public function getAuthorization()
-//    {
-//        if ($this->authorization == 1){
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
 
-//    public function isDirection()
-//    {
-//        if ($this->getAuthorization() == true){
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
-
+    public function can($label)
+    {
+        $capacity= Capacities::where('label="'.$label.'"');
+        $capacityRole = Capacities_Roles::where('role_id="'.$this->getId().'" AND capacity_id="'.$capacity[0]->getId().'"');
+        return (!empty($capacityRole));
+    }
 
 }

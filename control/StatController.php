@@ -1,6 +1,6 @@
 <?php
 
-class DashboardController{
+class StatController{
 
     public static function switchAction($userAction){
         switch ($userAction){
@@ -12,11 +12,11 @@ class DashboardController{
     }
     private static function defaultAction()
     {
-        $tabTitle="Tableau de bord";
+        $tabTitle="Graphique";
         $user = unserialize($_SESSION['user']);
         $role = strtolower($user->getRole()->getLabel());
 
-        include('../page/dashboard/index.php');
+        include('../page/stat/index.php');
 
         //$warehouses = userData_warehouses($_SESSION['user']['id']);
 

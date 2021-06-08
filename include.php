@@ -15,5 +15,9 @@ foreach (glob('../data/model/*.php') as $file) {
 foreach (glob('../control/*.php') as $file) {
     include($file);
 }
+foreach (glob('../page/_utils/*.php') as $file) {
+    include($file);
+}
+
 
 include ('../page/fct_date.php');
