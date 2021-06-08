@@ -27,4 +27,5 @@ class Capacities extends Model
     {
         return $this->description;
     }
+
 }

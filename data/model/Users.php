@@ -133,4 +133,9 @@ class Users extends Model
 //        return $this->getRole()->isDirection();
 //    }
 
+    public function can($label)
+    {
+        return $this->getRole()->can($label);
+    }
+
 }

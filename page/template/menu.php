@@ -2,11 +2,7 @@
     <a href="?route=dashboard" class="nav-link">
         <i class="nav-icon fas fa-tachometer-alt"></i>
         <p class="text-light">
-            <?php
-            $user = unserialize($_SESSION['user']);
-            if ($user->isDirection() == true)
-                echo "Tableau de bord";
-            ?>
+            Dashboard
         </p>
     </a>
 </li>

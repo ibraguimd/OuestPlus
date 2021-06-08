@@ -11,10 +11,6 @@ class Roles extends Model
      */
     private $id;
     private $authorization;
-    /**
-     * @var string
-     */
-    private $name;
 
     /**
      * @return int
@@ -35,17 +31,17 @@ class Roles extends Model
     /**
      * @return mixed
      */
-    public function getName()
+    public function getLabel()
     {
-        return $this->name;
+        return $this->label;
     }
 
     /**
-     * @param string $name
+     * @param string $label
      */
-    public function setName(string $name): void
+    public function setLabel(string $label): void
     {
-        $this->name = $name;
+        $this->label = $label;
     }
 
 //    public function getAuthorization()
@@ -58,7 +54,7 @@ class Roles extends Model
 //            return false;
 //        }
 //    }
-
+//
 //    public function isDirection()
 //    {
 //        if ($this->getAuthorization() == true){
@@ -70,5 +66,11 @@ class Roles extends Model
 //        }
 //    }
 
+    public static function can($label,$role)
+    {
+        $query1= Capacities::where('label="'.$label.'"');
+        $query2 = Capacities_Roles::where('role_id ="'.$role.'" AND capacity_id="'.$query1[0]->getId().'"');
+        return (!empty($query2));
+    }
 
 }
