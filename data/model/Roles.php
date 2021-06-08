@@ -56,27 +56,5 @@ class Roles extends Model
         $this->name = $name;
     }
 
-//    public function getAuthorization()
-//    {
-//        if ($this->authorization == 1){
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
-
-//    public function isDirection()
-//    {
-//        if ($this->getAuthorization() == true){
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
-
 
 }
