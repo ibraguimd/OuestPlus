@@ -15,6 +15,8 @@ class TaskListController
         private static function defaultAction()
     {
         $tabTitle="Liste des tâches";
+        $user = unserialize($_SESSION['user']);
+        $tasks = Tasks::tasks($user->getId());
         include('../page/taskList/index.php');
     }
 

@@ -1,12 +1,12 @@
 <?php
 
-class FeatureController{
+class TaskAddController{
     public static function switchAction($userAction){
 
         switch ($userAction){
             // case à ajouter pour chaque nouvelle action souhaitée
-            case 'addExample':
-                self::addExampleAction();
+            case 'addTask':
+                self::addtask();
                 break;
             default:
                 self::defaultAction();
@@ -15,15 +15,17 @@ class FeatureController{
     }
     private static function defaultAction()
     {
-        $tabTitle="Fonctionnalité";
-        include('../page/feature/index.php');
+        $tabTitle="Demande d'une tâche";
+        include('../page/taskAdd/index.php');
     }
 
-    private static function addExampleAction()
+    private static function addTask()
     {
-        Example::create($_POST);
-        header('Location:.?route=feature');
+        Tasks::create($_POST);
+        $user = unserialize($_SESSION['user']);
+        header('Location:.?route=taskList');
     }
+
 }
 
 

@@ -37,6 +37,14 @@ class Roles extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
      * @param string $name
      */
     public function setName(string $name): void
