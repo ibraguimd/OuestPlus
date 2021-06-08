@@ -36,6 +36,9 @@ switch ($route){
     case 'taskList':
         TaskListController::switchAction($action);
     break;
+    case 'taskAdd':
+        TaskAddController::switchAction($action);
+        break;
     case 'authenticate':
         AuthenticateController::switchAction($action);
     break;
