@@ -40,6 +40,35 @@
             </form>
         </div>
     </div>
+    <div class="col-sm-12">
+        <div class="card-body">
+            <form method="post" action=".?route=taskList&action=assignSubmit">
+                <?php
+                if(isset($taskToAssign))
+                {
+                    echo '<div class="form-row">';
+                    echo '<div class="form-group col-md-6">';
+                    echo '<label>Nom de la tâche</label>';
+                    echo '<input type="hidden" class="form-control" name="idTask" placeholder="Titre" value="'.$taskToAssign->getId().'">';
+                    echo '<input type="text" class="form-control" placeholder="Titre" value="'.$taskToAssign->getTitle().'">';
+                    echo '</div>';
+                    echo '<div class="form-group col-md-6">';
+                    echo '<label>Employée de la direction</label>';
+                    echo '<div class="form-group col-md-6">';
+                    echo '<select class="form-control" name="user_id">';
+                    foreach ($directions as $direction)
+                    {
+                        echo '<option value="'.$direction->getId().'">'.$direction->getFirstname().'</option>';
+                    }
+                    echo '</select>';
+                    echo '</div>';
+                    echo '</div>';
+                echo '<button type="submit" class="btn btn-primary">'.'Assigner'.'</button>';
+                }
+                ?>
+            </form>
+        </div>
+    </div>
 
     <div class="col-sm-12">
 <div class="card-body">
@@ -68,7 +97,16 @@
                 echo '<td>'.$task->getScheduledDate().'</td>';
                 echo '<td>'.$task->getDoneDate().'</td>';
                 echo '<td>'.$task->getWorkDuration().'</td>';
-                echo '<td><form method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-primary btn-lg" value="'.$task->getId().'" name="idTask">'.'Modifier'.'</button>'.'</form></td>';
+                if (!empty($task->getDoneDate()))
+                {
+                    $doneDate = "disabled";
+                }
+                else
+                {
+                    $doneDate = "";
+                }
+                echo '<td><form method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$task->getId().'" name="idTask" '.$doneDate.'>Modifier</button>'.'</form>';
+                echo '<form method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$task->getId().'" name="idTask">Assigner</button>'.'</form></td>';
                 echo '</tr>';
             }
             ?>

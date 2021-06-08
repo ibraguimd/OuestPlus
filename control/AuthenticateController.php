@@ -43,7 +43,14 @@ class AuthenticateController{
         else{
             // L'utilisateur a le droit d'accès
             $_SESSION['user']=serialize($user);
-            header('location:./?route=taskList');
+            if ($user->getRole()->getLabel() == "Direction de l'entreprise")
+            {
+                header('location:./?route=stat');
+            }
+            else
+                {
+                header('location:./?route=taskList');
+            }
 
 
         }

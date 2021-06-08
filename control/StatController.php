@@ -21,8 +21,7 @@ class StatController{
             include('../page/stat/index.php');
         }
         else{
-            echo Alert::danger('Vous n\'avez pas le droit d\'accéder à cette page');
-            include('../page/taskList/index.php');
+            header('Location:.?route=taskList');
         }
 
         //$warehouses = userData_warehouses($_SESSION['user']['id']);

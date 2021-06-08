@@ -10,9 +10,14 @@ class TaskListController
             case 'edit':
                 self::editAction($_POST);
                 break;
-
             case 'modif':
                 self::modifAction($_POST);
+                break;
+            case 'assign':
+                self::assignAction($_POST);
+                break;
+            case 'assignSubmit':
+                self::assignSubmitAction($_POST);
                 break;
             default:
                 self::defaultAction();
@@ -23,8 +28,12 @@ class TaskListController
     {
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
-        $tasks = Tasks::tasks($user->getId());
-        include('../page/taskList/index.php');
+        if ($user->can('displayTask'))
+        {
+            $tasks = Tasks::tasks($user->getId());
+            include('../page/taskList/index.php');
+        }
+
     }
 
     private static function modifAction($request)
@@ -32,10 +41,18 @@ class TaskListController
 
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
-        $tasks = Tasks::tasks($user->getId());
-        $idTask=$request['idTask'];
+        if ($user->can('updateTask'))
+        {
+            $tasks = Tasks::tasks($user->getId());
+            $idTask=$request['idTask'];
+            $taskToUpdate=Tasks::find($idTask);
+        }
+        else
+        {
+            echo Alert::danger('Vous n\'avez pas les droits pour modifier une tâche');
+            $tasks = Tasks::tasks($user->getId());
+        }
 
-        $taskToUpdate=Tasks::find($idTask);
 
         include('../page/taskList/index.php');
     }
@@ -46,6 +63,33 @@ class TaskListController
         $user = unserialize($_SESSION['user']);
         $tasks = Tasks::tasks($user->getId());
         Tasks::update($request['title'],$request['description'],$request['location'],$request['scheduledDate'],$request['doneDate'],$request['workDuration'],$request['idTask']);
+        $histories = [
+            'datetime'=> date("Y-m-d"),
+            'description' => $request['description'],
+            'task_id' => $request['idTask'],
+            'user_id' => $user->getId()
+            ];
+        Tasks::histories($histories);
         header('Location:.?route=taskList');
+    }
+
+    private static function assignAction($request)
+    {
+        $tabTitle="Liste des tâches";
+        $user = unserialize($_SESSION['user']);
+        $tasks = Tasks::tasks($user->getId());
+        $directions = Users::where('role_id = 2');
+        $idTask=$request['idTask'];
+        $taskToAssign=Tasks::find($idTask);
+        include('../page/taskList/index.php');
+    }
+
+    private static function assignSubmitAction($request)
+    {
+        $tabTitle="Liste des tâches";
+        $user = unserialize($_SESSION['user']);
+        Tasks::assign($request['user_id'],$request['idTask']);
+        $tasks = Tasks::tasks($user->getId());
+        include('../page/taskList/index.php');
     }
 }
