@@ -53,12 +53,12 @@
                     echo '<input type="text" class="form-control" placeholder="Titre" value="'.$taskToAssign->getTitle().'">';
                     echo '</div>';
                     echo '<div class="form-group col-md-6">';
-                    echo '<label>Employée de la direction</label>';
-                    echo '<div class="form-group col-md-6">';
-                    echo '<select class="form-control" name="user_id">';
+                    echo '<label>Employée de service</label>';
+                    echo '<div class="form-group col-md-7">';
+                    echo '<select class="form-control " name="user_id">';
                     foreach ($directions as $direction)
                     {
-                        echo '<option value="'.$direction->getId().'">'.$direction->getFirstname().'</option>';
+                        echo '<option value="'.$direction->getId().'">'.$direction->getFirstname().' '.$direction->getLastname().' - ['.$direction->getRole()->getLabel().']'.'</option>';
                     }
                     echo '</select>';
                     echo '</div>';
