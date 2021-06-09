@@ -7,4 +7,4 @@ Date de livraison : 30/06/2021
 Nom et prénom de l'auteur du programme : DJABRAILOV Ibraguim, CHANG Thomas
 Description succincte de la fonctionnalité codée :
 	- Création de la vue connexion
-	- Fonctionnalités
+	- Fonctionnalités tâches
