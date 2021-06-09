@@ -38,9 +38,7 @@
             <!-- User Dropdown Menu -->
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                    <?php $user = unserialize($_SESSION['user']);
-                    echo $user->getFirstName().' '.$user->getLastName().' - '.$user->getRole()->getLabel(); ?>
-                    <i class="fas fa-user-circle"></i></a>
+                    <i class="fas fa-lg fa-user-circle"></i></a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="?route=authenticate&action=logout"><i class="fas fa-sign-out-alt mr-2"></i>Déconnexion</a>
