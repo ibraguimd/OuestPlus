@@ -93,19 +93,11 @@
                 echo '<td>'.$task->getTitle().'</td>';
                 echo '<td>'.$task->getDescription().'</td>';
                 echo '<td>'.$task->getLocation().'</td>';
-                echo '<td>'.$task->getCreationDate().'</td>';
-                echo '<td>'.$task->getScheduledDate().'</td>';
-                echo '<td>'.$task->getDoneDate().'</td>';
+                echo '<td>'.date("d-m-Y", strtotime($task->getCreationDate())).'</td>';
+                echo '<td>'.date("d-m-Y", strtotime($task->getScheduledDate())).'</td>';
+                echo '<td>'.date("d-m-Y", strtotime($task->getDoneDate())).'</td>';
                 echo '<td>'.$task->getWorkDuration().'</td>';
-                if (!empty($task->getDoneDate()))
-                {
-                    $doneDate = "disabled";
-                }
-                else
-                {
-                    $doneDate = "";
-                }
-                echo '<td><form method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$task->getId().'" name="idTask" '.$doneDate.'>Modifier</button>'.'</form><br/>';
+                echo '<td><form method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$task->getId().'" name="idTask">Modifier</button>'.'</form><br/>';
                 echo '<form method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$task->getId().'" name="idTask">Assigner</button>'.'</form></td>';
                 echo '</tr>';
             }
