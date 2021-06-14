@@ -33,6 +33,10 @@ class TaskListController
             $tasks = Tasks::tasks($user->getId());
             include('../page/taskList/index.php');
         }
+        else
+        {
+            header('Location:.?route=stat');
+        }
 
     }
 
@@ -78,7 +82,19 @@ class TaskListController
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
         $tasks = Tasks::tasks($user->getId());
-        $directions = Users::where('role_id = 2');
+        if ($user->getRole()->getId() == 1)
+        {
+            $directions = Users::where('role_id IN (2,3)');
+        }
+        elseif ($user->getRole()->getId() == 2)
+        {
+            $directions = Users::where('role_id IN (1,3)');
+        }
+        else
+        {
+            $directions = Users::where('role_id IN (1,2)');
+        }
+
         $idTask=$request['idTask'];
         $taskToAssign=Tasks::find($idTask);
         include('../page/taskList/index.php');
