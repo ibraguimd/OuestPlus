@@ -30,6 +30,9 @@ if (!isset($_SESSION['user'])){
 
 // Sélectionner le controleur en fonction de la "route" et lui passer son "action"
 switch ($route){
+    case 'dashboard' :
+        DashboardController::switchAction($action);
+        break;
     case 'profil':
         ProfilController::switchAction($action);
         break;
