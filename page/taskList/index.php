@@ -93,9 +93,9 @@
                 echo '<td>'.$task->getTitle().'</td>';
                 echo '<td>'.$task->getDescription().'</td>';
                 echo '<td>'.$task->getLocation().'</td>';
-                echo '<td>'.$task->getCreationDate().'</td>';
-                echo '<td>'.$task->getScheduledDate().'</td>';
-                echo '<td>'.$task->getDoneDate().'</td>';
+                echo '<td>'.date('d-m-Y'), strtotime($task->getCreationDate()).'</td>';
+                echo '<td>'.date('d-m-Y'), strtotime($task->getScheduledDate()).'</td>';
+                echo '<td>'.date('d-m-Y'), strtotime($task->getDoneDate()).'</td>';
                 echo '<td>'.$task->getWorkDuration().'</td>';
                 if (!empty($task->getDoneDate()))
                 {

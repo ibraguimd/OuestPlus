@@ -253,7 +253,7 @@ function artisan_seed_minimum() {
         ];
         //var_dump($user);
         // Make sure it dosen't aleadry exists
-        if(Connection::safeQuery('select count(*) as count from users where email=?', [$user['email']],null)[0]['count']==0) {
+        if(Connection::safeQuery('select count(*) as count from users where email=?', [$user['email']],'Users.php')[0]['count']==0) {
             Connection::insert('users', $user,null);
         }
     }
@@ -310,7 +310,7 @@ function artisan_seed_minimum() {
                 [
                     'name' => $description
                 ];
-            if(Connection::safeQuery('select count(*) as count from departments where name=?', [$departments['name']],null)[0]['count']==0) {
+            if(Connection::safeQuery('select count(*) as count from departments where name=?', [$departments['name']],'Departments.php')[0]['count']==0) {
                 Connection::insert('departments', $departments,null);
         }
 
@@ -381,11 +381,11 @@ function artisan_seed_minimum() {
 
     function seedCapacityRoles()
     {
-        for ($i=0;$i<10;$i++)
+        for ($i=0;$i<14;$i++)
         {
             echo "ADD RECORDS IN TABLE capacity role : ";
-            $roleId=[3,3,3,3,3,3,2,2,1,1];
-            $capacityId=[1,2,3,4,5,6,1,2,1,6];
+            $roleId=[3,3,3,3,3,3,2,2,2,2,1,1,1,1];
+            $capacityId=[1,2,3,4,5,6,1,2,5,6,1,6,5,2];
 
             $capacities= [
                 'role_id' => $roleId[$i],
