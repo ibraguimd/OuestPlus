@@ -51,7 +51,7 @@ class Model
 
     public static function tasks($id)
     {
-        $request = 'SELECT * FROM '.self::_getTable().' WHERE user_id ='.$id;
+        $request = 'SELECT * FROM '.self::_getTable().' WHERE doneDate IS NULL AND user_id ='.$id;
         return Connection::safeQuery($request,[],get_called_class());
     }
 

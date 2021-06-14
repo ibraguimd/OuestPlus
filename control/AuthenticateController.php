@@ -45,7 +45,7 @@ class AuthenticateController{
             $_SESSION['user']=serialize($user);
             if ($user->can('displayStat'))
             {
-                header('location:./?route=dashboa');
+                header('location:./?route=dashboard');
             }
             else
                 {
