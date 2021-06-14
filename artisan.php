@@ -362,7 +362,7 @@ function artisan_seed_minimum() {
 
     function seedCapacities()
     {
-        for ($i=0;$i<3;$i++)
+        for ($i=0;$i<6;$i++)
         {
             echo "ADD RECORDS IN TABLE capacities : ";
             $labels=['addTask','assignTask','deleteTask','updateTask','displayStat','displayTask'];
@@ -381,7 +381,7 @@ function artisan_seed_minimum() {
 
     function seedCapacityRoles()
     {
-        for ($i=0;$i<6;$i++)
+        for ($i=0;$i<10;$i++)
         {
             echo "ADD RECORDS IN TABLE capacity role : ";
             $roleId=[3,3,3,3,3,3,2,2,1,1];

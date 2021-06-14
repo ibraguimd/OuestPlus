@@ -43,7 +43,7 @@ class AuthenticateController{
         else{
             // L'utilisateur a le droit d'accès
             $_SESSION['user']=serialize($user);
-            if ($user->getRole()->getLabel() == "Direction de l'entreprise")
+            if ($user->can('displayStat'))
             {
                 header('location:./?route=stat');
             }
