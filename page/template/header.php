@@ -33,13 +33,14 @@
         </ul>
 
         <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto">
-
+        <ul class="navbar-nav ml-auto d-flex align-items-center">
             <!-- User Dropdown Menu -->
+            <p data-toggle="dropdown" class="btn mb-0 bg-dark mr-2 p-1 shadow rounded"><i class="fas fa-lg fa-user-circle"></i>&nbsp;&nbsp;<?php $user = unserialize($_SESSION['user']);
+            echo  $user->getFirstname().' '.$user->getLastname().' ['.$user->getRole()->getLabel().']';?></a></p>
             <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="fas fa-lg fa-user-circle"></i></a>
+                <br/><br/>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <a class="dropdown-item" href="?route=profil">Profil</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="?route=authenticate&action=logout"><i class="fas fa-sign-out-alt mr-2"></i>Déconnexion</a>
                 </div>

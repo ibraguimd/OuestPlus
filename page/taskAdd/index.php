@@ -22,7 +22,9 @@
                             <input type="hidden" name="department_id" value="<?= rand(1,30) ?>">
                             <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>">
                         </div>
-                        <button type="submit" class="btn btn-block btn-primary btn-sm">Valider</button>
+                        <div class="form-group col-sm-1">
+                        <button type="submit" class="form-control btn btn-block btn-dark btn-sm">Valider</button>
+                        </div>
                     </div>
                 </form>
             </div>

@@ -25,6 +25,11 @@ class Tasks extends Model
         return $this->id;
     }
 
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
     public function getById($id)
     {
         return self::find($id);

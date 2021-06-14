@@ -30,6 +30,9 @@ if (!isset($_SESSION['user'])){
 
 // Sélectionner le controleur en fonction de la "route" et lui passer son "action"
 switch ($route){
+    case 'profil':
+        ProfilController::switchAction($action);
+        break;
     case 'stat':
         StatController::switchAction($action);
     break;
@@ -43,6 +46,7 @@ switch ($route){
         AuthenticateController::switchAction($action);
     break;
     default :
+        PageNotFoundController::switchAction($action);
         echo '<p>La route spécifiée ('.$route.') n\'existe pas !</p>';
     break;
 }

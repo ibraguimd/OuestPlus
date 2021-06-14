@@ -50,7 +50,7 @@
                     echo '<div class="form-group col-md-6">';
                     echo '<label>Nom de la tâche</label>';
                     echo '<input type="hidden" class="form-control" name="idTask" placeholder="Titre" value="'.$taskToAssign->getId().'">';
-                    echo '<input type="text" class="form-control" placeholder="Titre" value="'.$taskToAssign->getTitle().'">';
+                    echo '<input type="text" class="form-control" placeholder="Titre" value="'.$taskToAssign->getTitle().'" readonly>';
                     echo '</div>';
                     echo '<div class="form-group col-md-6">';
                     echo '<label>Employée de service</label>';
@@ -105,7 +105,7 @@
                 {
                     $doneDate = "";
                 }
-                echo '<td><form method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$task->getId().'" name="idTask" '.$doneDate.'>Modifier</button>'.'</form>';
+                echo '<td><form method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$task->getId().'" name="idTask" '.$doneDate.'>Modifier</button>'.'</form><br/>';
                 echo '<form method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$task->getId().'" name="idTask">Assigner</button>'.'</form></td>';
                 echo '</tr>';
             }
