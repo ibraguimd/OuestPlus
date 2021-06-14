@@ -52,8 +52,8 @@ class Roles extends Model
 
     public function can($label)
     {
-        $capacity= Capacities::where('label="'.$label.'"');
-        $capacityRole = Capacities_Roles::where('role_id="'.$this->getId().'" AND capacity_id="'.$capacity[0]->getId().'"');
+        $capacity= Capacities::where('label="'.$label.'"')[0];
+        $capacityRole = Capacities_Roles::where('role_id="'.$this->getId().'" AND capacity_id="'.$capacity->getId().'"');
         return (!empty($capacityRole));
     }
 

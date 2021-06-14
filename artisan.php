@@ -84,7 +84,7 @@ function artisan_seed_project() {
 
 function artisan_migrate_minimum() {
     
-    // First : drop tables if exists
+    // On supprime les tables si elles existent déjà
     echo "DROPPING ALL MINIMUM TABLES : ";
     echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS users;')) ? '-' : 'x';
@@ -96,7 +96,7 @@ function artisan_migrate_minimum() {
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS capacities_roles;')) ? '-' : 'x';
     echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     
-    // Second : Create tables
+    // Création des tables
     echo "\nCREATING ALL MINIMUM TABLES : ";
 
     $request =  'CREATE TABLE IF NOT EXISTS histories (
@@ -158,7 +158,8 @@ function artisan_migrate_minimum() {
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
-    // Third : Alter tables to add Foreign Keys
+    // Création des clés étrangères
+
     echo "\nADDING ALL MINIMUM FOREIGN KEYS : \n";
     $request =  'ALTER TABLE users 
                 ADD CONSTRAINT fk1_role_id
@@ -227,7 +228,7 @@ function artisan_seed_minimum() {
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     echo "\n";
     
-    // second : seed tables
+    // second : On insére des données dans les tables (seed)
     function seedRoles(){
         echo "ADD RECORDS IN TABLE roles : ";
         $roles=['Employee','Service de maintenance','Direction de l\'entreprise'];
@@ -361,11 +362,11 @@ function artisan_seed_minimum() {
 
     function seedCapacities()
     {
-        for ($i=0;$i<3;$i++)
+        for ($i=0;$i<6;$i++)
         {
             echo "ADD RECORDS IN TABLE capacities : ";
-            $labels=['addTasks','assignTasks','deleteTasks'];
-            $descriptions=['Ajouter des tâches','Assigner des tâches','Supprimer des tâches'];
+            $labels=['addTask','assignTask','deleteTask','updateTask','displayStat','displayTask'];
+            $descriptions=['Ajouter des tâches','Assigner des tâches','Supprimer des tâches','Peut modifié une tâche','Peut visualiser les graphiques','Peut visualiser les tâches'];
 
             $capacities= [
                 'label' => $labels[$i],
@@ -380,11 +381,11 @@ function artisan_seed_minimum() {
 
     function seedCapacityRoles()
     {
-        for ($i=0;$i<6;$i++)
+        for ($i=0;$i<10;$i++)
         {
             echo "ADD RECORDS IN TABLE capacity role : ";
-            $roleId=[1,1,1,2,2,3];
-            $capacityId=[1,2,3,1,2,1];
+            $roleId=[3,3,3,3,3,3,2,2,1,1];
+            $capacityId=[1,2,3,4,5,6,1,2,1,6];
 
             $capacities= [
                 'role_id' => $roleId[$i],

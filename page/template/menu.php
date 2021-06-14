@@ -14,7 +14,7 @@ if($user->can('displayStat'))
 }
 if($user->can('addTask'))
 {
-    echo MenuUtils::addLine('taskAdd','plus-circle','ajouter une tâche');
+    echo MenuUtils::addLine('taskAdd','plus-circle','Ajouter une tâche');
 }
 
 ?>
