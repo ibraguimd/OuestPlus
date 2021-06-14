@@ -30,7 +30,7 @@ class TaskListController
         $user = unserialize($_SESSION['user']);
         if ($user->can('displayTask'))
         {
-            $tasks = Tasks::tasks($user->getId());
+            $tasks = Tasks::tasksNotDone($user->getId());
             include('../page/taskList/index.php');
         }
         else
@@ -47,14 +47,14 @@ class TaskListController
         $user = unserialize($_SESSION['user']);
         if ($user->can('updateTask'))
         {
-            $tasks = Tasks::tasks($user->getId());
+            $tasks = Tasks::tasksNotDone($user->getId());
             $idTask=$request['idTask'];
             $taskToUpdate=Tasks::find($idTask);
         }
         else
         {
             echo Alert::danger('Vous n\'avez pas les droits pour modifier une tâche');
-            $tasks = Tasks::tasks($user->getId());
+            $tasks = Tasks::tasksNotDone($user->getId());
         }
 
 
@@ -65,7 +65,7 @@ class TaskListController
     {
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
-        $tasks = Tasks::tasks($user->getId());
+        $tasks = Tasks::tasksNotDone($user->getId());
         Tasks::update($request['title'],$request['description'],$request['location'],$request['scheduledDate'],$request['doneDate'],$request['workDuration'],$request['idTask']);
         $histories = [
             'datetime'=> date("Y-m-d"),
@@ -81,7 +81,7 @@ class TaskListController
     {
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
-        $tasks = Tasks::tasks($user->getId());
+        $tasks = Tasks::tasksNotDone($user->getId());
         if ($user->getRole()->getId() == 1)
         {
             $directions = Users::where('role_id IN (2,3)');
@@ -105,7 +105,7 @@ class TaskListController
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
         Tasks::assign($request['user_id'],$request['idTask']);
-        $tasks = Tasks::tasks($user->getId());
+        $tasks = Tasks::tasksNotDone($user->getId());
         include('../page/taskList/index.php');
     }
 }

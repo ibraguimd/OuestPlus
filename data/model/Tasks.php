@@ -67,5 +67,21 @@ class Tasks extends Model
         return $this->workDuration;
     }
 
+    public static function tasksNotDone($id)
+    {
+        $request = 'SELECT * FROM tasks WHERE doneDate IS NULL AND user_id ='.$id;
+        return Connection::safeQuery($request,[],get_called_class());
+    }
+
+    public static function tasksNumberNotDone($userId)
+    {
+        $request = 'SELECT COUNT(*) AS tasks FROM tasks WHERE user_id AND doneDate IS NULL ='.$userId;
+        return Connection::safeQuery($request,[],get_called_class());
+    }
+    public static function tasksNumberDone($userId)
+    {
+        $request = 'SELECT COUNT(*) AS tasks FROM tasks WHERE user_id='.$userId;
+        return Connection::safeQuery($request,[],get_called_class());
+    }
 
 }

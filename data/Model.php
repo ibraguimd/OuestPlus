@@ -49,15 +49,8 @@ class Model
         return self::where('id ='.$id)[0];
     }
 
-    public static function tasks($id)
-    {
-        $request = 'SELECT * FROM '.self::_getTable().' WHERE doneDate IS NULL AND user_id ='.$id;
-        return Connection::safeQuery($request,[],get_called_class());
-    }
 
-    public static function tasksNumber($userId)
-    {
-        $request = 'SELECT COUNT(*) AS '.self::_getTable().' FROM '.self::_getTable().' WHERE user_id ='.$userId;
-        return Connection::safeQuery($request,[],get_called_class());
-    }
+
+
+
 }

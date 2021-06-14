@@ -138,4 +138,7 @@ class Users extends Model
         return $this->getRole()->can($label);
     }
 
+
+
+
 }

@@ -14,7 +14,7 @@ class StatController{
     {
         $tabTitle="Graphique";
         $user = unserialize($_SESSION['user']);
-        $tasks = Tasks::tasks($user->getId());
+        $tasks = Tasks::tasksNotDone($user->getId());
         $role = strtolower($user->getRole()->getLabel());
 
         if($user->can('displayStat'))
