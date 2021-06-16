@@ -254,8 +254,9 @@ function artisan_seed_minimum() {
             'password' => sha1('pwsio'),
             'role_id' => $faker->numberBetween(1,2)
         ];
+
         // Make sure it dosen't aleadry exists
-        if(Users::doublon('email="'.$user["email"].'"')==0) {
+        if(Users::doublon('email="'.$user["email"].'"')[0]->nbDoublon==0) {
             Users::create($user);
         }
     }
@@ -263,9 +264,9 @@ function artisan_seed_minimum() {
     function seedUserSIO(){
         $user = [
             'firstName' => 'user',
-            'lastName' => 'SIO', 
-            'email' => 'usersio@test.fr', 
-            'password' => sha1('pwsio'), 
+            'lastName' => 'SIO',
+            'email' => 'usersio@test.fr',
+            'password' => sha1('pwsio'),
             'role_id' => 1
         ];
        Users::create($user);
@@ -312,7 +313,7 @@ function artisan_seed_minimum() {
                 [
                     'name' => $description
                 ];
-            if(Departments::doublon('name="'.$departments["name"].'"')==0) {
+            if(Departments::doublon('name="'.$departments["name"].'"')[0]->nbDoublon==0) {
                 Departments::create($departments);
         }
 
@@ -332,7 +333,7 @@ function artisan_seed_minimum() {
     function seedTasks($nbTasks){
         for ($i=0;$i<$nbTasks;$i++){
             $faker = Faker\Factory::create('fr_FR');
-            $title = $faker->paragraph();
+            $title = $faker->jobTitle;
             $description = $faker->text(11);
             $location = $faker->postcode;
             $creationDate = $faker->date();
@@ -354,7 +355,7 @@ function artisan_seed_minimum() {
             ];
 
             // Make sure it dosen't aleadry exists
-            if (Tasks::doublon('title="'.$task['title'].'"')==0)
+            if (Tasks::doublon('title="'.$task['title'].'"')[0]->nbDoublon==0)
             {
                 Tasks::create($task);
             }
@@ -375,7 +376,7 @@ function artisan_seed_minimum() {
                 'label' => $labels[$i],
                 'description' => $descriptions[$i]
             ];
-            if (Capacities::doublon('label="'.$capacities['label'].'"')==0)
+            if (Capacities::doublon('label="'.$capacities['label'].'"')[0]->nbDoublon==0)
             {
                 Capacities::create($capacities);
 
@@ -397,7 +398,7 @@ function artisan_seed_minimum() {
                 'role_id' => $roleId[$i],
                 'capacity_id' => $capacityId[$i]
             ];
-            if (Capacities_Roles::doublon('role_id="'.$capacitiesRoles["role_id"].'" AND capacity_id="'.$capacitiesRoles['capacity_id'].'"')==0)
+            if (Capacities_Roles::doublon('role_id="'.$capacitiesRoles["role_id"].'" AND capacity_id="'.$capacitiesRoles['capacity_id'].'"')[0]->nbDoublon==0)
             {
                 Capacities_Roles::create($capacitiesRoles);
             }
