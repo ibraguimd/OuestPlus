@@ -26,10 +26,11 @@ class Model
         return Connection::safeQuery($request,[],get_called_class());
     }
 
-    public static function doublon($where){
-        $request = 'SELECT COUNT(*) AS nbDoublon FROM '.self::_getTable().' WHERE '.$where;
+    public static function count($where){
+        $request = 'SELECT COUNT(*) AS nbCount FROM '.self::_getTable().' WHERE '.$where;
         return Connection::safeQuery($request,[],get_called_class());
     }
+
 
     public static function create($params){
         return Connection::insert(self::_getTable(),$params,get_called_class());

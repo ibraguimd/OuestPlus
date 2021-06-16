@@ -14,7 +14,8 @@ class DashboardController
     private static function defaultAction()
     {
         $user = unserialize($_SESSION['user']);
-        $task = Tasks::tasksNumberNotDone($user->getId());
+        $taskNotDone = Tasks::tasksNumberNotDone($user->getId());
+        $nbTaskDone = Tasks::count('user_id='.$user->getId().' AND doneDate IS NOT NULL')[0]->nbCount;
         $tabTitle="Dashboard";
         include('../page/dashboard/index.php');
     }

@@ -5,7 +5,7 @@ class SmallBox
 {
     private static function display($texte,$data,$type,$icon,$route)
     {
-        return '<div class="col-lg-3 col-6">
+        return '<div class="col-lg-3 col-6 mt-4">
         <!-- small box -->
         <div class="small-box bg-'.$type.'">
             <div class="inner">
@@ -25,12 +25,12 @@ class SmallBox
         return self::display($texte,$data,'info',$icon,$route);
     }
 
-    public static function warning($texte,$data,$route,$icon="fas fa-ban")
+    public static function warning($texte,$data,$route,$icon="fas fa-exclamation-triangle")
     {
         return self::display($texte,$data,'warning',$icon,$route);
     }
 
-    public static function danger($texte,$data,$route,$icon="fas fa-exclamation-triangle")
+    public static function danger($texte,$data,$route,$icon="fas fa-ban")
     {
         return self::display($texte,$data,'danger',$icon,$route);
     }

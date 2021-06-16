@@ -1,6 +1,10 @@
 <?php include('../page/template/header.php');?>
 
-<?= SmallBox::success('Nombre de tâches',$task[0]->getTasks(),'taskList'); ?>
-<?= SmallBox::warning('Test',$task[0]->getTasks(),'taskList'); ?>
-<?= SmallBox::danger('Danger !',$task[0]->getTasks(),'taskList'); ?>
+<div class="d-flex">
+
+<?= SmallBox::success('Nombre de tâches effectuées',$nbTaskDone,'taskList'); ?>
+<?= SmallBox::warning('Tâches non effectuées',$taskNotDone[0]->getTasks(),'taskList'); ?>
+
+</div>
+
 <?php include ('../page/template/footer.php'); ?>

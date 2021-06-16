@@ -154,6 +154,10 @@ class Users extends Model
         return Connection::safeQuery($request,[],get_called_class());
     }
 
+    public function getNbEmployee()
+    {
+
+    }
 
 
 }

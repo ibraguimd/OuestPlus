@@ -73,15 +73,17 @@ class Tasks extends Model
         return Connection::safeQuery($request,[],get_called_class());
     }
 
+    public static function allTasksDone($id)
+    {
+        $request = 'SELECT * FROM tasks WHERE doneDate IS NOT NULL';
+        return Connection::safeQuery($request,[],get_called_class());
+    }
+
     public static function tasksNumberNotDone($userId)
     {
-        $request = 'SELECT COUNT(*) AS tasks FROM tasks WHERE user_id AND doneDate IS NULL ='.$userId;
+        $request = 'SELECT COUNT(*) AS tasks FROM tasks WHERE user_id='.$userId.' AND doneDate IS NULL';
         return Connection::safeQuery($request,[],get_called_class());
     }
-    public static function tasksNumberDone($userId)
-    {
-        $request = 'SELECT COUNT(*) AS tasks FROM tasks WHERE user_id='.$userId;
-        return Connection::safeQuery($request,[],get_called_class());
-    }
+
 
 }

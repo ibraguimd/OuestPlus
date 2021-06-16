@@ -255,8 +255,11 @@ function artisan_seed_minimum() {
             'role_id' => $faker->numberBetween(1,2)
         ];
 
-        // Make sure it dosen't aleadry exists
-        if(Users::doublon('email="'.$user["email"].'"')[0]->nbDoublon==0) {
+        // On vérifie qu'il n'existe déjà pas dans la BDD
+
+        // On utilise la fonction count qui nous permet de compter le nombre de doublon, donc il nous reste plus qu'à vérifier
+        // qu'il n'y a aucun doublon (==0)
+        if(Users::count('email="'.$user["email"].'"')[0]->nbCount==0) {
             Users::create($user);
         }
     }
@@ -313,7 +316,7 @@ function artisan_seed_minimum() {
                 [
                     'name' => $description
                 ];
-            if(Departments::doublon('name="'.$departments["name"].'"')[0]->nbDoublon==0) {
+            if(Departments::count('name="'.$departments["name"].'"')[0]->nbCount==0) {
                 Departments::create($departments);
         }
 
@@ -337,9 +340,9 @@ function artisan_seed_minimum() {
             $description = $faker->text(11);
             $location = $faker->postcode;
             $creationDate = $faker->date();
-            $scheduledDate = dateUpper($creationDate);
-            $doneDate = dateUpper($scheduledDate);
-            $workDuration = $faker->time();
+            $scheduledDate = null;
+            $doneDate = null;
+            $workDuration = null;
             $departmentId = $faker->numberBetween(1,30);
             $userId = $faker->numberBetween(1,100);
             $task = [
@@ -355,7 +358,7 @@ function artisan_seed_minimum() {
             ];
 
             // Make sure it dosen't aleadry exists
-            if (Tasks::doublon('title="'.$task['title'].'"')[0]->nbDoublon==0)
+            if (Tasks::count('title="'.$task['title'].'"')[0]->nbCount==0)
             {
                 Tasks::create($task);
             }
@@ -376,7 +379,7 @@ function artisan_seed_minimum() {
                 'label' => $labels[$i],
                 'description' => $descriptions[$i]
             ];
-            if (Capacities::doublon('label="'.$capacities['label'].'"')[0]->nbDoublon==0)
+            if (Capacities::count('label="'.$capacities['label'].'"')[0]->nbCount==0)
             {
                 Capacities::create($capacities);
 
@@ -389,16 +392,16 @@ function artisan_seed_minimum() {
     function seedCapacityRoles()
     {
         echo "ADD RECORDS IN TABLE capacity role : ";
-        for ($i=0;$i<14;$i++)
+        for ($i=0;$i<13;$i++)
         {
-            $roleId=[3,3,3,3,3,3,2,2,2,2,1,1,1,1];
-            $capacityId=[1,2,3,4,5,6,1,2,5,6,1,6,5,2];
+            $roleId=[3,3,3,3,3,3,2,2,2,2,1,1,1];
+            $capacityId=[1,2,3,4,5,6,1,2,5,6,1,6,2];
 
             $capacitiesRoles= [
                 'role_id' => $roleId[$i],
                 'capacity_id' => $capacityId[$i]
             ];
-            if (Capacities_Roles::doublon('role_id="'.$capacitiesRoles["role_id"].'" AND capacity_id="'.$capacitiesRoles['capacity_id'].'"')[0]->nbDoublon==0)
+            if (Capacities_Roles::count('role_id="'.$capacitiesRoles["role_id"].'" AND capacity_id="'.$capacitiesRoles['capacity_id'].'"')[0]->nbCount==0)
             {
                 Capacities_Roles::create($capacitiesRoles);
             }
