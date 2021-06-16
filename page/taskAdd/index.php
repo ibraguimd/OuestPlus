@@ -13,7 +13,7 @@
                             <label>Nom</label>
                             <input type="text" name="title" class="form-control" required>
                             <label>Description</label>
-                            <textarea type="text" name="description" class="form-control"></textarea>
+                            <textarea style="min-height: 2.4em;" type="text" name="description" class="form-control"></textarea>
                             <label>Localisation</label>
                             <input type="text" name="location" class="form-control">
                         </div>

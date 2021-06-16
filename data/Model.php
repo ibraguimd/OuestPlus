@@ -39,9 +39,11 @@ class Model
         return Connection::insert('histories',$params,get_called_class());
     }
 
-    public static function update($title,$description,$location,$scheduledDate,$doneDate,$workDuration,$id){
-        $request = 'UPDATE '.self::_getTable().' SET '.' title=?,description=?,location=?,scheduledDate=?,doneDate=?,workDuration=?'.' WHERE id=?';
-        return Connection::safeQuery($request,[$title,$description,$location,$scheduledDate,$doneDate,$workDuration,$id],get_called_class());
+    public static function update($params){
+        $class= get_called_class();
+        return Connection::update($class::_getTable(),$params);
+        //$request = 'UPDATE '.self::_getTable().' SET '.' title=?,description=?,location=?,scheduledDate=?,doneDate=?,workDuration=?'.' WHERE id=?';
+        //return Connection::safeQuery($request,[$title,$description,$location,$scheduledDate,$doneDate,$workDuration,$id],get_called_class());
     }
 
     public static function assign($userId,$idTask)

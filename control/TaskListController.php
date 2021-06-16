@@ -48,7 +48,7 @@ class TaskListController
         if ($user->can('updateTask'))
         {
             $tasks = Tasks::tasksNotDone($user->getId());
-            $idTask=$request['idTask'];
+            $idTask=$request['id'];
             $taskToUpdate=Tasks::find($idTask);
         }
         else
@@ -63,10 +63,11 @@ class TaskListController
 
     private static function editAction($request)
     {
-        $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
-        $tasks = Tasks::tasksNotDone($user->getId());
-        Tasks::update($request['title'],$request['description'],$request['location'],$request['scheduledDate'],$request['doneDate'],$request['workDuration'],$request['idTask']);
+
+        $result = Tasks::update($request);
+
+
         $histories = [
             'datetime'=> date("Y-m-d"),
             'description' => $request['description'],
@@ -82,20 +83,9 @@ class TaskListController
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
         $tasks = Tasks::tasksNotDone($user->getId());
-        if ($user->getRole()->getId() == 1)
-        {
-            $directions = Users::where('role_id IN (2,3)');
-        }
-        elseif ($user->getRole()->getId() == 2)
-        {
-            $directions = Users::where('role_id IN (1,3)');
-        }
-        else
-        {
-            $directions = Users::where('role_id IN (1,2)');
-        }
+        $directions = Users::where('role_id ='.$user->getRole()->getId());
 
-        $idTask=$request['idTask'];
+        $idTask=$request['id'];
         $taskToAssign=Tasks::find($idTask);
         include('../page/taskList/index.php');
     }

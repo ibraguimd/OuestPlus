@@ -1,14 +1,15 @@
 <?php include ('../page/template/header.php'); ?>
-    <div class="col-sm-12">
-        <div class="card-body">
-            <form method="post" action=".?route=taskList&action=edit">
-                <?php
-                    if(isset($taskToUpdate))
-                    {
+<?php
+if(isset($taskToUpdate))
+{
+    echo '<div class="col-sm-12">';
+        echo '<div class="card-body">';
+            echo '<form method="post" action=".?route=taskList&action=edit">';
+
                         echo '<div class="form-row">';
                         echo '<div class="form-group col-md-6">';
                         echo '<label>Nom de la tâche</label>';
-                        echo '<input type="hidden" class="form-control" name="idTask" placeholder="Titre" value="'.$taskToUpdate->getId().'">';
+                        echo '<input type="hidden" class="form-control" name="id" placeholder="Titre" value="'.$taskToUpdate->getId().'">';
                         echo '<input type="text" class="form-control" name="title" placeholder="Titre" value="'.$taskToUpdate->getTitle().'">';
                         echo '</div>';
                         echo '<div class="form-group col-md-4">';
@@ -35,17 +36,19 @@
                         echo '</div>';
                         echo '</div>';
                         echo '<button type="submit" class="btn btn-primary">'.'Modifier'.'</button>';
-                    }
-                ?>
-            </form>
-        </div>
-    </div>
-    <div class="col-sm-12">
-        <div class="card-body">
-            <form method="post" action=".?route=taskList&action=assignSubmit">
-                <?php
-                if(isset($taskToAssign))
-                {
+
+    echo '</form>';
+        echo '</div>';
+    echo '</div>';
+    }
+?>
+<?php
+if(isset($taskToAssign))
+{
+    echo '<div class="col-sm-12">';
+        echo '<div class="card-body">';
+            echo '<form method="post" action=".?route=taskList&action=assignSubmit">';
+
                     echo '<div class="form-row">';
                     echo '<div class="form-group col-md-6">';
                     echo '<label>Nom de la tâche</label>';
@@ -64,11 +67,14 @@
                     echo '</div>';
                     echo '</div>';
                 echo '<button type="submit" class="btn btn-primary">'.'Assigner'.'</button>';
-                }
-                ?>
-            </form>
-        </div>
-    </div>
+
+
+            echo '</form>';
+        echo '</div>';
+    echo '</div>';
+}
+    ?>
+
 
     <div class="col-sm-12">
 <div class="card-body">
@@ -93,13 +99,29 @@
                 echo '<td>'.$task->getTitle().'</td>';
                 echo '<td>'.$task->getDescription().'</td>';
                 echo '<td>'.$task->getLocation().'</td>';
-                echo '<td>'.date('d-m-Y',strtotime($task->getCreationDate())).'</td>';
-                echo '<td>'.date('d-m-Y', strtotime($task->getScheduledDate())).'</td>';
-                echo '<td>'.date('d-m-Y', strtotime($task->getDoneDate())).'</td>';
+                if (!empty($task->getScheduledDate()))
+                {
+                    $scheduledDate = date('d-m-Y',strtotime($task->getScheduledDate()));
+                }
+                else
+                {
+                    $scheduledDate = "";
+                }
+                if (!empty($task->getScheduledDate()))
+                {
+                    $doneDate = date('d-m-Y',strtotime($task->getDoneDate()));
+                }
+                else
+                {
+                    $doneDate = "";
+                }
+                echo '<td>'.date("d-m-Y",strtotime($task->getCreationDate())).'</td>';
+                echo '<td>'.$scheduledDate.'</td>';
+                echo '<td>'.$doneDate.'</td>';
                 echo '<td>'.$task->getWorkDuration().'</td>';
 
-                echo '<td><form method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$task->getId().'" name="idTask">Modifier</button>'.'</form><br/>';
-                echo '<form method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$task->getId().'" name="idTask">Assigner</button>'.'</form></td>';
+                echo '<td class="d-flex"><form class="w-50" method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$task->getId().'" name="id">'.'<i class="far fa-edit"></i>'.'</button>'.'</form><br/>';
+                echo '<form class="w-50" method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$task->getId().'" name="id">'.'<i class="fas fa-user-plus"></i>'.'</button>'.'</form></td>';
                 echo '</tr>';
             }
             ?>

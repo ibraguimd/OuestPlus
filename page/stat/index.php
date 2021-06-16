@@ -7,32 +7,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/helpers.esm.min.js"</script>
 </head>
 <body>
-    <canvas id="graph1"></canvas>
+    <canvas style="display: block; box-sizing: border-box; height: 384px; width: 768px;" width="768" height="384"></canvas>
 </body>
-</html>
 
 <script>
-    var ctx = document.getElementById('graph1')
-
-    var data = {
-        labels: ['test 1','test 2','test 3','test 4','test 5']
-        datasets:[
-                {
-                data1:[10, 20, 30, 40, 50]
-                },
-                {
-                data2:[10, 20, 30, 40, 50]
-                }
-                ]
-
-    }
-
-    var options
-
-    var config = {
-        type:'line',
-        data: data,
-        options: options
-    }
-    var graph1 = new Chart(ctx, config)
+    const labels = Utils.months({count: 7});
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'My First Dataset',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    };
 </script>
+
+</html>

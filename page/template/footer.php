@@ -34,7 +34,7 @@
 <script src="./dist/js/adminlte.min.js"></script>
 <!-- DataTables Settings -->
 <script src="./app.js" type="application/javascript"></script>
-<script src="https://kit.fontawesome.com/065de836a2.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/6c3e5b7b6e.js" crossorigin="anonymous"></script>
 
 </body>
 </html>

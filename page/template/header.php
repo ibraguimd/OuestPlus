@@ -18,7 +18,6 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="./plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link rel="shortcut icon" href="#">
-
     <link href="./css.css" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini">

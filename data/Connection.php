@@ -34,20 +34,22 @@ class Connection {
     }
 
 
-    public static function safeQuery($query,$array,$className){
+    public static function safeQuery($query,$array,$className=null){
         if (is_null(self::$_pdo)) {
             self::_get();
         }
         $sth=self::$_pdo->prepare($query);
-        $sth->execute($array);
+        $result = $sth->execute($array);
 
         self::$lastRequest=$sth;
         if($sth->errorCode()!='00000'){
             echo($sth->errorInfo()[2]);
             throw new Exception('Erreur de requête : '.$query);
         }
-        $result = $sth->fetchAll(PDO::FETCH_CLASS,$className);
-        return $result; 
+        if(null!=$className) {
+            $result = $sth->fetchAll(PDO::FETCH_CLASS, $className);
+        }
+        return $result;
     }
 
 
@@ -79,4 +81,20 @@ class Connection {
         return Connection::safeQuery($query,array_values($values),$className);
     }
 
+    public static function update($table,$values)
+    {
+        $id=$values['id'];
+        unset($values['id']);
+        foreach ($values as $key=>$v){
+            if($v==''){
+                unset($values[$key]);
+            }
+        }
+        $keys = array_keys($values);
+        $val = array_values($values);
+        $val[]=$id;
+        $query='UPDATE `'.$table.'` SET '.implode('= ?,',$keys).'=? WHERE id=?';
+
+        return Connection::safeQuery($query,$val);
+    }
 }
