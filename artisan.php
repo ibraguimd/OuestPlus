@@ -242,26 +242,33 @@ function artisan_seed_minimum() {
         echo "\n";
     }
 
-    function seedRandomUser(){
-        $faker = Faker\Factory::create('fr_FR');
-        $firstName=$faker->firstName();
-        $lastName=$faker->lastName();
-        $email=strtolower(utf8_decode($firstName[0])).'.'.strtolower(utf8_decode($lastName)).'@test.fr';
-        $user = [
-            'firstName' => $firstName,
-            'lastName' => $lastName, 
-            'email' => $email, 
-            'password' => sha1('pwsio'),
-            'role_id' => $faker->numberBetween(1,2)
-        ];
+    function seedRandomUser($nbUser){
+        for ($i=0;$i<$nbUser;$i++){
+            $faker = Faker\Factory::create('fr_FR');
+            $firstName=$faker->firstName();
+            $lastName=$faker->lastName();
+            $email=strtolower(utf8_decode($firstName[0])).'.'.strtolower(utf8_decode($lastName)).'@test.fr';
+            $user = [
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'email' => $email,
+                'password' => sha1('pwsio'),
+                'role_id' => $faker->numberBetween(1,2)
+            ];
 
-        // On vérifie qu'il n'existe déjà pas dans la BDD
+            // On vérifie qu'il n'existe déjà pas dans la BDD
 
-        // On utilise la fonction count qui nous permet de compter le nombre de doublon, donc il nous reste plus qu'à vérifier
-        // qu'il n'y a aucun doublon (==0)
-        if(Users::count('email="'.$user["email"].'"')[0]->nbCount==0) {
-            Users::create($user);
+            // On utilise la fonction count qui nous permet de compter le nombre de doublon, donc il nous reste plus qu'à vérifier
+            // qu'il n'y a aucun doublon (==0)
+            if(Users::count('email="'.$user["email"].'"')[0]->nbCount==0) {
+                Users::create($user);
+                echo "-";
+            }
+            else{
+                $i--;
+            }
         }
+        echo "\n";
     }
 
     function seedUserSIO(){
@@ -273,6 +280,7 @@ function artisan_seed_minimum() {
             'role_id' => 1
         ];
        Users::create($user);
+        echo "-";
     }
 
     function seedDirecteur(){
@@ -288,6 +296,7 @@ function artisan_seed_minimum() {
             'role_id' => 3
         ];
         Users::create($directeur);
+        echo "-";
     }
 
     function seedUsers($nbUsers)
@@ -295,14 +304,7 @@ function artisan_seed_minimum() {
         echo "ADD RECORDS IN TABLE user : ";
         seedUserSIO();
         seedDirecteur();
-        echo '-';
-        for ($i=0;$i<$nbUsers;$i++){
-            seedRandomUser();
-
-
-            echo '-';
-        }
-        echo "\n";      
+        seedRandomUser($nbUsers);
     }
 
     function seedDepartments($nbDepartments)
@@ -319,6 +321,9 @@ function artisan_seed_minimum() {
             if(Departments::count('name="'.$departments["name"].'"')[0]->nbCount==0) {
                 Departments::create($departments);
         }
+            else{
+                $i--;
+            }
 
         }
     }
@@ -334,17 +339,18 @@ function artisan_seed_minimum() {
     }
 
     function seedTasks($nbTasks){
+        echo "ADD RECORDS IN TABLE tasks : ";
         for ($i=0;$i<$nbTasks;$i++){
             $faker = Faker\Factory::create('fr_FR');
-            $title = $faker->jobTitle;
+            $title = $faker->sentence(3);
             $description = $faker->text(11);
             $location = $faker->postcode;
             $creationDate = $faker->date();
             $scheduledDate = null;
             $doneDate = null;
             $workDuration = null;
-            $departmentId = $faker->numberBetween(1,30);
-            $userId = $faker->numberBetween(1,100);
+            $departmentId = $faker->numberBetween(1,500);
+            $userId = $faker->numberBetween(1,1000);
             $task = [
                 'title' => $title,
                 'description' => $description,
@@ -361,8 +367,13 @@ function artisan_seed_minimum() {
             if (Tasks::count('title="'.$task['title'].'"')[0]->nbCount==0)
             {
                 Tasks::create($task);
+                echo '-' ;
+            }
+            else{
+                $i--;
             }
         }
+        echo "\n";
 
     }
 
@@ -382,7 +393,9 @@ function artisan_seed_minimum() {
             if (Capacities::count('label="'.$capacities['label'].'"')[0]->nbCount==0)
             {
                 Capacities::create($capacities);
-
+            }
+            else{
+                $i--;
             }
             echo '-';
         }
@@ -413,11 +426,11 @@ function artisan_seed_minimum() {
     //roles
     seedRoles();
     //users
-    seedUsers(100);
+    seedUsers(1000);
     //departments
-    seedDepartments(80);
+    seedDepartments(500);
     //tasks
-    seedTasks(100);
+    seedTasks(1000);
     //capacities
     seedCapacities();
     //capacities roles
