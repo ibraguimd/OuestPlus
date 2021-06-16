@@ -10,6 +10,9 @@ include('./config/env.php');
 foreach (glob('./data/*.php') as $file) {
     include($file);
 }
+foreach (glob('./data/model/*.php') as $file) {
+    include($file);
+}
 foreach (glob('./control/*.php') as $file) {
     include($file);
 }
@@ -160,7 +163,7 @@ function artisan_migrate_minimum() {
 
     // Création des clés étrangères
 
-    echo "\nADDING ALL MINIMUM FOREIGN KEYS : \n";
+    echo "\nADDING ALL MINIMUM FOREIGN KEYS : ";
     $request =  'ALTER TABLE users 
                 ADD CONSTRAINT fk1_role_id
                 FOREIGN KEY (role_id) REFERENCES roles(id)
@@ -209,7 +212,7 @@ function artisan_migrate_minimum() {
                 ON DELETE RESTRICT
                 ON UPDATE RESTRICT;';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
-
+    echo "\n";
 
 }
 
@@ -233,7 +236,7 @@ function artisan_seed_minimum() {
         echo "ADD RECORDS IN TABLE roles : ";
         $roles=['Employee','Service de maintenance','Direction de l\'entreprise'];
         foreach ($roles as $role) {
-            Connection::insert('roles',['label'=>$role], null);
+            Roles::create(['label'=>$role]);
             echo '-';
         }
         echo "\n";
@@ -251,22 +254,22 @@ function artisan_seed_minimum() {
             'password' => sha1('pwsio'),
             'role_id' => $faker->numberBetween(1,2)
         ];
-        //var_dump($user);
+
         // Make sure it dosen't aleadry exists
-        if(Connection::safeQuery('select count(*) as count from users where email=?', [$user['email']],'Users.php')[0]['count']==0) {
-            Connection::insert('users', $user,null);
+        if(Users::doublon('email="'.$user["email"].'"')[0]->nbDoublon==0) {
+            Users::create($user);
         }
     }
 
     function seedUserSIO(){
         $user = [
             'firstName' => 'user',
-            'lastName' => 'SIO', 
-            'email' => 'usersio@test.fr', 
-            'password' => sha1('pwsio'), 
+            'lastName' => 'SIO',
+            'email' => 'usersio@test.fr',
+            'password' => sha1('pwsio'),
             'role_id' => 1
         ];
-       Connection::insert('users', $user, null);
+       Users::create($user);
     }
 
     function seedDirecteur(){
@@ -281,7 +284,7 @@ function artisan_seed_minimum() {
             'password' => sha1('pwsio'),
             'role_id' => 3
         ];
-        Connection::insert('users', $directeur, null);
+        Users::create($directeur);
     }
 
     function seedUsers($nbUsers)
@@ -305,13 +308,13 @@ function artisan_seed_minimum() {
         {
             $faker = Faker\Factory::create('fr_FR');
             $description = $faker->city;
-            var_dump($description);
+
             $departments=
                 [
                     'name' => $description
                 ];
-            if(Connection::safeQuery('select count(*) as count from departments where name=?', [$departments['name']],'Departments.php')[0]['count']==0) {
-                Connection::insert('departments', $departments,null);
+            if(Departments::doublon('name="'.$departments["name"].'"')[0]->nbDoublon==0) {
+                Departments::create($departments);
         }
 
         }
@@ -330,7 +333,7 @@ function artisan_seed_minimum() {
     function seedTasks($nbTasks){
         for ($i=0;$i<$nbTasks;$i++){
             $faker = Faker\Factory::create('fr_FR');
-            $title = $faker->paragraph();
+            $title = $faker->jobTitle;
             $description = $faker->text(11);
             $location = $faker->postcode;
             $creationDate = $faker->date();
@@ -352,9 +355,9 @@ function artisan_seed_minimum() {
             ];
 
             // Make sure it dosen't aleadry exists
-            if (Connection::safeQuery('select count(*) as count from tasks where title=?', [$task['title']], null)[0]['count']==0)
+            if (Tasks::doublon('title="'.$task['title'].'"')[0]->nbDoublon==0)
             {
-                Connection::insert('tasks', $task, null);
+                Tasks::create($task);
             }
         }
 
@@ -362,9 +365,10 @@ function artisan_seed_minimum() {
 
     function seedCapacities()
     {
+        echo "ADD RECORDS IN TABLE capacities : ";
         for ($i=0;$i<6;$i++)
         {
-            echo "ADD RECORDS IN TABLE capacities : ";
+
             $labels=['addTask','assignTask','deleteTask','updateTask','displayStat','displayTask'];
             $descriptions=['Ajouter des tâches','Assigner des tâches','Supprimer des tâches','Peut modifié une tâche','Peut visualiser les graphiques','Peut visualiser les tâches'];
 
@@ -372,30 +376,35 @@ function artisan_seed_minimum() {
                 'label' => $labels[$i],
                 'description' => $descriptions[$i]
             ];
-            if (Connection::safeQuery('select count(*) as count from capacities where label=?', [$capacities['label']], null)[0]['count']==0)
+            if (Capacities::doublon('label="'.$capacities['label'].'"')[0]->nbDoublon==0)
             {
-                Connection::insert('capacities', $capacities, null);
+                Capacities::create($capacities);
+
             }
+            echo '-';
         }
+        echo "\n";
     }
 
     function seedCapacityRoles()
     {
+        echo "ADD RECORDS IN TABLE capacity role : ";
         for ($i=0;$i<14;$i++)
         {
-            echo "ADD RECORDS IN TABLE capacity role : ";
             $roleId=[3,3,3,3,3,3,2,2,2,2,1,1,1,1];
             $capacityId=[1,2,3,4,5,6,1,2,5,6,1,6,5,2];
 
-            $capacities= [
+            $capacitiesRoles= [
                 'role_id' => $roleId[$i],
                 'capacity_id' => $capacityId[$i]
             ];
-            if (Connection::safeQuery('select count(*) as count from capacities_roles where role_id=?', [$capacities['role_id']], null)[0]['count']==0)
+            if (Capacities_Roles::doublon('role_id="'.$capacitiesRoles["role_id"].'" AND capacity_id="'.$capacitiesRoles['capacity_id'].'"')[0]->nbDoublon==0)
             {
-                Connection::insert('capacities_roles', $capacities, null);
+                Capacities_Roles::create($capacitiesRoles);
             }
+            echo "-";
         }
+        echo "\n";
     }
 
     //roles

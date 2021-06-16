@@ -138,6 +138,21 @@ class Users extends Model
         return $this->getRole()->can($label);
     }
 
+    public function nbEmployee()
+    {
+        $request = ' SELECT COUNT(*) AS nbEmployee FROM `users` WHERE role_id=1' ;
+        return Connection::safeQuery($request,[],get_called_class());
+    }
+    public function nbServiceDeMaintenance()
+    {
+        $request = ' SELECT COUNT(*) AS nbEmployee FROM `users` WHERE role_id=2' ;
+        return Connection::safeQuery($request,[],get_called_class());
+    }
+    public function nbDirection()
+    {
+        $request = ' SELECT COUNT(*) AS nbEmployee FROM `users` WHERE role_id=3' ;
+        return Connection::safeQuery($request,[],get_called_class());
+    }
 
 
 
