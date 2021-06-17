@@ -94,6 +94,7 @@ function artisan_migrate_minimum() {
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS roles;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS histories;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS departments;')) ? '-' : 'x';
+    echo (0 ==Connection::exec('DROP TABLE IF EXISTS locations;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS tasks;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS capacities;')) ? '-' : 'x';
     echo (0 ==Connection::exec('DROP TABLE IF EXISTS capacities_roles;')) ? '-' : 'x';
@@ -133,15 +134,21 @@ function artisan_migrate_minimum() {
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    $request =  'CREATE TABLE IF NOT EXISTS locations (
+                id int AUTO_INCREMENT PRIMARY KEY,
+                label VARCHAR(255)
+                );';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
     $request =  'CREATE TABLE IF NOT EXISTS tasks (
         id int AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255),
         description VARCHAR(255),
-        location VARCHAR(255),
         creationDate DATE,
         scheduledDate DATE,
         doneDate DATE,
-        workDuration TIME, 
+        workDuration TIME,
+        location_id int REFERENCES locations(id),
         department_id int REFERENCES departments(id),
         user_id int REFERENCES users(id)
         );';
@@ -192,6 +199,13 @@ function artisan_migrate_minimum() {
                 ON UPDATE RESTRICT;';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+$request =  'ALTER TABLE tasks
+                ADD CONSTRAINT fk2_task_id
+                FOREIGN KEY (location_id) REFERENCES locations(id)
+                ON DELETE RESTRICT
+                ON UPDATE RESTRICT;';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
     $request =  'ALTER TABLE tasks
                 ADD CONSTRAINT fk2_user_id
                 FOREIGN KEY (user_id) REFERENCES users(id)
@@ -224,6 +238,7 @@ function artisan_seed_minimum() {
     echo (0 == Connection::exec('TRUNCATE users')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE roles')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE departments')) ? '-' : 'x';
+    echo (0 == Connection::exec('TRUNCATE locations')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE tasks')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE histories')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE capacities')) ? '-' : 'x';
@@ -330,6 +345,29 @@ function artisan_seed_minimum() {
         echo "\n";
     }
 
+    function seedLocations($nbLocations)
+    {
+        echo "ADD RECORDS IN TABLE locations : ";
+        for ($i=0;$i<$nbLocations;$i++)
+        {
+            $faker = Faker\Factory::create('fr_FR');
+            $location = $faker->word();
+
+            $locations=
+                [
+                    'label' => $location
+                ];
+            if(Locations::count('label="'.$locations["label"].'"')[0]->nbCount==0) {
+                Locations::create($locations);
+                echo "-";
+        }
+            else{
+                $i--;
+            }
+        }
+        echo "\n";
+    }
+
     function dateUpper($date)
     {
         $faker = Faker\Factory::create('fr_FR');
@@ -346,22 +384,22 @@ function artisan_seed_minimum() {
             $faker = Faker\Factory::create('fr_FR');
             $title = $faker->sentence(3);
             $description = $faker->text(11);
-            $location = $faker->postcode;
             $creationDate = $faker->date();
             $scheduledDate = null;
             $doneDate = null;
             $workDuration = null;
             $departmentId = $faker->numberBetween(1,500);
+            $locationId = $faker->numberBetween(1,20);
             $userId = $faker->numberBetween(1,1000);
             $task = [
                 'title' => $title,
                 'description' => $description,
-                'location' => $location,
                 'creationDate' => $creationDate,
                 'scheduledDate' => $scheduledDate,
                 'doneDate' => $doneDate,
                 'workDuration' => $workDuration,
                 'department_id' => $departmentId,
+                'location_id' => $locationId,
                 'user_id' => $userId
             ];
 
@@ -449,6 +487,8 @@ function artisan_seed_minimum() {
     seedUsers(1000);
     //departments
     seedDepartments(500);
+    //departments
+    seedLocations(20);
     //tasks
     seedTasks(1000);
     //capacities
