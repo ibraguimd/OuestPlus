@@ -10,7 +10,7 @@
                 <form class="w-100" method="post" action=".?route=taskAdd&action=addTask">
                     <div class="col-sm-12 w-100">
                         <div class="form-group w-100">
-                            <label>Nom</label>
+                            <label>Titre</label>
                             <input type="text" name="title" class="form-control" required>
                             <label>Description</label>
                             <textarea style="min-height: 2.4em;" type="text" name="description" class="form-control"></textarea>

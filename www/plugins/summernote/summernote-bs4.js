@@ -250,7 +250,7 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.exten
     },
     image: {
       image: 'Picture',
-      insert: 'Insert Image',
+      insert: 'Insert picture',
       resizeFull: 'Resize full',
       resizeHalf: 'Resize half',
       resizeQuarter: 'Resize quarter',
@@ -268,7 +268,7 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.exten
       maximumFileSize: 'Maximum file size',
       maximumFileSizeError: 'Maximum file size exceeded.',
       url: 'Image URL',
-      remove: 'Remove Image',
+      remove: 'Remove picture',
       original: 'Original'
     },
     video: {
@@ -5912,7 +5912,7 @@ function () {
       var callbacks = this.options.callbacks; // If onImageUpload set,
 
       if (callbacks.onImageUpload) {
-        this.context.triggerEvent('image.upload', files); // else insert Image as dataURL
+        this.context.triggerEvent('image.upload', files); // else insert picture as dataURL
       } else {
         this.insertImagesAsDataURL(files);
       }
@@ -7769,7 +7769,7 @@ function () {
     value: function addImagePopoverButtons() {
       var _this3 = this;
 
-      // Image Size Buttons
+      // picture Size Buttons
       this.context.memo('button.resizeFull', function () {
         return _this3.button({
           contents: '<span class="note-fontsize-10">100%</span>',
@@ -8705,7 +8705,7 @@ function ImagePopover_createClass(Constructor, protoProps, staticProps) { if (pr
 
 
 /**
- * Image popover module
+ * picture popover module
  *  mouse events that show/hide popover will be handled by Handle.js.
  *  Handle.js will receive the events and invoke 'imagePopover.update'.
  */

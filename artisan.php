@@ -309,6 +309,7 @@ function artisan_seed_minimum() {
 
     function seedDepartments($nbDepartments)
     {
+        echo "ADD RECORDS IN TABLE departments : ";
         for ($i=0;$i<$nbDepartments;$i++)
         {
             $faker = Faker\Factory::create('fr_FR');
@@ -320,12 +321,13 @@ function artisan_seed_minimum() {
                 ];
             if(Departments::count('name="'.$departments["name"].'"')[0]->nbCount==0) {
                 Departments::create($departments);
+                echo "-";
         }
             else{
                 $i--;
             }
-
         }
+        echo "\n";
     }
 
     function dateUpper($date)
@@ -380,11 +382,13 @@ function artisan_seed_minimum() {
     function seedCapacities()
     {
         echo "ADD RECORDS IN TABLE capacities : ";
-        for ($i=0;$i<6;$i++)
+        for ($i=0;$i<8;$i++)
         {
 
-            $labels=['addTask','assignTask','deleteTask','updateTask','displayStat','displayTask'];
-            $descriptions=['Ajouter des tâches','Assigner des tâches','Supprimer des tâches','Peut modifié une tâche','Peut visualiser les graphiques','Peut visualiser les tâches'];
+            $labels=['addTask','assignTask','deleteTask','updateTask','displayStat','displayOwnTask','displayUsersByRole','displayAllTask'];
+            $descriptions=['Peut ajouter des tâches' , 'Peut assigner des tâches' , 'Peut supprimer des tâches',
+                'Peut modifié une tâche' , 'Peut visualiser les graphiques' , 'Peut ses visualiser les tâches',
+                'Peut afficher la listes des utilisateurs par rôles','Peut afficher les tâches de tous les utilisateurs'];
 
             $capacities= [
                 'label' => $labels[$i],
@@ -405,10 +409,26 @@ function artisan_seed_minimum() {
     function seedCapacityRoles()
     {
         echo "ADD RECORDS IN TABLE capacity role : ";
-        for ($i=0;$i<13;$i++)
+        for ($i=0;$i<15;$i++)
         {
-            $roleId=[3,3,3,3,3,3,2,2,2,2,1,1,1];
-            $capacityId=[1,2,3,4,5,6,1,2,5,6,1,6,2];
+            /** Role_id
+             *  3 --> Direction de l'entreprise
+             *  2 --> Service de maintenance
+             *  1 --> Enmployé
+             *
+             *  Capacity_id
+             *  1 --> Peut ajouter des tâches
+             *  2 --> Peut assigner des tâches
+             *  3 --> Peut supprimer des tâches
+             *  4 --> Peut modifier les tâches
+             *  5 --> Peut visualiser les graphiques
+             *  6 --> Peut afficher ses tâches
+             *  7 --> Peut afficher la liste des utilisateurs classé par role
+             *  8 --> Peut afficher toutes les tâches
+             */
+
+            $roleId=[3,3,3,3,3,3,3,3,2,2,2,2,1,1,1];
+            $capacityId=[1,2,3,4,5,6,7,8,1,2,6,8,1,2,6];
 
             $capacitiesRoles= [
                 'role_id' => $roleId[$i],

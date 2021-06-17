@@ -86,8 +86,8 @@ if(isset($taskToAssign))
             <th>Description</th>
             <th>Localisation</th>
             <th>Date de création</th>
-            <th>Date prévue</th>
-            <th>Date de réalisation</th>
+            <th>Date prévue de la réalisation</th>
+            <th>Date effective de la réalisation</th>
             <th>Durée du travail</th>
             <th>Actions</th>
         </tr>
@@ -109,13 +109,13 @@ if(isset($taskToAssign))
                 }
                 if (!empty($task->getScheduledDate()))
                 {
-                    $doneDate = date('d-m-Y',strtotime($task->getDoneDate()));
+                    $doneDate = date('d/m/Y',strtotime($task->getDoneDate()));
                 }
                 else
                 {
                     $doneDate = "";
                 }
-                echo '<td>'.date("d-m-Y",strtotime($task->getCreationDate())).'</td>';
+                echo '<td>'.date("d/m/Y",strtotime($task->getCreationDate())).'</td>';
                 echo '<td>'.$scheduledDate.'</td>';
                 echo '<td>'.$doneDate.'</td>';
                 echo '<td>'.$task->getWorkDuration().'</td>';

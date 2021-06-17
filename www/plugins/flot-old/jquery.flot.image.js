@@ -5,8 +5,8 @@ Licensed under the MIT license.
 
 The data syntax is [ [ image, x1, y1, x2, y2 ], ... ] where (x1, y1) and
 (x2, y2) are where you intend the two opposite corners of the image to end up
-in the plot. Image must be a fully loaded Javascript image (you can make one
-with new Image()). If the image is not complete, it's skipped when plotting.
+in the plot. picture must be a fully loaded Javascript image (you can make one
+with new picture()). If the image is not complete, it's skipped when plotting.
 
 There are two helpers included for retrieving images. The easiest work the way
 that you put in URLs instead of images in the data, like this:
@@ -21,7 +21,7 @@ $.plot with the data set. See the included example.
 
 A more low-level helper, $.plot.image.load(urls, callback) is also included.
 Given a list of URLs, it calls callback with an object mapping from URL to
-Image object when all images are loaded or have failed loading.
+picture object when all images are loaded or have failed loading.
 
 The plugin supports these options:
 
@@ -217,7 +217,7 @@ Google Maps).
         if (!series.images.show)
             return;
 
-        // format is Image, x1, y1, x2, y2 (opposite corners)
+        // format is picture, x1, y1, x2, y2 (opposite corners)
         datapoints.format = [
             { required: true },
             { x: true, number: true, required: true },

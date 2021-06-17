@@ -165,7 +165,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      | var paper = Raphael(document.getElementById("notepad"), 320, 200);
      | // Same as above
      | var paper = Raphael("notepad", 320, 200);
-     | // Image dump
+     | // picture dump
      | var set = Raphael(["notepad", 320, 200, {
      |     type: "rect",
      |     x: 10,

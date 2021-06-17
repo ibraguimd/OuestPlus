@@ -144,7 +144,7 @@ return /******/ (function(modules) { // webpackBootstrap
         maximumFileSize: 'Maximum file size',
         maximumFileSizeError: 'Maximum file size exceeded.',
         url: 'URL obrázku',
-        remove: 'Remove Image',
+        remove: 'Remove picture',
         original: 'Original'
       },
       video: {

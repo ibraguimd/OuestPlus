@@ -1339,7 +1339,7 @@
 
     renderProgressSteps(instance, params); // Icon
 
-    renderIcon(instance, params); // Image
+    renderIcon(instance, params); // picture
 
     renderImage(instance, params); // Title
 

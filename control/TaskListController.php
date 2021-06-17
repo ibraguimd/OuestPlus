@@ -30,7 +30,7 @@ class TaskListController
         $user = unserialize($_SESSION['user']);
         if ($user->can('displayTask'))
         {
-            $tasks = Tasks::tasksNotDone($user->getId());
+
             include('../page/taskList/index.php');
         }
         else

@@ -35,7 +35,7 @@ define(["eve"], function(eve) {
      | var paper = Raphael(document.getElementById("notepad"), 320, 200);
      | // Same as above
      | var paper = Raphael("notepad", 320, 200);
-     | // Image dump
+     | // picture dump
      | var set = Raphael(["notepad", 320, 200, {
      |     type: "rect",
      |     x: 10,

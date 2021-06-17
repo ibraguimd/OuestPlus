@@ -22,7 +22,7 @@ class StatController{
             include('../page/stat/index.php');
         }
         else{
-            header('Location:.?route=taskList');
+            header('Location:.?route=dashboard');
             echo Alert::danger('Vous n\'avez pas le droit d\'accéder à cette page');
         }
 

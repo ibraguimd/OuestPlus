@@ -79,6 +79,12 @@ class Tasks extends Model
         return Connection::safeQuery($request,[],get_called_class());
     }
 
+    public static function getAllTask()
+    {
+        $request = 'SELECT * FROM tasks';
+        return Connection::safeQuery($request,[],get_called_class());
+    }
+
 
 
 }

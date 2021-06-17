@@ -140,7 +140,7 @@ return /******/ (function(modules) { // webpackBootstrap
         dropImage: 'Drop image or Text',
         selectFromFiles: 'Vybrat soubor',
         url: 'URL obrázku',
-        remove: 'Remove Image',
+        remove: 'Remove picture',
         original: 'Original'
       },
       video: {
