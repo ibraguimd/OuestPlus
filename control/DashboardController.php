@@ -17,6 +17,17 @@ class DashboardController
         $taskNotDone = Tasks::tasksNumberNotDone($user->getId());
         $nbTaskDone = Tasks::count('user_id='.$user->getId().' AND doneDate IS NOT NULL');
 
+        if ($user->can('displayStat'))
+        {
+            $display = "flex";
+            $graphTasksDone = Tasks::taskByDoneDate();
+            $graphTasksNotDone = Tasks::taskByNotDoneDate();
+        }
+        else
+        {
+            $display="none";
+        }
+
         if($user->can('displayAllTask'))
         {
             $allTask = Tasks::getAllTask();

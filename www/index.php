@@ -36,9 +36,6 @@ switch ($route){
     case 'profil':
         ProfilController::switchAction($action);
         break;
-    case 'stat':
-        StatController::switchAction($action);
-    break;
     case 'taskList':
         TaskListController::switchAction($action);
     break;

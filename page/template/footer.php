@@ -36,5 +36,13 @@
 <script src="./app.js" type="application/javascript"></script>
 <script src="https://kit.fontawesome.com/6c3e5b7b6e.js" crossorigin="anonymous"></script>
 
+<?php
+if(isset($scripts)){
+    foreach ($scripts as $script) {
+        echo '<script src="'.$script.'" type="text/javascript"></script>';
+    }
+}
+?>
+
 </body>
 </html>
