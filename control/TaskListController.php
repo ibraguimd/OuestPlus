@@ -51,7 +51,7 @@ class TaskListController
         $user = unserialize($_SESSION['user']);
         if ($user->can('updateTask'))
         {
-            $ownTasks = Tasks::getOwnTasksNotDone($user->getId());
+            $tasks = Tasks::getOwnTasksNotDone($user->getId());
             $idTask=$request['id'];
             $taskToUpdate=Tasks::find($idTask);
             $locationToUpdate=$taskToUpdate->getLocationId();
@@ -59,8 +59,8 @@ class TaskListController
         }
         else
         {
-            $alert=Alert::danger('Vous n\'avez pas les droits pour modifier une tâche');
-            $ownTasks = Tasks::getOwnTasksNotDone($user->getId());
+            echo Alert::danger('Vous n\'avez pas les droits pour modifier une tâche');
+            $tasks = Tasks::getOwnTasksNotDone($user->getId());
         }
 
 
@@ -88,7 +88,7 @@ class TaskListController
     {
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
-        $ownTasks = Tasks::getOwnTasksNotDone($user->getId());
+        $tasks = Tasks::getOwnTasksNotDone($user->getId());
         $directions = Users::where('role_id ='.$user->getRole()->getId());
 
         $idTask=$request['id'];
@@ -101,7 +101,7 @@ class TaskListController
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
         Tasks::assign($request['user_id'],$request['idTask']);
-        $ownTasks = Tasks::getOwnTasksNotDone($user->getId());
+        $tasks = Tasks::getOwnTasksNotDone($user->getId());
         include('../page/taskList/index.php');
     }
 }

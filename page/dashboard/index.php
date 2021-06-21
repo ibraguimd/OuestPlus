@@ -1,30 +1,33 @@
 <?php include('../page/template/header.php');?>
 
-
 <?php if($user->can('displayUsersByRole'))
-    {
-        $html=DashboardUtils::welcome($user->getFirstName(),$user->getLastName(),$nbEmployee,$nbService,$nbDirection);
-    }
-    else{
-        $html=DashboardUtils::welcome($user->getFirstName(),$user->getLastName());
-    }
+{
+    $html=DashboardUtils::welcome($user->getFirstName(),$user->getLastName(),$nbEmployee,$nbService,$nbDirection);
+}
+else{
+    $html=DashboardUtils::welcome($user->getFirstName(),$user->getLastName());
+}
 
-    echo $html ;
+
+
+echo $html ;
 ?>
 
 <div class="d-flex">
-
 <?= SmallBox::success('Nombre de tâches effectuées',$nbTaskDone,'taskList'); ?>
-<?= SmallBox::warning('Nombre de tâches non effectuées',$taskNotDone[0]->getTasks(),'taskList'); ?>
+<?= SmallBox::warning('Tâches non effectuées',$taskNotDone[0]->getTasks(),'taskList'); ?>
 
 </div>
 
+
     <div class="chart-container" style="position: relative; height:50%; width:50%; margin-top: 1em; display: <?= $display; ?>;">
-    <canvas id="myChart"></canvas>
-    <canvas id="myChart2"></canvas>
+        <canvas id="myChart"></canvas>
+        <canvas id="myChart2"></canvas>
     </div>
 
+
     <script>
+
         function chartJs()
         {
             var ctx = document.getElementById('myChart').getContext('2d');
@@ -48,6 +51,7 @@
                         }
                     ]
                 },
+
                 options: {
                     scales: {
                         y: {
@@ -79,13 +83,14 @@
                         hoverOffset: 4
                     }]
                 }
-            });
+                });
         }
         document.addEventListener("DOMContentLoaded", function(){
             chartJs();
             chartJs2();
         });
     </script>
+
 <?php
 $scripts = ['https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js'];
 include ('../page/template/footer.php');

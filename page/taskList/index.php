@@ -1,4 +1,5 @@
 <?php include ('../page/template/header.php'); ?>
+
 <?php
 if(isset($alert)){
     echo $alert;
@@ -21,7 +22,8 @@ if(isset($taskToUpdate))
                         echo '</div>';
                         echo '<div class="form-group col-md-2">';
                         echo '<label for="inputPassword4">Localisation</label>';
-                        echo '<input type="text" class="form-control" name="location" placeholder="Localisation" value="'.$locationToUpdate->getLocation().'">';
+                        echo '<input type="text" class="form-control" placeholder="Description" value="'.$taskToUpdate->getLabel().'" readonly>';
+                        echo '<input type="hidden" name="location_id" placeholder="Description" value="'.$taskToUpdate->getLocationId().'">';
                         echo '</div>';
                         echo '</div>';
                         echo '<div class="form-row">';
