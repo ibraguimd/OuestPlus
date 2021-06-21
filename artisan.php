@@ -268,7 +268,7 @@ function artisan_seed_minimum() {
                 'lastName' => $lastName,
                 'email' => $email,
                 'password' => sha1('pwsio'),
-                'role_id' => $faker->numberBetween(1,2)
+                'role_id' => $faker->numberBetween(1,3)
             ];
 
             // On vérifie qu'il n'existe déjà pas dans la BDD
@@ -352,7 +352,7 @@ function artisan_seed_minimum() {
         for ($i=0;$i<$nbLocations;$i++)
         {
             $faker = Faker\Factory::create('fr_FR');
-            $location = $faker->word();
+            $location = 'Salle '.$faker->country;
 
             $locations=
                 [
@@ -381,7 +381,7 @@ function artisan_seed_minimum() {
 
     function seedTasks($nbTasks){
         echo "ADD RECORDS IN TABLE tasks : ";
-        for ($i=0;$i<$nbTasks;$i++){
+        for ($i=0;$i<$nbTasks/2;$i++){
             $faker = Faker\Factory::create('fr_FR');
             $title = $faker->sentence(3);
             $description = $faker->text(11);
@@ -414,6 +414,41 @@ function artisan_seed_minimum() {
                 $i--;
             }
         }
+
+        for ($i=0;$i<$nbTasks/2;$i++){
+            $faker = Faker\Factory::create('fr_FR');
+            $title = $faker->sentence(3);
+            $description = $faker->text(11);
+            $creationDate = $faker->date();
+            $scheduledDate = dateUpper($creationDate);
+            $doneDate = dateUpper($creationDate);
+            $workDuration = $faker->time();
+            $departmentId = $faker->numberBetween(1,500);
+            $locationId = $faker->numberBetween(1,20);
+            $userId = $faker->numberBetween(1,1000);
+            $task = [
+                'title' => $title,
+                'description' => $description,
+                'creationDate' => $creationDate,
+                'scheduledDate' => $scheduledDate,
+                'doneDate' => $doneDate,
+                'workDuration' => $workDuration,
+                'department_id' => $departmentId,
+                'location_id' => $locationId,
+                'user_id' => $userId
+            ];
+
+            // Make sure it dosen't aleadry exists
+            if (Tasks::count('title="'.$task['title'].'"')==0)
+            {
+                Tasks::create($task);
+                echo '-' ;
+            }
+            else{
+                $i--;
+            }
+        }
+
         echo "\n";
 
     }
@@ -448,7 +483,7 @@ function artisan_seed_minimum() {
     function seedCapacityRoles()
     {
         echo "ADD RECORDS IN TABLE capacity role : ";
-        for ($i=0;$i<19;$i++)
+        for ($i=0;$i<20;$i++)
         {
             /** Role_id
              *  4 --> Administrateur
@@ -467,8 +502,8 @@ function artisan_seed_minimum() {
              *  8 --> Peut afficher toutes les tâches
              */
 
-            $roleId=[4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,2,2,2,1,1];
-            $capacityId=[1,2,3,4,5,6,7,8,2,3,4,5,6,7,8,1,6,8,1,6];
+            $roleId=[4,4,4,4,4,4,4,4,3,3,3,3,3,2,2,2,2,2,1,1];
+            $capacityId=[1,2,3,4,5,6,7,8,1,5,6,7,8,1,2,4,6,8,1,6];
 
             $capacitiesRoles= [
                 'role_id' => $roleId[$i],
@@ -490,7 +525,7 @@ function artisan_seed_minimum() {
     //departments
     seedDepartments(500);
     //departments
-    seedLocations(20);
+    seedLocations(25);
     //tasks
     seedTasks(1000);
     //capacities
