@@ -90,5 +90,3 @@
 $scripts = ['https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js'];
 include ('../page/template/footer.php');
 ?>
-
-<?php include ('../page/template/footer.php'); ?>

@@ -1,5 +1,8 @@
 <?php include ('../page/template/header.php'); ?>
 <?php
+if(isset($alert)){
+    echo $alert;
+}
 if(isset($taskToUpdate))
 {
     echo '<div class="col-sm-12">';
@@ -124,10 +127,14 @@ if(isset($taskToAssign))
                 echo '<td>'.$scheduledDate.'</td>';
                 echo '<td>'.$doneDate.'</td>';
                 echo '<td>'.$ownTask->getWorkDuration().'</td>';
-
-                echo '<td class="d-flex"><form class="w-50" method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$ownTask->getId().'" name="id">'.'<i class="far fa-edit"></i>'.'</button>'.'</form><br/>';
-                echo '<form class="w-50" method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$ownTask->getId().'" name="id">'.'<i class="fas fa-user-plus"></i>'.'</button>'.'</form></td>';
+                if($user->can('updateTask')){
+                    echo '<td class="d-flex"><form class="w-50" method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$ownTask->getId().'" name="id">'.'<i class="far fa-edit"></i>'.'</button>'.'</form><br/>';
+                    if($user->can('assignTask')){
+                        echo '<form class="w-50" method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$ownTask->getId().'" name="id">'.'<i class="fas fa-user-plus"></i>'.'</button>'.'</form></td>';
+                    }
+                }
                 echo '</tr>';
+
             }
             ?>
         </tbody>

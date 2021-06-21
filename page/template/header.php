@@ -36,7 +36,7 @@
         <ul class="navbar-nav ml-auto d-flex align-items-center">
             <!-- User Dropdown Menu -->
             <p data-toggle="dropdown" class="btn mb-0 bg-dark mr-2 p-1 shadow rounded"><i class="fas fa-lg fa-user-circle"></i>&nbsp;&nbsp;<?php $user = unserialize($_SESSION['user']);
-            echo  $user->getFirstname().' '.$user->getLastname().' ['.$user->getRole()->getLabel().']';?></a></p>
+            echo  $user->getFirstname().' '.$user->getLastname().' ['.$user->getRole()->getLabel().']';?></p>
             <li class="nav-item dropdown">
                 <br/><br/>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -82,7 +82,15 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-12">
-                        <h1><?= $tabTitle ?></h1>
+                        <h1>
+                            <?= $tabTitle ?>
+                            <?php
+                            $user = unserialize($_SESSION['user']);
+                            if($tabTitle=='Liste des tâches' AND $user->can('addTask')){
+                                echo '<a href="?route=taskAdd"><i class="nav-icon fas fa-plus-circle" aria-hidden="true"></i></a>';
+                            }
+                            ?>
+                        </h1>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
