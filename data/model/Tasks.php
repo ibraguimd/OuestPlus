@@ -68,6 +68,11 @@ class Tasks extends Model
     {
         return $this->location_id;
     }
+    public function getLabel()
+    {
+        $this->location= Locations::find($this->getLocationId());
+        return $this->location->getLabel();
+    }
 
     private function convertToArrayOfInt()
     {
@@ -86,10 +91,10 @@ class Tasks extends Model
             intval($this->Task12)
         );
     }
-
+    // Retourne un objet instance de la classe Tasks, d'une tâche non réalisé
     public static function getOwnTasksNotDone($id)
     {
-        $request = 'SELECT * FROM tasks JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NULL AND user_id ='.$id;
+        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NULL AND user_id ='.$id;
         return Connection::safeQuery($request,[],get_called_class());
     }
 

@@ -1,3 +1,4 @@
+
 <!-- /.card-footer-->
 </div>
 <!-- /.card -->
@@ -22,7 +23,6 @@
 <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-
 <!-- jQuery -->
 <script src="./plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -33,7 +33,6 @@
 <!-- AdminLTE App -->
 <script src="./dist/js/adminlte.min.js"></script>
 <!-- DataTables Settings -->
-<script src="./app.js" type="application/javascript"></script>
 <script src="https://kit.fontawesome.com/6c3e5b7b6e.js" crossorigin="anonymous"></script>
 
 <?php

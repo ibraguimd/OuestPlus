@@ -22,12 +22,13 @@ class DashboardController
             $display = "flex";
             $graphTasksDone = Tasks::taskByDoneDate();
             $graphTasksNotDone = Tasks::taskByNotDoneDate();
+            $allTask = Tasks::getAllTask();
+            $nbAllTask = Tasks::count('1'); // on met '1' lorsqu'on à pas de condition
         }
         else
         {
             $display="none";
         }
-
         if($user->can('displayAllTask'))
         {
             $allTask = Tasks::getAllTask();

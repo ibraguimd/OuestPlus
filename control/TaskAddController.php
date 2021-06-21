@@ -16,6 +16,7 @@ class TaskAddController{
     private static function defaultAction()
     {
         $tabTitle="Demande d'une tâche";
+        $locations = Locations::all();
         include('../page/taskAdd/index.php');
     }
 

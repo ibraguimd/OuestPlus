@@ -39,7 +39,7 @@ class TaskListController
         }
         else
         {
-            header('Location:.?route=stat');
+            header('Location:.?route=dashboard');
         }
 
     }
@@ -49,13 +49,11 @@ class TaskListController
 
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
+        $ownTasks = Tasks::getOwnTasksNotDone($user->getId());
         if ($user->can('updateTask'))
         {
-            $tasks = Tasks::getOwnTasksNotDone($user->getId());
             $idTask=$request['id'];
             $taskToUpdate=Tasks::find($idTask);
-            $locationToUpdate=$taskToUpdate->getLocationId();
-
         }
         else
         {
@@ -70,9 +68,8 @@ class TaskListController
     private static function editAction($request)
     {
         $user = unserialize($_SESSION['user']);
-
         $result = Tasks::update($request);
-
+        $ownTasks = Tasks::getOwnTasksNotDone($user->getId());
 
         $histories = [
             'datetime'=> date("Y-m-d"),
@@ -88,11 +85,19 @@ class TaskListController
     {
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
-        $tasks = Tasks::getOwnTasksNotDone($user->getId());
-        $directions = Users::where('role_id ='.$user->getRole()->getId());
+        if ($user->can('assignTask'))
+        {
+            $ownTasks = Tasks::getOwnTasksNotDone($user->getId());
+            $directions = Users::where('role_id ='.$user->getRole()->getId());
+            $idTask=$request['id'];
+            $taskToAssign=Tasks::find($idTask);
+        }
+        else
+        {
+            $ownTasks = Tasks::getOwnTasksNotDone($user->getId());
+            echo Alert::danger('Vous n\'avez pas les droits pour modifier une tâche');
+        }
 
-        $idTask=$request['id'];
-        $taskToAssign=Tasks::find($idTask);
         include('../page/taskList/index.php');
     }
 
@@ -100,8 +105,17 @@ class TaskListController
     {
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
-        Tasks::assign($request['user_id'],$request['idTask']);
-        $tasks = Tasks::getOwnTasksNotDone($user->getId());
+        if ($user->can('assignTask'))
+        {
+            $ownTasks = Tasks::getOwnTasksNotDone($user->getId());
+            Tasks::assign($request['user_id'],$request['idTask']);
+            $tasks = Tasks::getOwnTasksNotDone($user->getId());
+        }
+        else
+        {
+            echo Alert::danger('Vous n\'avez pas les droits pour modifier une tâche');
+        }
+
         include('../page/taskList/index.php');
     }
 }

@@ -144,7 +144,8 @@ class Users extends Model
         return Connection::safeQuery($request,[],get_called_class());
     }
     public function nbDirection()
-    {
+    {  $request = ' SELECT COUNT(*) AS nbEmployee FROM `users` WHERE role_id=3' ;
+        return Connection::safeQuery($request,[],get_called_class());
         $request = ' SELECT COUNT(*) AS nbEmployee FROM `users` WHERE role_id=3' ;
         return Connection::safeQuery($request,[],get_called_class());
     }

@@ -14,6 +14,15 @@
                             <input type="text" name="title" class="form-control" required>
                             <label>Description</label>
                             <textarea style="min-height: 2.4em;" type="text" name="description" class="form-control"></textarea>
+                            <label>Salles</label>
+                            <select class="form-control " name="location_id">
+                                <?php
+                                foreach ($locations as $location)
+                                {
+                                echo '<option value="'.$location->getId().'">'.$location->getLabel().'</option>';
+                                }
+                                ?>
+                                </select>
 <!--                            <label>Localisation</label>-->
 <!--                            <input type="text" name="location" class="form-control">-->
                         </div>
