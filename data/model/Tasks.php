@@ -92,9 +92,9 @@ class Tasks extends Model
         );
     }
     // Retourne un objet instance de la classe Tasks, d'une tâche non réalisé
-    public static function getOwnTasksNotDone($id)
+    public static function getAllTasksNotDone()
     {
-        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NULL AND user_id ='.$id;
+        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NULL';
         return Connection::safeQuery($request,[],get_called_class());
     }
 

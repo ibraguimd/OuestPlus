@@ -104,35 +104,35 @@ if(isset($taskToAssign))
         </thead>
         <tbody>
         <?php
-            foreach($ownTasks as $ownTask){
+            foreach($allTasks as $allTask){
                 echo '<tr>';
-                echo '<td>'.$ownTask->getTitle().'</td>';
-                echo '<td>'.$ownTask->getDescription().'</td>';
+                echo '<td>'.$allTask->getTitle().'</td>';
+                echo '<td>'.$allTask->getDescription().'</td>';
 //                echo '<td>'.$task->getLocation().'</td>';
-                if (!empty($ownTask->getScheduledDate()))
+                if (!empty($allTask->getScheduledDate()))
                 {
-                    $scheduledDate = date('d-m-Y',strtotime($ownTask->getScheduledDate()));
+                    $scheduledDate = date('d-m-Y',strtotime($allTask->getScheduledDate()));
                 }
                 else
                 {
                     $scheduledDate = "";
                 }
-                if (!empty($ownTask->getScheduledDate()))
+                if (!empty($allTask->getScheduledDate()))
                 {
-                    $doneDate = date('d/m/Y',strtotime($ownTask->getDoneDate()));
+                    $doneDate = date('d/m/Y',strtotime($allTask->getDoneDate()));
                 }
                 else
                 {
                     $doneDate = "";
                 }
-                echo '<td>'.date("d/m/Y",strtotime($ownTask->getCreationDate())).'</td>';
+                echo '<td>'.date("d/m/Y",strtotime($allTask->getCreationDate())).'</td>';
                 echo '<td>'.$scheduledDate.'</td>';
                 echo '<td>'.$doneDate.'</td>';
-                echo '<td>'.$ownTask->getWorkDuration().'</td>';
+                echo '<td>'.$allTask->getWorkDuration().'</td>';
                 if($user->can('updateTask')){
-                    echo '<td class="d-flex"><form class="w-50" method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$ownTask->getId().'" name="id">'.'<i class="far fa-edit"></i>'.'</button>'.'</form><br/>';
+                    echo '<td class="d-flex"><form class="w-50" method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$allTask->getId().'" name="id">'.'<i class="far fa-edit"></i>'.'</button>'.'</form><br/>';
                     if($user->can('assignTask')){
-                        echo '<form class="w-50" method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$ownTask->getId().'" name="id">'.'<i class="fas fa-user-plus"></i>'.'</button>'.'</form></td>';
+                        echo '<form class="w-50" method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$allTask->getId().'" name="id">'.'<i class="fas fa-user-plus"></i>'.'</button>'.'</form></td>';
                     }
                 }
                 echo '</tr>';
