@@ -28,7 +28,7 @@ class Model
 
     public static function count($where){
         $request = 'SELECT COUNT(*) AS nbCount FROM '.self::_getTable().' WHERE '.$where;
-        return Connection::safeQuery($request,[],get_called_class());
+        return (Connection::safeQuery($request,[],get_called_class()))[0]->nbCount;
     }
 
 

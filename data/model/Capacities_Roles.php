@@ -17,4 +17,5 @@ class Capacities_Roles extends Model
     {
         return $this->capacity_id;
     }
+
 }

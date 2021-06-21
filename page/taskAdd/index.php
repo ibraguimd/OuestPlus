@@ -14,8 +14,8 @@
                             <input type="text" name="title" class="form-control" required>
                             <label>Description</label>
                             <textarea style="min-height: 2.4em;" type="text" name="description" class="form-control"></textarea>
-                            <label>Localisation</label>
-                            <input type="text" name="location" class="form-control">
+<!--                            <label>Localisation</label>-->
+<!--                            <input type="text" name="location" class="form-control">-->
                         </div>
                         <div class="form-group form-inline">
                             <input type="hidden" name="creationDate" class="form-control" value="<?php echo date("Y-m-d"); ?>">

@@ -45,10 +45,7 @@ class Tasks extends Model
         return $this->description;
     }
 
-    public function getLocation()
-    {
-        return $this->location;
-    }
+
 
     public function getCreationDate()
     {
@@ -67,9 +64,14 @@ class Tasks extends Model
         return $this->workDuration;
     }
 
-    public static function tasksNotDone($id)
+    public function getLocationId()
     {
-        $request = 'SELECT * FROM tasks WHERE doneDate IS NULL AND user_id ='.$id;
+        return $this->location_id;
+    }
+
+    public static function getOwnTasksNotDone($id)
+    {
+        $request = 'SELECT * FROM tasks JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NULL AND user_id ='.$id;
         return Connection::safeQuery($request,[],get_called_class());
     }
 

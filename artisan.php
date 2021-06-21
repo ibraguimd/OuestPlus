@@ -249,7 +249,7 @@ function artisan_seed_minimum() {
     // second : On insére des données dans les tables (seed)
     function seedRoles(){
         echo "ADD RECORDS IN TABLE roles : ";
-        $roles=['Employee','Service de maintenance','Direction de l\'entreprise'];
+        $roles=['Employee','Service de maintenance','Direction de l\'entreprise','Administrateur'];
         foreach ($roles as $role) {
             Roles::create(['label'=>$role]);
             echo '-';
@@ -275,8 +275,9 @@ function artisan_seed_minimum() {
 
             // On utilise la fonction count qui nous permet de compter le nombre de doublon, donc il nous reste plus qu'à vérifier
             // qu'il n'y a aucun doublon (==0)
-            if(Users::count('email="'.$user["email"].'"')[0]->nbCount==0) {
+            if(Users::count('email="'.$user["email"].'"')==0) {
                 Users::create($user);
+                echo "-";
                 echo "-";
             }
             else{
@@ -292,7 +293,7 @@ function artisan_seed_minimum() {
             'lastName' => 'SIO',
             'email' => 'usersio@test.fr',
             'password' => sha1('pwsio'),
-            'role_id' => 1
+            'role_id' => 4
         ];
        Users::create($user);
         echo "-";
@@ -334,7 +335,7 @@ function artisan_seed_minimum() {
                 [
                     'name' => $description
                 ];
-            if(Departments::count('name="'.$departments["name"].'"')[0]->nbCount==0) {
+            if(Departments::count('name="'.$departments["name"].'"')==0) {
                 Departments::create($departments);
                 echo "-";
         }
@@ -357,7 +358,7 @@ function artisan_seed_minimum() {
                 [
                     'label' => $location
                 ];
-            if(Locations::count('label="'.$locations["label"].'"')[0]->nbCount==0) {
+            if(Locations::count('label="'.$locations["label"].'"')==0) {
                 Locations::create($locations);
                 echo "-";
         }
@@ -404,7 +405,7 @@ function artisan_seed_minimum() {
             ];
 
             // Make sure it dosen't aleadry exists
-            if (Tasks::count('title="'.$task['title'].'"')[0]->nbCount==0)
+            if (Tasks::count('title="'.$task['title'].'"')==0)
             {
                 Tasks::create($task);
                 echo '-' ;
@@ -432,7 +433,7 @@ function artisan_seed_minimum() {
                 'label' => $labels[$i],
                 'description' => $descriptions[$i]
             ];
-            if (Capacities::count('label="'.$capacities['label'].'"')[0]->nbCount==0)
+            if (Capacities::count('label="'.$capacities['label'].'"')==0)
             {
                 Capacities::create($capacities);
             }
@@ -447,9 +448,10 @@ function artisan_seed_minimum() {
     function seedCapacityRoles()
     {
         echo "ADD RECORDS IN TABLE capacity role : ";
-        for ($i=0;$i<15;$i++)
+        for ($i=0;$i<19;$i++)
         {
             /** Role_id
+             *  4 --> Administrateur
              *  3 --> Direction de l'entreprise
              *  2 --> Service de maintenance
              *  1 --> Enmployé
@@ -465,14 +467,14 @@ function artisan_seed_minimum() {
              *  8 --> Peut afficher toutes les tâches
              */
 
-            $roleId=[3,3,3,3,3,3,3,3,2,2,2,2,1,1,1];
-            $capacityId=[1,2,3,4,5,6,7,8,1,2,6,8,1,2,6];
+            $roleId=[4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,2,2,2,1,1];
+            $capacityId=[1,2,3,4,5,6,7,8,2,3,4,5,6,7,8,1,6,8,1,6];
 
             $capacitiesRoles= [
                 'role_id' => $roleId[$i],
                 'capacity_id' => $capacityId[$i]
             ];
-            if (Capacities_Roles::count('role_id="'.$capacitiesRoles["role_id"].'" AND capacity_id="'.$capacitiesRoles['capacity_id'].'"')[0]->nbCount==0)
+            if (Capacities_Roles::count('role_id="'.$capacitiesRoles["role_id"].'" AND capacity_id="'.$capacitiesRoles['capacity_id'].'"')==0)
             {
                 Capacities_Roles::create($capacitiesRoles);
             }

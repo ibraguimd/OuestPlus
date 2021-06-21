@@ -18,7 +18,7 @@ if(isset($taskToUpdate))
                         echo '</div>';
                         echo '<div class="form-group col-md-2">';
                         echo '<label for="inputPassword4">Localisation</label>';
-                        echo '<input type="text" class="form-control" name="location" placeholder="Localisation" value="'.$taskToUpdate->getLocation().'">';
+                        echo '<input type="text" class="form-control" name="location" placeholder="Localisation" value="'.$locationToUpdate->getLocation().'">';
                         echo '</div>';
                         echo '</div>';
                         echo '<div class="form-row">';
@@ -84,44 +84,49 @@ if(isset($taskToAssign))
         <tr>
             <th>Tâches</th>
             <th>Description</th>
-            <th>Localisation</th>
+<!--            <th>Localisation</th>-->
             <th>Date de création</th>
             <th>Date prévue de la réalisation</th>
             <th>Date effective de la réalisation</th>
             <th>Durée du travail</th>
-            <th>Actions</th>
+            <?php
+            if($user->can('updateTask') or $user->can('assignTask') or $user->can('deleteTask')){
+                echo '<th>Actions</th>';
+            }
+            ?>
+
         </tr>
         </thead>
         <tbody>
         <?php
-            foreach($tasks as $task){
+            foreach($ownTasks as $ownTask){
                 echo '<tr>';
-                echo '<td>'.$task->getTitle().'</td>';
-                echo '<td>'.$task->getDescription().'</td>';
-                echo '<td>'.$task->getLocation().'</td>';
-                if (!empty($task->getScheduledDate()))
+                echo '<td>'.$ownTask->getTitle().'</td>';
+                echo '<td>'.$ownTask->getDescription().'</td>';
+//                echo '<td>'.$task->getLocation().'</td>';
+                if (!empty($ownTask->getScheduledDate()))
                 {
-                    $scheduledDate = date('d-m-Y',strtotime($task->getScheduledDate()));
+                    $scheduledDate = date('d-m-Y',strtotime($ownTask->getScheduledDate()));
                 }
                 else
                 {
                     $scheduledDate = "";
                 }
-                if (!empty($task->getScheduledDate()))
+                if (!empty($ownTask->getScheduledDate()))
                 {
-                    $doneDate = date('d/m/Y',strtotime($task->getDoneDate()));
+                    $doneDate = date('d/m/Y',strtotime($ownTask->getDoneDate()));
                 }
                 else
                 {
                     $doneDate = "";
                 }
-                echo '<td>'.date("d/m/Y",strtotime($task->getCreationDate())).'</td>';
+                echo '<td>'.date("d/m/Y",strtotime($ownTask->getCreationDate())).'</td>';
                 echo '<td>'.$scheduledDate.'</td>';
                 echo '<td>'.$doneDate.'</td>';
-                echo '<td>'.$task->getWorkDuration().'</td>';
+                echo '<td>'.$ownTask->getWorkDuration().'</td>';
 
-                echo '<td class="d-flex"><form class="w-50" method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$task->getId().'" name="id">'.'<i class="far fa-edit"></i>'.'</button>'.'</form><br/>';
-                echo '<form class="w-50" method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$task->getId().'" name="id">'.'<i class="fas fa-user-plus"></i>'.'</button>'.'</form></td>';
+                echo '<td class="d-flex"><form class="w-50" method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$ownTask->getId().'" name="id">'.'<i class="far fa-edit"></i>'.'</button>'.'</form><br/>';
+                echo '<form class="w-50" method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$ownTask->getId().'" name="id">'.'<i class="fas fa-user-plus"></i>'.'</button>'.'</form></td>';
                 echo '</tr>';
             }
             ?>
