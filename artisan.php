@@ -349,10 +349,28 @@ function artisan_seed_minimum() {
     function seedLocations($nbLocations)
     {
         echo "ADD RECORDS IN TABLE locations : ";
-        for ($i=0;$i<$nbLocations;$i++)
+        for ($i=0;$i<$nbLocations/2;$i++)
         {
             $faker = Faker\Factory::create('fr_FR');
             $location = 'Salle '.$faker->country;
+
+            $locations=
+                [
+                    'label' => $location
+                ];
+            if(Locations::count('label="'.$locations["label"].'"')==0) {
+                Locations::create($locations);
+                echo "-";
+        }
+            else{
+                $i--;
+            }
+        }
+        echo "\n";
+        for ($i=0;$i<$nbLocations/2;$i++)
+        {
+            $faker = Faker\Factory::create('fr_FR');
+            $location = $faker->numerify('salle-##');
 
             $locations=
                 [
@@ -525,7 +543,7 @@ function artisan_seed_minimum() {
     //departments
     seedDepartments(500);
     //departments
-    seedLocations(25);
+    seedLocations(100);
     //tasks
     seedTasks(1000);
     //capacities
