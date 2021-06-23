@@ -118,6 +118,6 @@ class TaskListController
             echo Alert::danger('Vous n\'avez pas les droits pour modifier une tâche');
         }
 
-        include('../page/taskList/index.php');
+        header('Location:.?route=taskList');
     }
 }

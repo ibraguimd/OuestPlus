@@ -138,6 +138,8 @@ class Users extends Model
         return $this->getRole()->can($label);
     }
 
+
+
     public function nbServiceDeMaintenance()
     {
         $request = ' SELECT COUNT(*) AS nbEmployee FROM `users` WHERE role_id=2' ;
@@ -166,6 +168,12 @@ class Users extends Model
     {
         $request = 'SELECT COUNT(*) AS nbDirection FROM `users` WHERE role_id=3';
         return Connection::safeQuery($request,[],get_called_class());
+    }
+
+    public static function updateUser($lastName,$firstName,$email,$userId)
+    {
+        $request = 'UPDATE `users` SET lastName = ?, firstName = ?, email = ? WHERE id = ?';
+        return Connection::safeQuery($request,[$lastName,$firstName,$email,$userId],get_called_class());
     }
 
 

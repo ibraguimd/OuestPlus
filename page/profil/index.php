@@ -1,43 +1,46 @@
 <?php include('../page/template/header.php'); ?>
-<?php
 
-echo '<section class="content">
+
+    <section class="content">
                   <!-- /.tab-pane -->
-
+        <form method="post" action=".?route=profil&action=edit">
                   <div class="tab-pane m-4" id="settings">
-                    <form class="form-horizontal">
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">Nom</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName" placeholder="'.$user->getLastname().'" readonly>
+                        <div class="col-sm-2">
+                          <input type="text" class="form-control" id="inputName" name="lastName" value="<?= $user->getLastname() ?>" " <?= $read ?>>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputEmail" class="col-sm-2 col-form-label">Prénom</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" placeholder="'.$user->getFirstname().'" readonly>
+                        <div class="col-sm-2">
+                          <input type="text" class="form-control" name="firstName" value="<?= $user->getFirstname(); ?>" <?= $read ?>>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputName2" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control" placeholder="'.$user->getEmail().'" readonly>
+                        <div class="col-sm-2">
+                          <input type="email" class="form-control" name="email" value="<?= $user->getEmail(); ?>" <?= $read ?>>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputExperience" class="col-sm-2 col-form-label">Rôle</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" placeholder="'.$user->getRole()->getLabel().'" readonly>
+                        <div class="col-sm-2">
+                          <input type="text" class="form-control" value="<?= $user->getRole()->getLabel(); ?>" readonly>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputSkills" class="col-sm-2 col-form-label pe-none">Nombre de tâche</label>
                         <div class="col-sm-1">
-                            <div class="btn-dark form-control d-flex justify-content-center"><h5><strong>'.$task[0]->getTasks().'</strong></h5></div>
+                            <div class="btn-dark form-control d-flex justify-content-center"><h5><strong><?= $task[0]->getTasks(); ?></strong></h5></div>
                         </div>
                       </div>
+                      <div class="d-flex">
+                      <button type="submit" class="btn btn-success" style="display: <?= $displaySubmit; ?>" >Valider</button></form>
+                            <form method="post" action=".?route=profil&action=modif"><button type="submit" class="btn btn-primary" style="display: <?= $displayModif; ?>">Modifier</button></form>
+                            <button class="btn btn-warning ml-1" onclick="javascript:window.history.back(-1);return false;" style="display: <?= $displaySubmit; ?>">Retour</button>
+                        </div>
                       </div>
-                    </form>
                   </div>
                   <!-- /.tab-pane -->
                 </div>
@@ -50,7 +53,6 @@ echo '<section class="content">
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
-    </section>';
-?>
+    </section>
 
 <?php include ('../page/template/footer.php'); ?>
