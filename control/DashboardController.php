@@ -24,6 +24,7 @@ class DashboardController
             $graphTasksNotDone = Tasks::taskByNotDoneDate();
             $allTask = Tasks::getAllTask();
             $nbAllTask = Tasks::count('1'); // on met '1' lorsqu'on à pas de condition
+            $avgWorkDuration = Tasks::getAVGWorkDuration();
         }
         else
         {

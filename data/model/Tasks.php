@@ -91,6 +91,18 @@ class Tasks extends Model
             intval($this->Task12)
         );
     }
+
+    private function convertToArrayOfInt2()
+    {
+        return array(
+            intval($this->AVG1)/3600,
+            intval($this->AVG2)/3600,
+            intval($this->AVG3)/3600,
+            intval($this->AVG4)/3600,
+            intval($this->AVG5)/3600
+        );
+    }
+
     // Retourne un objet instance de la classe Tasks, d'une tâche non réalisé
     public static function getAllTasksNotDone()
     {
@@ -147,5 +159,17 @@ class Tasks extends Model
         return Connection::safeQuery($request,[],get_called_class())[0]->convertToArrayOfInt();
     }
 
+    public static function getAVGWorkDuration()
+    {
+        $request='SELECT 
+       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 2 AND workDuration IS NOT NULL) AS "AVG1",
+       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 3 AND workDuration IS NOT NULL) AS "AVG2",
+       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 1 AND workDuration IS NOT NULL) AS "AVG3",
+       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 4 AND workDuration IS NOT NULL) AS "AVG4",
+       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 5 AND workDuration IS NOT NULL) AS "AVG5"
+       ';
+
+        return Connection::safeQuery($request,[],get_called_class())[0]->convertToArrayOfInt2();
+    }
 
 }

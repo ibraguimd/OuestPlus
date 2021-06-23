@@ -66,17 +66,21 @@ echo $html ;
                 type: 'pie',
                 data: {
                     labels: [
-                        'Red',
-                        'Blue',
-                        'Yellow'
+                        'Service de maintenance informatique',
+                        'Service de maintenance technique',
+                        'Employé',
+                        'Ressources Humaines',
+                        'Direction'
                     ],
                     datasets: [{
-                        label: 'My First Dataset',
-                        data: [300, 50, 100],
+                        label: ['Moyenne par rôle'],
+                        data: <?= json_encode($avgWorkDuration) ?>,
                         backgroundColor: [
                             'rgb(255, 99, 132)',
                             'rgb(54, 162, 235)',
-                            'rgb(255, 205, 86)'
+                            'rgb(255, 205, 86)',
+                            'rgb(58, 255, 51)',
+                            'rgb(230, 24, 236)'
                         ],
                         hoverOffset: 4
                     }]
