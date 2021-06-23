@@ -72,11 +72,10 @@ class TaskListController
         $user = unserialize($_SESSION['user']);
         $result = Tasks::update($request);
         $allTasks = Tasks::getAllTasksNotDone($user->getId());
-
         $histories = [
             'datetime'=> date("Y-m-d"),
             'description' => $request['description'],
-            'task_id' => $request['idTask'],
+            'task_id' => $request['id'],
             'user_id' => $user->getId()
             ];
         Tasks::histories($histories);

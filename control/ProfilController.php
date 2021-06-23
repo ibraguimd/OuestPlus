@@ -42,7 +42,12 @@ class ProfilController
     private static function editAction($request)
     {
         $user = unserialize($_SESSION['user']);
-        Users::updateUser($request['lastName'],$request['firstName'],$request['email'],$user->getId());
+
+        $user->setLastName($request['lastName']);
+        $user->setFirstName($request['firstName']);
+        $user->setEmail($request['email']);
+        $user->save();
+        $_SESSION['user']=serialize($user);
         header('Location:.?route=profil');
     }
 }

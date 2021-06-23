@@ -22,31 +22,31 @@ class DashboardUtils
         if ($user->can('displayUsersByRole')){
             $html.='<div class="card-footer">
                 <div class="row">
-                    <div class="col-sm-3 border-right">
+                    <div class="col-sm border-right">
                         <div class="description-block">
                             <h5 class="description-header">Nombre d\'employés</h5>
                             <span class="description-text">'.$nbEmploye.'</span>
                         </div>
                     </div>
-                    <div class="col-sm-3 border-right">
+                    <div class="col-sm border-right">
                         <div class="description-block">
                             <h5 class="description-header">Nombre d\'employés du service de maintenance informatique</h5>
                             <span class="description-text">'.$nbServiceInfo.'</span>
                         </div>
                     </div>
-                    <div class="col-sm-3 border-right">
+                    <div class="col-sm border-right">
                         <div class="description-block">
                             <h5 class="description-header">Nombre d\'employés du service de maintenance technique</h5>
                             <span class="description-text">'.$nbServiceTech.'</span>
                         </div>
                     </div>
-                    <div class="col-sm-3 border-right">
+                    <div class="col-sm border-right">
                         <div class="description-block">
                             <h5 class="description-header">Nombre d\'employés du service ressources humaines</h5>
                             <span class="description-text">'.$nbEmployeRh.'</span>
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm">
                         <div class="description-block">
                             <h5 class="description-header">Nombre de membres de la direction de l\'entreprise</h5>
                             <span class="description-text">'.$nbDirection.'</span>

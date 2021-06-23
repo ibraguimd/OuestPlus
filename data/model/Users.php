@@ -12,11 +12,11 @@ class Users extends Model
     /**
      * @var string
      */
-    private $firstname;
+    private $firstName;
     /**
      * @var string
      */
-    private $lastname;
+    private $lastName;
     /**
      * @var string
      */
@@ -25,14 +25,6 @@ class Users extends Model
      * @var string
      */
     private $password;
-    /**
-     * @var boolean
-     */
-    private $isAdmin;
-    /**
-     * @var Roles
-     */
-    // private $role;
 
     public static function findOneWithCredentials($userEmail,$userPwd)
     {
@@ -64,16 +56,23 @@ class Users extends Model
     /**
      * @return string
      */
-    public function getFirstname(): string
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
+    /**
+     * @return string
+     */
+    public function setFirstName(string $firstName): void
+    {
+        $this->firstName = $firstName;
+    }
 
     /**
      * @return string
      */
-    public function getLastname(): string
+    public function getLastName(): string
     {
         return $this->lastName;
     }
@@ -81,9 +80,9 @@ class Users extends Model
     /**
      * @param string $lastname
      */
-    public function setLastname(string $lastname): void
+    public function setLastname(string $lastName): void
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
     }
 
     /**
@@ -136,6 +135,11 @@ class Users extends Model
     public function can($label)
     {
         return $this->getRole()->can($label);
+    }
+
+    public function save()
+    {
+        self::updateUser($this->getLastName(),$this->getFirstName(),$this->getEmail(),$this->getId());
     }
 
 
