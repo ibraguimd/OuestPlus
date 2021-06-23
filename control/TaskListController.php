@@ -28,8 +28,11 @@ class TaskListController
     {
         $tabTitle="Liste des tâches";
         $user = unserialize($_SESSION['user']);
+        $displayAllTasks = $user->can('displayAllTask');
+        $displayOwnTasks = $user->can('displayOwnTask');
         if ($user->can('displayOwnTask'))
         {
+            $ownTasks = Tasks::where('user_id='.$user->getId());
             if ($user->can('displayAllTask')){
                 $allTasks = Tasks::getAllTasksNotDone($user->getId());
             }

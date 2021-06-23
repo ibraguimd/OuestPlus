@@ -80,10 +80,72 @@ if(isset($taskToAssign))
 }
     ?>
 
+<?php
+if (!empty($displayOwnTasks)) {
 
+
+
+    ?>
+    <div class="col-sm-12">
+        <div class="card-body">
+            <h3 class="bg-dark d-flex justify-content-center w-25 shadow rounded">Mes tâches</h3>
+            <table id="example" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Tâches</th>
+                    <th>Description</th>
+                    <th>Date de création</th>
+                    <th>Date prévue de la réalisation</th>
+                    <th>Date effective de la réalisation</th>
+                    <th>Durée du travail</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                foreach($ownTasks as $ownTask){
+                    echo '<tr>';
+                    echo '<td>'.$ownTask->getTitle().'</td>';
+                    echo '<td>'.$ownTask->getDescription().'</td>';
+//                echo '<td>'.$task->getLocation().'</td>';
+                    if (!empty($ownTask->getScheduledDate()))
+                    {
+                        $scheduledDate = date('d-m-Y',strtotime($ownTask->getScheduledDate()));
+                    }
+                    else
+                    {
+                        $scheduledDate = "";
+                    }
+                    if (!empty($ownTask->getScheduledDate()))
+                    {
+                        $doneDate = date('d/m/Y',strtotime($ownTask->getDoneDate()));
+                    }
+                    else
+                    {
+                        $doneDate = "";
+                    }
+                    echo '<td>'.date("d/m/Y",strtotime($ownTask->getCreationDate())).'</td>';
+                    echo '<td>'.$scheduledDate.'</td>';
+                    echo '<td>'.$doneDate.'</td>';
+                    echo '<td>'.$ownTask->getWorkDuration().'</td>';
+                    echo '</tr>';
+
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<?php } ?>
+
+<?php
+if (!empty($displayAllTasks)) {
+
+
+
+?>
     <div class="col-sm-12">
 <div class="card-body">
-
+    <h3 class="bg-dark d-flex justify-content-center w-25 shadow rounded">Liste de toutes les tâches</h3>
     <table id="example" class="table table-bordered table-hover">
         <thead>
         <tr>
@@ -143,5 +205,5 @@ if(isset($taskToAssign))
     </table>
 </div>
 </div>
-
+<?php } ?>
 <?php include ('../page/template/footer.php'); ?>
