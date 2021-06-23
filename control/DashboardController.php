@@ -37,9 +37,11 @@ class DashboardController
 
         if ($user->can('displayUsersByRole'))
         {
-            $nbEmployee= Users::getNbEmployee()[0]->nbEmployee;
-            $nbService= Users::getNbService()[0]->nbService;
-            $nbDirection= Users::getNbDirection()[0]->nbDirection;
+            $nbEmploye= Users::getNbEmploye();
+            $nbEmployeServiceInfo= Users::getNbEmployeServiceInfo();
+            $nbEmployeServiceTech= Users::getNbEmployeServiceTech();
+            $nbDirection= Users::getNbDirection();
+            $nbEmployeRH= Users::getNbEmployeRH();
         }
 
         $tabTitle="Dashboard";

@@ -111,7 +111,7 @@ class TaskListController
         {
             $allTasks = Tasks::getAllTasksNotDone($user->getId());
             Tasks::assign($request['user_id'],$request['idTask']);
-            $tasks = Tasks::getAllTasksNotDone($user->getId());
+
         }
         else
         {

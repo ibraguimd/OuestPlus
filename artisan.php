@@ -249,7 +249,8 @@ function artisan_seed_minimum() {
     // second : On insére des données dans les tables (seed)
     function seedRoles(){
         echo "ADD RECORDS IN TABLE roles : ";
-        $roles=['Employee','Service de maintenance','Direction de l\'entreprise','Administrateur'];
+        $roles=['Employé','Employé du service de maintenance informatique','Employé du service de maintenance technique','Employé du service ressources humaines',
+            'Direction de l\'entreprise','Administrateur'];
         foreach ($roles as $role) {
             Roles::create(['label'=>$role]);
             echo '-';
@@ -268,7 +269,7 @@ function artisan_seed_minimum() {
                 'lastName' => $lastName,
                 'email' => $email,
                 'password' => sha1('pwsio'),
-                'role_id' => $faker->numberBetween(1,3)
+                'role_id' => $faker->numberBetween(1,5)
             ];
 
             // On vérifie qu'il n'existe déjà pas dans la BDD
@@ -293,25 +294,9 @@ function artisan_seed_minimum() {
             'lastName' => 'SIO',
             'email' => 'usersio@test.fr',
             'password' => sha1('pwsio'),
-            'role_id' => 4
+            'role_id' => 6
         ];
        Users::create($user);
-        echo "-";
-    }
-
-    function seedDirecteur(){
-        $faker = Faker\Factory::create('fr_FR');
-        $firstName=$faker->firstName();
-        $lastName=$faker->lastName();
-        $email=strtolower(utf8_decode($firstName[0])).'.'.strtolower(utf8_decode($lastName)).'@test.fr';
-        $directeur = [
-            'firstname' => $firstName,
-            'lastname' => $lastName,
-            'email' => $email,
-            'password' => sha1('pwsio'),
-            'role_id' => 3
-        ];
-        Users::create($directeur);
         echo "-";
     }
 
@@ -319,7 +304,6 @@ function artisan_seed_minimum() {
     {
         echo "ADD RECORDS IN TABLE user : ";
         seedUserSIO();
-        seedDirecteur();
         seedRandomUser($nbUsers);
     }
 
@@ -501,13 +485,15 @@ function artisan_seed_minimum() {
     function seedCapacityRoles()
     {
         echo "ADD RECORDS IN TABLE capacity role : ";
-        for ($i=0;$i<20;$i++)
+        for ($i=0;$i<27;$i++)
         {
             /** Role_id
-             *  4 --> Administrateur
-             *  3 --> Direction de l'entreprise
-             *  2 --> Service de maintenance
-             *  1 --> Enmployé
+             *  6 --> Administrateur
+             *  5 --> Direction de l'entreprise
+             *  4 --> Employé du service ressources humaines
+             *  3 --> Employé du service de maintenance technique
+             *  2 --> Employé du service de maintenance info
+             *  1 --> Employé
              *
              *  Capacity_id
              *  1 --> Peut ajouter des tâches
@@ -520,8 +506,29 @@ function artisan_seed_minimum() {
              *  8 --> Peut afficher toutes les tâches
              */
 
-            $roleId=[4,4,4,4,4,4,4,4,3,3,3,3,3,2,2,2,2,2,1,1];
-            $capacityId=[1,2,3,4,5,6,7,8,1,5,6,7,8,1,2,4,6,8,1,6];
+            // Ajout des capacités pour l'admin
+            $roleId=[6,6,6,6,6,6,6,6];
+            $capacityId=[1,2,3,4,5,6,7,8];
+
+            //Ajout des capacités pour la direction
+            array_push($roleId,5,5,5,5,5);
+            array_push($capacityId,1,5,6,7,8);
+
+            //Ajout des capacités pour les employés du service ressources humaines
+            array_push($roleId,4,4);
+            array_push($capacityId,1,6);
+
+            //Ajout des capacités pour les employés du service de maintenance technique
+            array_push($roleId,3,3,3,3,3);
+            array_push($capacityId,1,2,4,6,8);
+
+            //Ajout des capacités pour les employés du service de maintenance informatique
+            array_push($roleId,2,2,2,2,2);
+            array_push($capacityId,1,2,4,6,8);
+
+            //Ajout des capacités pour les employés
+            array_push($roleId,1,1);
+            array_push($capacityId,1,6);
 
             $capacitiesRoles= [
                 'role_id' => $roleId[$i],

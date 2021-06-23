@@ -2,13 +2,11 @@
 
 <?php if($user->can('displayUsersByRole'))
 {
-    $html=DashboardUtils::welcome($user->getFirstName(),$user->getLastName(),$nbEmployee,$nbService,$nbDirection);
+    $html=DashboardUtils::welcome($user->getFirstName(),$user->getLastName(),$nbEmploye,$nbEmployeServiceInfo,$nbEmployeServiceTech,$nbEmployeRH,$nbDirection);
 }
 else{
     $html=DashboardUtils::welcome($user->getFirstName(),$user->getLastName());
 }
-
-
 
 echo $html ;
 ?>

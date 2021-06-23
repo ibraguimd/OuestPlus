@@ -140,34 +140,34 @@ class Users extends Model
 
 
 
-    public function nbServiceDeMaintenance()
-    {
-        $request = ' SELECT COUNT(*) AS nbEmployee FROM `users` WHERE role_id=2' ;
-        return Connection::safeQuery($request,[],get_called_class());
-    }
-    public function nbDirection()
-    {  $request = ' SELECT COUNT(*) AS nbEmployee FROM `users` WHERE role_id=3' ;
-        return Connection::safeQuery($request,[],get_called_class());
-        $request = ' SELECT COUNT(*) AS nbEmployee FROM `users` WHERE role_id=3' ;
-        return Connection::safeQuery($request,[],get_called_class());
-    }
-
-    public static function getNbEmployee()
+    public static function getNbEmploye()
     {
         $request = 'SELECT COUNT(*) AS nbEmployee FROM `users` WHERE role_id=1';
-        return Connection::safeQuery($request,[],get_called_class());
+        return Connection::safeQuery($request,[],get_called_class())[0]->nbEmployee;
     }
 
-    public static function getNbService()
+    public static function getNbEmployeServiceInfo()
     {
-        $request = 'SELECT COUNT(*) AS nbService FROM `users` WHERE role_id=2';
-        return Connection::safeQuery($request,[],get_called_class());
+        $request = ' SELECT COUNT(*) AS nbEmployeeServiceInfo FROM `users` WHERE role_id=2' ;
+        return Connection::safeQuery($request,[],get_called_class())[0]->nbEmployeeServiceInfo;
+    }
+
+    public static function getNbEmployeServiceTech()
+    {
+        $request = 'SELECT COUNT(*) AS nbEmployeServiceTech FROM `users` WHERE role_id=3';
+        return Connection::safeQuery($request,[],get_called_class())[0]->nbEmployeServiceTech;
+    }
+
+    public static function getNbEmployeRH()
+    {
+        $request = 'SELECT COUNT(*) AS nbEmployeRH FROM `users` WHERE role_id=4';
+        return Connection::safeQuery($request,[],get_called_class())[0]->nbEmployeRH;
     }
 
     public static function getNbDirection()
     {
-        $request = 'SELECT COUNT(*) AS nbDirection FROM `users` WHERE role_id=3';
-        return Connection::safeQuery($request,[],get_called_class());
+        $request = 'SELECT COUNT(*) AS nbDirection FROM `users` WHERE role_id=5';
+        return Connection::safeQuery($request,[],get_called_class())[0]->nbDirection;
     }
 
     public static function updateUser($lastName,$firstName,$email,$userId)
