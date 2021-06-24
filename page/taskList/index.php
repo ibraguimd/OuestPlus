@@ -172,7 +172,6 @@ if (!empty($displayAllTasks)) {
                 echo '<tr>';
                 echo '<td>'.$allTasksNotDone->getTitle().'</td>';
                 echo '<td>'.$allTasksNotDone->getDescription().'</td>';
-//                echo '<td>'.$task->getLocation().'</td>';
                 if (!empty($allTasksNotDone->getScheduledDate()))
                 {
                     $scheduledDate = date('d-m-Y',strtotime($allTasksNotDone->getScheduledDate()));

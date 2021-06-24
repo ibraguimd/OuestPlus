@@ -401,7 +401,7 @@ function artisan_seed_minimum() {
             $workDuration = null;
             $departmentId = $faker->numberBetween(1,500);
             $locationId = $faker->numberBetween(1,20);
-            $creatorUserId = $faker->numberBetween(1,1000);
+            $userId = $faker->numberBetween(1,1000);
             $assignUserId = null;
             $task = [
                 'title' => $title,
@@ -412,7 +412,7 @@ function artisan_seed_minimum() {
                 'workDuration' => $workDuration,
                 'department_id' => $departmentId,
                 'location_id' => $locationId,
-                'user_id' => $creatorUserId,
+                'user_id' => $userId,
                 'assign_user_id' => $assignUserId
             ];
 
@@ -438,7 +438,7 @@ function artisan_seed_minimum() {
             $departmentId = $faker->numberBetween(1,500);
             $locationId = $faker->numberBetween(1,20);
             $userId = $faker->numberBetween(1,1000);
-            $assignUserId = null;
+            $assignUserId = $faker->numberBetween(1,1000);
             $task = [
                 'title' => $title,
                 'description' => $description,
