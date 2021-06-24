@@ -26,7 +26,7 @@ echo $html ;
 
     <script>
 
-        function chartJs()
+        function 3chartJs()
         {
             var ctx = document.getElementById('myChart').getContext('2d');
             var myChart = new Chart(ctx, {

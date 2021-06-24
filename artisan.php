@@ -150,7 +150,8 @@ function artisan_migrate_minimum() {
         workDuration TIME,
         location_id int REFERENCES locations(id),
         department_id int REFERENCES departments(id),
-        user_id int REFERENCES users(id)
+        creator_user_id int REFERENCES users(id),
+        assign_user_id int REFERENCES users(id)
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
@@ -207,8 +208,15 @@ $request =  'ALTER TABLE tasks
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
     $request =  'ALTER TABLE tasks
-                ADD CONSTRAINT fk2_user_id
-                FOREIGN KEY (user_id) REFERENCES users(id)
+                ADD CONSTRAINT fk1_creator_user_id
+                FOREIGN KEY (creator_user_id) REFERENCES users(id)
+                ON DELETE RESTRICT
+                ON UPDATE RESTRICT;';
+    echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
+    $request =  'ALTER TABLE tasks
+                ADD CONSTRAINT fk1_assign_user_id
+                FOREIGN KEY (assign_user_id) REFERENCES users(id)
                 ON DELETE RESTRICT
                 ON UPDATE RESTRICT;';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
@@ -393,7 +401,8 @@ function artisan_seed_minimum() {
             $workDuration = null;
             $departmentId = $faker->numberBetween(1,500);
             $locationId = $faker->numberBetween(1,20);
-            $userId = $faker->numberBetween(1,1000);
+            $creatorUserId = $faker->numberBetween(1,1000);
+            $assignUserId = null;
             $task = [
                 'title' => $title,
                 'description' => $description,
@@ -403,7 +412,8 @@ function artisan_seed_minimum() {
                 'workDuration' => $workDuration,
                 'department_id' => $departmentId,
                 'location_id' => $locationId,
-                'user_id' => $userId
+                'creator_user_id' => $creatorUserId,
+                'assign_user_id' => $assignUserId
             ];
 
             // Make sure it dosen't aleadry exists
@@ -427,7 +437,8 @@ function artisan_seed_minimum() {
             $workDuration = $faker->time();
             $departmentId = $faker->numberBetween(1,500);
             $locationId = $faker->numberBetween(1,20);
-            $userId = $faker->numberBetween(1,1000);
+            $creatorUserId = $faker->numberBetween(1,1000);
+            $assignUserId = null;
             $task = [
                 'title' => $title,
                 'description' => $description,
@@ -437,7 +448,8 @@ function artisan_seed_minimum() {
                 'workDuration' => $workDuration,
                 'department_id' => $departmentId,
                 'location_id' => $locationId,
-                'user_id' => $userId
+                'creator_user_id' => $creatorUserId,
+                'assign_user_id' => $assignUserId
             ];
 
             // Make sure it dosen't aleadry exists
