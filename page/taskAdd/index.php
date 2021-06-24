@@ -29,6 +29,7 @@
                         <div class="form-group form-inline">
                             <input type="hidden" name="creationDate" class="form-control" value="<?php echo date("Y-m-d"); ?>">
                             <input type="hidden" name="department_id" value="<?= rand(1,30) ?>">
+                            <input type="hidden" name="user_id" value="<?= $user->getId() ?>">
                         </div>
                         <div class="form-group col-sm-1">
                         <button type="submit" class="form-control btn btn-block btn-dark btn-sm">Valider</button>

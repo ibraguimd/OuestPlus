@@ -32,7 +32,7 @@ class TaskListController
         $displayOwnTasks = $user->can('displayOwnTask');
         if ($user->can('displayOwnTask'))
         {
-            $ownTasks = Tasks::where('creator_user_id='.$user->getId());
+            $ownTasks = Tasks::where('user_id='.$user->getId());
             if ($user->can('displayAllTask')){
                 $allTasksNotDones = Tasks::getAllTasksNotDone();
                 $allTasksDones = Tasks::getAllTasksDone();

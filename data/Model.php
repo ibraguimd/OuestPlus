@@ -52,7 +52,7 @@ class Model
     }
 
     public static function find($id){
-        return self::where('id ='.$id)[0];
+        return self::where(' id ='.$id)[0];
     }
 
 
