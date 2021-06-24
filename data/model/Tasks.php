@@ -94,12 +94,13 @@ class Tasks extends Model
 
     private function convertToArrayOfInt2()
     {
+        $hour = 3600;
         return array(
-            intval($this->AVG1)/3600,
-            intval($this->AVG2)/3600,
-            intval($this->AVG3)/3600,
-            intval($this->AVG4)/3600,
-            intval($this->AVG5)/3600
+            round(intval($this->AVG1)/$hour,2),
+            round(intval($this->AVG2)/$hour,2),
+            round(intval($this->AVG3)/$hour,2),
+            round(intval($this->AVG4)/$hour,2),
+            round(intval($this->AVG5)/$hour,2)
         );
     }
 
@@ -107,6 +108,12 @@ class Tasks extends Model
     public static function getAllTasksNotDone()
     {
         $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NULL';
+        return Connection::safeQuery($request,[],get_called_class());
+    }
+
+    public static function getAllTasksDone()
+    {
+        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NOT NULL';
         return Connection::safeQuery($request,[],get_called_class());
     }
 

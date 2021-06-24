@@ -24,7 +24,7 @@ class ProfilController
         $displaySubmit = "none";
         $read = "readonly";
         $user = unserialize($_SESSION['user']);
-        $task = Tasks::tasksNumberNotDone($user->getId());
+        $task = Tasks::count(' user_id ='.$user->getId());
         include('../page/profil/index.php');
     }
 

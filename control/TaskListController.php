@@ -34,7 +34,8 @@ class TaskListController
         {
             $ownTasks = Tasks::where('user_id='.$user->getId());
             if ($user->can('displayAllTask')){
-                $allTasks = Tasks::getAllTasksNotDone($user->getId());
+                $allTasksNotDones = Tasks::getAllTasksNotDone();
+                $allTasksDones = Tasks::getAllTasksDone();
             }
 
             include('../page/taskList/index.php');
@@ -89,7 +90,7 @@ class TaskListController
         if ($user->can('assignTask'))
         {
             $allTasks = Tasks::getAllTasksNotDone($user->getId());
-            $directions = Users::where('role_id ='.$user->getRole()->getId());
+            $maintenances = Users::where('role_id IN (2,3)');
             $idTask=$request['id'];
             $taskToAssign=Tasks::find($idTask);
         }

@@ -32,7 +32,7 @@
                       <div class="form-group row">
                         <label for="inputSkills" class="col-sm-2 col-form-label pe-none">Nombre de tâche</label>
                         <div class="col-sm-1">
-                            <div class="btn-dark form-control d-flex justify-content-center"><h5><strong><?= $task[0]->getTasks(); ?></strong></h5></div>
+                            <div class="btn-dark form-control d-flex justify-content-center"><h5><strong><?= $task[0]->getTasks() ?></strong></h5></div>
                         </div>
                       </div>
                       <div class="d-flex">
