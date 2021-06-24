@@ -47,7 +47,7 @@ class Model
 
     public static function assign($userId,$idTask)
     {
-        $request = 'UPDATE '.self::_getTable().' SET '.' user_id=?'.' WHERE id=?';
+        $request = 'UPDATE '.self::_getTable().' SET '.' assign_user_id=?'.' WHERE id=?';
         return Connection::safeQuery($request,[$userId,$idTask],get_called_class());
     }
 

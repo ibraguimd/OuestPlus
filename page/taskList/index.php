@@ -4,6 +4,9 @@
 if(isset($alert)){
     echo $alert;
 }
+
+// $alert est une variable vide sauf si dans le controller la variable est chargé.
+
 if(isset($taskToUpdate))
 {
     echo '<div class="col-sm-12">';
@@ -154,6 +157,7 @@ if (!empty($displayAllTasks)) {
 <!--            <th>Localisation</th>-->
             <th>Date de création</th>
             <th>Date prévue de la réalisation</th>
+            <th>Responsable de la tâche</th>
             <?php
             if($user->can('updateTask') or $user->can('assignTask') or $user->can('deleteTask')){
                 echo '<th>Actions</th>';
@@ -187,6 +191,7 @@ if (!empty($displayAllTasks)) {
                 }
                 echo '<td>'.date("d/m/Y",strtotime($allTasksNotDone->getCreationDate())).'</td>';
                 echo '<td>'.$scheduledDate.'</td>';
+                echo '<td>'.$allTasksNotDone->getAssignUserFirstName().' '.$allTasksNotDone->getAssignUserLastName().'</td>';
                 if($user->can('updateTask')){
                     echo '<td class="d-flex"><form class="w-50" method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$allTasksNotDone->getId().'" name="id">'.'<i class="far fa-edit"></i>'.'</button>'.'</form><br/>';
                     if($user->can('assignTask')){

@@ -74,6 +74,23 @@ class Tasks extends Model
         return $this->location->getLabel();
     }
 
+    public function getAssignUserId()
+    {
+        return $this->assign_user_id;
+    }
+
+    public function getAssignUserFirstName()
+    {
+        $this->assign_user_firstName= Users::find($this->getAssignUserId());
+        return $this->assign_user_firstName->getFirstName();
+    }
+
+    public function getAssignUserLastName()
+    {
+        $this->assign_user_lastName= Users::find($this->getAssignUserId());
+        return $this->assign_user_lastName->getFirstName();
+    }
+
     private function convertToArrayOfInt()
     {
         return array(
@@ -107,7 +124,10 @@ class Tasks extends Model
     // Retourne un objet instance de la classe Tasks, d'une tâche non réalisé
     public static function getAllTasksNotDone()
     {
-        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NULL';
+        $request = 'SELECT '.strtolower(self::class).'.*,locations.label, users.firstName, users.lastName FROM '.strtolower(self::class).
+            ' JOIN locations ON tasks.location_id=locations.id 
+            JOIN users ON tasks.assign_user_id=users.id 
+            WHERE doneDate IS NULL';
         return Connection::safeQuery($request,[],get_called_class());
     }
 
