@@ -118,9 +118,9 @@ class Tasks extends Model
     }
 
 
-    public static function tasksNumberNotDone($userId)
+    public static function tasksNumberNotDone($creatorUserId)
     {
-        $request = 'SELECT COUNT(*) AS tasks FROM tasks WHERE user_id='.$userId.' AND doneDate IS NULL';
+        $request = 'SELECT COUNT(*) AS tasks FROM tasks WHERE creator_user_id='.$creatorUserId.' AND doneDate IS NULL';
         return Connection::safeQuery($request,[],get_called_class());
     }
 
@@ -169,11 +169,11 @@ class Tasks extends Model
     public static function getAVGWorkDuration()
     {
         $request='SELECT 
-       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 2 AND workDuration IS NOT NULL) AS "AVG1",
-       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 3 AND workDuration IS NOT NULL) AS "AVG2",
-       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 1 AND workDuration IS NOT NULL) AS "AVG3",
-       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 4 AND workDuration IS NOT NULL) AS "AVG4",
-       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 5 AND workDuration IS NOT NULL) AS "AVG5"
+       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.creator_user_id=users.id WHERE users.role_id = 2 AND workDuration IS NOT NULL) AS "AVG1",
+       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.creator_user_id=users.id WHERE users.role_id = 3 AND workDuration IS NOT NULL) AS "AVG2",
+       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.creator_user_id=users.id WHERE users.role_id = 1 AND workDuration IS NOT NULL) AS "AVG3",
+       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.creator_user_id=users.id WHERE users.role_id = 4 AND workDuration IS NOT NULL) AS "AVG4",
+       (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.creator_user_id=users.id WHERE users.role_id = 5 AND workDuration IS NOT NULL) AS "AVG5"
        ';
 
         return Connection::safeQuery($request,[],get_called_class())[0]->convertToArrayOfInt2();

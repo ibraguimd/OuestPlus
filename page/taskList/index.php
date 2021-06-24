@@ -63,7 +63,7 @@ if(isset($taskToAssign))
                     echo '<div class="form-group col-md-6">';
                     echo '<label>Employée de service</label>';
                     echo '<div class="form-group col-md-9">';
-                    echo '<select class="form-control" name="user_id">';
+                    echo '<select class="form-control" name="assign_user_id">';
                     foreach ($maintenances as $maintenance)
                     {
                         echo '<option value="'.$maintenance->getId().'">'.$maintenance->getFirstname().' '.$maintenance->getLastname().' - ['.$maintenance->getRole()->getLabel().']'.'</option>';
