@@ -15,7 +15,7 @@ class DashboardController
     {
         $user = unserialize($_SESSION['user']);
         $taskNotDone = Tasks::tasksNumberNotDone($user->getId());
-        $nbTaskDone = Tasks::count('creator_user_id='.$user->getId().' AND doneDate IS NOT NULL');
+        $nbTaskDone = Tasks::count('user_id='.$user->getId().' AND doneDate IS NOT NULL');
 
         if ($user->can('displayStat'))
         {

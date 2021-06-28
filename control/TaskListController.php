@@ -32,10 +32,12 @@ class TaskListController
         $displayOwnTasks = $user->can('displayOwnTask');
         if ($user->can('displayOwnTask'))
         {
-            $ownTasks = Tasks::where('user_id='.$user->getId());
+            $ownTasks = Tasks::getOwnTasks($user->getId());
+            $taskColor = "";
             if ($user->can('displayAllTask')){
                 $allTasksNotDones = Tasks::getAllTasksNotDone();
                 $allTasksDones = Tasks::getAllTasksDone();
+                $allTasksAssigns = Tasks::getAllTasksAssigns($user->getId());
             }
 
             include('../page/taskList/index.php');

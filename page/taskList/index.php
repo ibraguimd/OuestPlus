@@ -91,8 +91,8 @@ if (!empty($displayOwnTasks)) {
     ?>
     <div class="col-sm-12">
         <div class="card-body">
-            <h3 class="bg-dark d-flex justify-content-center col-sm-2 shadow rounded">Mes tâches</h3>
-            <table id="example" class="table table-bordered table-hover">
+            <h3 class="bg-dark d-flex justify-content-center col-sm-3 shadow rounded">Mes tâches créées</h3>
+            <table id="table4" class="table table-hover table-dark">
                 <thead>
                 <tr>
                     <th>Tâches</th>
@@ -101,15 +101,12 @@ if (!empty($displayOwnTasks)) {
                     <th>Date prévue de la réalisation</th>
                     <th>Date effective de la réalisation</th>
                     <th>Durée du travail</th>
+                    <th>Responsable de la tâche</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
                 foreach($ownTasks as $ownTask){
-                    echo '<tr>';
-                    echo '<td>'.$ownTask->getTitle().'</td>';
-                    echo '<td>'.$ownTask->getDescription().'</td>';
-//                echo '<td>'.$task->getLocation().'</td>';
                     if (!empty($ownTask->getScheduledDate()))
                     {
                         $scheduledDate = date('d-m-Y',strtotime($ownTask->getScheduledDate()));
@@ -126,10 +123,26 @@ if (!empty($displayOwnTasks)) {
                     {
                         $doneDate = "";
                     }
+                    if ($ownTask->getAssignUserFirstName() !== null and !empty($ownTask->getDoneDate()))
+                    {
+                        $taskColor = "bg-success text-dark";
+                    }
+                    elseif ($ownTask->getAssignUserFirstName() !== null and empty($ownTask->getDoneDate()))
+                    {
+                        $taskColor = "bg-warning text-dark";
+                    }
+                    else
+                    {
+                        $taskColor = "bg-danger text-dark";
+                    }
+                    echo '<tr class="'.$taskColor.'">';
+                    echo '<td>'.$ownTask->getTitle().'</td>';
+                    echo '<td>'.$ownTask->getDescription().'</td>';
                     echo '<td>'.date("d/m/Y",strtotime($ownTask->getCreationDate())).'</td>';
                     echo '<td>'.$scheduledDate.'</td>';
                     echo '<td>'.$doneDate.'</td>';
                     echo '<td>'.$ownTask->getWorkDuration().'</td>';
+                    echo '<td>'.$ownTask->getAssignUserFirstName().' '.$ownTask->getAssignUserLastName().'</td>';
                     echo '</tr>';
 
                 }
@@ -147,17 +160,75 @@ if (!empty($displayAllTasks)) {
 
 ?>
     <div class="col-sm-12">
+        <div class="card-body">
+            <h3 class="bg-dark d-flex justify-content-center col-sm-4 shadow rounded">Liste des tâches à réalisées</h3>
+            <table id="table3" class="table table-hover table-dark " data-sort-name="date data-sort-order="desc">
+            <thead>
+            <tr>
+                <th>Tâches</th>
+                <th>Description</th>
+                <th>Date de création</th>
+                <th>Créateur de la tâche</th>
+                <th>Responsable de la tâche</th>
+                <th>Date prévue de la réalisation</th>
+                <?php
+                if($user->can('updateTask') or $user->can('assignTask') or $user->can('deleteTask')){
+                    echo '<th>Actions</th>';
+                }
+                ?>
+
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach($allTasksAssigns as $allTasksAssign){
+                echo '<tr>';
+                echo '<td>'.$allTasksAssign->getTitle().'</td>';
+                echo '<td>'.$allTasksAssign->getDescription().'</td>';
+                if (!empty($allTasksAssign->getScheduledDate()))
+                {
+                    $scheduledDate = date('d-m-Y',strtotime($allTasksAssign->getScheduledDate()));
+                }
+                else
+                {
+                    $scheduledDate = "";
+                }
+                if (!empty($allTasksAssign->getScheduledDate()))
+                {
+                    $doneDate = date('d/m/Y',strtotime($allTasksAssign->getDoneDate()));
+                }
+                else
+                {
+                    $doneDate = "";
+                }
+                echo '<td>'.date("d/m/Y",strtotime($allTasksAssign->getCreationDate())).'</td>';
+                echo '<td>'.$allTasksAssign->getUserFirstName().' '.$allTasksAssign->getUserLastName().'</td>';
+                echo '<td>'.$allTasksAssign->getAssignUserFirstName().' '.$allTasksAssign->getAssignUserLastName().'</td>';
+                echo '<td>'.$scheduledDate.'</td>';
+                if($user->can('updateTask')){
+                    echo '<td class="d-flex"><form class="w-50" method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$allTasksAssign->getId().'" name="id">'.'<i class="far fa-edit"></i>'.'</button>'.'</form><br/>';
+                }
+                echo '</tr>';
+
+            }
+            ?>
+            </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
 <div class="card-body">
     <h3 class="bg-dark d-flex justify-content-center col-sm-4 shadow rounded">Liste des tâches non réalisées</h3>
-    <table id="example" class="table table-bordered table-hover">
+    <table id="table1" class="table table-hover table-dark " data-sort-name="date data-sort-order="desc">
         <thead>
         <tr>
             <th>Tâches</th>
             <th>Description</th>
-<!--            <th>Localisation</th>-->
             <th>Date de création</th>
-            <th>Date prévue de la réalisation</th>
+            <th>Créateur de la tâche</th>
             <th>Responsable de la tâche</th>
+            <th>Date prévue de la réalisation</th>
             <?php
             if($user->can('updateTask') or $user->can('assignTask') or $user->can('deleteTask')){
                 echo '<th>Actions</th>';
@@ -188,13 +259,26 @@ if (!empty($displayAllTasks)) {
                 {
                     $doneDate = "";
                 }
+                if (!empty($allTasksNotDone->getAssignUserFirstName()))
+                {
+                    $route = "";
+                    $value = "";
+                    $status = "disabled";
+                }
+                else
+                {
+                    $route = "?route=taskList&action=assign";
+                    $value = $allTasksNotDone->getId();
+                    $status = "";
+                }
                 echo '<td>'.date("d/m/Y",strtotime($allTasksNotDone->getCreationDate())).'</td>';
-                echo '<td>'.$scheduledDate.'</td>';
+                echo '<td>'.$allTasksNotDone->getUserFirstName().' '.$allTasksNotDone->getUserLastName().'</td>';
                 echo '<td>'.$allTasksNotDone->getAssignUserFirstName().' '.$allTasksNotDone->getAssignUserLastName().'</td>';
+                echo '<td>'.$scheduledDate.'</td>';
                 if($user->can('updateTask')){
                     echo '<td class="d-flex"><form class="w-50" method="post" action="?route=taskList&action=modif">'.'<button type="submit" class="btn btn-dark btn-sm" value="'.$allTasksNotDone->getId().'" name="id">'.'<i class="far fa-edit"></i>'.'</button>'.'</form><br/>';
                     if($user->can('assignTask')){
-                        echo '<form class="w-50" method="post" action="?route=taskList&action=assign">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$allTasksNotDone->getId().'" name="id">'.'<i class="fas fa-user-plus"></i>'.'</button>'.'</form></td>';
+                        echo '<form class="w-50" method="post" action="'.$route.'">'.'<button type="submit" class="btn btn-primary btn-sm" value="'.$value.'" name="id" '.$status.'>'.'<i class="fas fa-user-plus"></i>'.'</button>'.'</form></td>';
                     }
                 }
                 echo '</tr>';
@@ -209,7 +293,7 @@ if (!empty($displayAllTasks)) {
     <div class="col-sm-12">
         <div class="card-body">
             <h3 class="bg-dark d-flex justify-content-center col-sm-4 shadow rounded">Liste des tâches réalisées</h3>
-            <table id="example" class="table table-bordered table-hover">
+            <table id="table2" class="table table-hover table-dark">
                 <thead>
                 <tr>
                     <th>Tâches</th>
@@ -218,6 +302,8 @@ if (!empty($displayAllTasks)) {
                     <th>Date prévue de la réalisation</th>
                     <th>Date de réalisation effective</th>
                     <th>Durée du travail</th>
+                    <th>Créateur de la tâche</th>
+                    <th>Responsable de la tâche</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -247,6 +333,8 @@ if (!empty($displayAllTasks)) {
                     echo '<td>'.$scheduledDate.'</td>';
                     echo '<td>'.$allTasksDone->getDoneDate().'</td>';
                     echo '<td>'.$allTasksDone->getWorkDuration().'</td>';
+                    echo '<td>'.$allTasksDone->getUserFirstName().' '.$allTasksDone->getUserLastName().'</td>';
+                    echo  '<td>'.$allTasksDone->getAssignUserFirstName().' '.$allTasksDone->getAssignUserLastName().'</td>';
                     echo '</tr>';
 
                 }

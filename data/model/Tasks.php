@@ -45,8 +45,6 @@ class Tasks extends Model
         return $this->description;
     }
 
-
-
     public function getCreationDate()
     {
         return $this->creationDate;
@@ -77,6 +75,22 @@ class Tasks extends Model
     public function getAssignUserId()
     {
         return $this->assign_user_id;
+    }
+
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    public function getUserFirstName()
+    {
+        $this->user_firstName = Users::find($this->getUserId());
+        return $this->user_firstName->getFirstName();
+    }
+    public function getUserLastName()
+    {
+        $this->user_lastName = Users::find($this->getUserId());
+        return $this->user_lastName->getLastName();
     }
 
     public function getAssignUserFirstName()
@@ -116,7 +130,6 @@ class Tasks extends Model
             intval($this->Task12)
         );
     }
-
     private function convertToArrayOfInt2()
     {
         $hour = 3600;
@@ -132,16 +145,27 @@ class Tasks extends Model
     // Retourne un objet instance de la classe Tasks, d'une tâche non réalisé
     public static function getAllTasksNotDone()
     {
-        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NULL';
+        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NULL ORDER BY creationDate ASC';
         return Connection::safeQuery($request,[],get_called_class());
     }
 
     public static function getAllTasksDone()
     {
-        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NOT NULL';
+        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NOT NULL ORDER BY creationDate DESC';
         return Connection::safeQuery($request,[],get_called_class());
     }
 
+    public static function getAllTasksAssigns($userId)
+    {
+        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE assign_user_id ='.$userId.' AND doneDate IS NULL ORDER BY creationDate DESC';
+        return Connection::safeQuery($request,[],get_called_class());
+    }
+
+    public static function getOwnTasks($userId)
+    {
+        $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE user_id ='.$userId;
+        return Connection::safeQuery($request,[],get_called_class());
+    }
 
     public static function tasksNumberNotDone($userId)
     {
