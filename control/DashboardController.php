@@ -19,7 +19,7 @@ class DashboardController
         $user = unserialize($_SESSION['user']);
 
         // Récupère toutes les tâches non effectué
-        $taskNotDone = Tasks::tasksNumberNotDone($user->getId());
+        $taskNotDone = Tasks::count('user_id='.$user->getId().' AND doneDate IS NULL');
 
         // Récupère toutes les tâches effectué
         $nbTaskDone = Tasks::count('user_id='.$user->getId().' AND doneDate IS NOT NULL');

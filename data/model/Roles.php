@@ -52,6 +52,7 @@ class Roles extends Model
 
     public function can($label)
     {
+        // Permet de vériier si le rôle à la capacité de faire l'action demandé en paramètre qui est $label
         $capacity= Capacities::where('label="'.$label.'"')[0];
         $capacityRole = Capacities_Roles::where('role_id="'.$this->getId().'" AND capacity_id="'.$capacity->getId().'"');
         return (!empty($capacityRole));

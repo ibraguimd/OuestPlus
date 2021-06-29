@@ -13,7 +13,7 @@ echo $html ;
 
 <div class="d-flex justify-content-center">
 <?= SmallBox::success('Nombre de tâches effectuées',$nbTaskDone,'taskList'); ?>
-<?= SmallBox::warning('Tâches non effectuées',$taskNotDone[0]->getTasks(),'taskList'); ?>
+<?= SmallBox::warning('Tâches non effectuées',$taskNotDone,'taskList'); ?>
 
 </div>
 

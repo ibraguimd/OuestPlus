@@ -87,6 +87,7 @@ class Tasks extends Model
         $this->user_firstName = Users::find($this->getUserId());
         return $this->user_firstName->getFirstName();
     }
+
     public function getUserLastName()
     {
         $this->user_lastName = Users::find($this->getUserId());
@@ -95,6 +96,7 @@ class Tasks extends Model
 
     public function getAssignUserFirstName()
     {
+        // On vérifie si la tâche concerné est attribué à une personne en recherchant l'ID de celui ci
         if (!empty($this->getAssignUserId()))
         {
             $this->assign_user_firstName= Users::find($this->getAssignUserId());
@@ -105,6 +107,7 @@ class Tasks extends Model
 
     public function getAssignUserLastName()
     {
+        // On vérifie si la tâche concerné est attribué à une personne en recherchant l'ID de celui ci
         if (!empty($this->getAssignUserId()))
         {
         $this->assign_user_lastName= Users::find($this->getAssignUserId());
@@ -115,6 +118,8 @@ class Tasks extends Model
 
     private function convertToArrayOfInt()
     {
+        // Permet de convertir le tableaux obtenus par les fonction taskByDoneDate et taskByNotDoneDate en nombre entier.
+        // Ceci est nécessaire de convertir pour le JavaScript
         return array(
             intval($this->Task1),
             intval($this->Task2),
@@ -130,8 +135,10 @@ class Tasks extends Model
             intval($this->Task12)
         );
     }
-    private function convertToArrayOfInt2()
+    private function convertToArrayOfFloat()
     {
+        // Permet de convertir le tableaux obtenus par les fonction taskByDoneDate et taskByNotDoneDate en nombre à virgule.
+        // Ceci est nécessaire de convertir pour le JavaScript (diagramme camembert)
         $hour = 3600;
         return array(
             round(intval($this->AVG1)/$hour,2),
@@ -145,36 +152,42 @@ class Tasks extends Model
     // Retourne un objet instance de la classe Tasks, d'une tâche non réalisé
     public static function getAllTasksNotDone()
     {
+        // Permet d'obtenir toutes les tâches n'ayant aucune date de réalisation
         $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NULL ORDER BY creationDate ASC';
         return Connection::safeQuery($request,[],get_called_class());
     }
 
     public static function getAllTasksDone()
     {
+        // Permet d'obtenir toutes les tâches terminées
         $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE doneDate IS NOT NULL ORDER BY creationDate DESC';
         return Connection::safeQuery($request,[],get_called_class());
     }
 
     public static function getAllTasksAssigns($userId)
     {
+        // Permet d'obtenir les tâches qui ont été assignés, ce qui signifie qu'il y a un responsable de la tâche
         $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE assign_user_id ='.$userId.' AND doneDate IS NULL ORDER BY creationDate DESC';
         return Connection::safeQuery($request,[],get_called_class());
     }
 
     public static function getOwnTasks($userId)
     {
+        // Permet d'obtenir la/les tâche(s) de l'utilisateurs qui est connecté sur le site
         $request = 'SELECT '.strtolower(self::class).'.*,locations.label FROM '.strtolower(self::class).' JOIN locations ON tasks.location_id=locations.id WHERE user_id ='.$userId;
         return Connection::safeQuery($request,[],get_called_class());
     }
 
     public static function getAllTask()
     {
+        // Permet d'obtenir toutes les tâches
         $request = 'SELECT * FROM tasks';
         return Connection::safeQuery($request,[],get_called_class());
     }
 
     public static function taskByDoneDate()
     {
+        // Permet d'obtenir le nombre de tâche réaliser par année
         $request = 'SELECT
         (SELECT COUNT(*) FROM `tasks` WHERE YEAR(doneDate) = "'.date('Y', strtotime("-11 year")).'") AS "Task1",
         (SELECT COUNT(*) FROM `tasks` WHERE YEAR(doneDate) = "'.date('Y', strtotime("-10 year")).'") AS "Task2",
@@ -188,10 +201,14 @@ class Tasks extends Model
         (SELECT COUNT(*) FROM `tasks` WHERE YEAR(doneDate) = "'.date('Y', strtotime("-2 year")).'") AS "Task10",
         (SELECT COUNT(*) FROM `tasks` WHERE YEAR(doneDate) = "'.date('Y', strtotime("-1 year")).'") AS "Task11",
         (SELECT COUNT(*) FROM `tasks` WHERE YEAR(doneDate) = "'.date('Y').'") AS "Task12"';
+
+        // On utilise la fonction convertToArrayOfInt() créer précédemment en haut
+
         return Connection::safeQuery($request,[],get_called_class())[0]->convertToArrayOfInt();
     }
     public static function taskByNotDoneDate()
     {
+        // Permet d'obtenir le nombre de tâche non réalisé par année
         $request = 'SELECT
         (SELECT COUNT(*) FROM `tasks` WHERE YEAR(creationDate) = "'.date('Y', strtotime("-11 year")).'" AND doneDate IS NULL) AS "Task1",
         (SELECT COUNT(*) FROM `tasks` WHERE YEAR(creationDate) = "'.date('Y', strtotime("-10 year")).'" AND doneDate IS NULL) AS "Task2",
@@ -205,11 +222,16 @@ class Tasks extends Model
         (SELECT COUNT(*) FROM `tasks` WHERE YEAR(creationDate) = "'.date('Y', strtotime("-2 year")).'" AND doneDate IS NULL) AS "Task10",
         (SELECT COUNT(*) FROM `tasks` WHERE YEAR(creationDate) = "'.date('Y', strtotime("-1 year")).'" AND doneDate IS NULL) AS "Task11",
         (SELECT COUNT(*) FROM `tasks` WHERE YEAR(creationDate) = "'.date('Y').'" AND doneDate IS NULL) AS "Task12"';
+
+        // On utilise la fonction convertToArrayOfInt() créer précédemment en haut
+
         return Connection::safeQuery($request,[],get_called_class())[0]->convertToArrayOfInt();
     }
 
     public static function getAVGWorkDuration()
     {
+        // Permet d'obtenir la moyenne du temps passé à réaliser une tâche par services
+
         $request='SELECT 
        (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 2 AND workDuration IS NOT NULL) AS "AVG1",
        (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 3 AND workDuration IS NOT NULL) AS "AVG2",
@@ -218,7 +240,7 @@ class Tasks extends Model
        (SELECT (AVG(TIME_TO_SEC(workDuration))) AS moyenneTemps FROM `tasks` JOIN `users`ON tasks.user_id=users.id WHERE users.role_id = 5 AND workDuration IS NOT NULL) AS "AVG5"
        ';
 
-        return Connection::safeQuery($request,[],get_called_class())[0]->convertToArrayOfInt2();
+        return Connection::safeQuery($request,[],get_called_class())[0]->convertToArrayOfFloat();
     }
 
 }
