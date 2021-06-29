@@ -12,8 +12,8 @@ echo $html ;
 ?>
 
 <div class="d-flex justify-content-center">
-<?= SmallBox::success('Nombre de tâches effectuées',$nbTaskDone,'taskList'); ?>
-<?= SmallBox::warning('Tâches non effectuées',$taskNotDone,'taskList'); ?>
+<?= SmallBox::success('Nombre de tâches effectuées par l\'utilisateur',$nbTaskDone,'taskList'); ?>
+<?= SmallBox::warning('Tâches non effectuées par l\'utilisateur',$taskNotDone,'taskList'); ?>
 
 </div>
 
