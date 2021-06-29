@@ -13,8 +13,13 @@ class PageNotFoundController
     }
     private static function defaultAction()
     {
+        // Titre de la vue
         $tabTitle="Erreur 404";
+
+        // déserialise User
         $user = unserialize($_SESSION['user']);
+
+        // Récupère la route
         $route = $_GET['route'];
         include('../page/pageNotFound/index.php');
     }

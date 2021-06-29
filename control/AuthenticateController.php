@@ -4,6 +4,7 @@ class AuthenticateController{
 
     public static function switchAction($userAction){
         switch ($userAction){
+            // case à ajouter pour chaque nouvelle action souhaitée
             case "login":
                 $email=$_POST['email'];
                 $password=$_POST['password'];
@@ -21,6 +22,7 @@ class AuthenticateController{
         }
     }
 
+    // Action par défaut
     private static function defaultAction()
     {
         $tabTitle="Connexion";
@@ -28,6 +30,7 @@ class AuthenticateController{
         include('../page/authenticate/index.php');
     }
 
+    // Action Login après authentification
     private static function loginAction($email,$password)
     {
         // Appel du modèle pour chercher le mail et le mdp crypté dans la bdd
@@ -47,6 +50,7 @@ class AuthenticateController{
         }
     }
 
+    // Action Logout pour se déconnecter de la session
     private static function logoutAction()
     {
         // Code pour la déconnexion
@@ -55,6 +59,7 @@ class AuthenticateController{
         header('location:?route=authenticate');
     }
 
+    // Action non autorisé
     private static function unauthorizedAction(){
         $tabTitle='Erreur';
         include('../page/authenticate/unauthorized.php');

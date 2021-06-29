@@ -40,19 +40,9 @@
                             <form method="post" action=".?route=profil&action=modif"><button type="submit" class="btn btn-primary" style="display: <?= $displayModif; ?>">Modifier</button></form>
                             <button class="btn btn-warning ml-1" onclick="javascript:window.history.back(-1);return false;" style="display: <?= $displaySubmit; ?>">Retour</button>
                         </div>
-                      </div>
-                  </div>
-                  <!-- /.tab-pane -->
-                </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
-            </div>
-            <!-- /.nav-tabs-custom -->
-          </div>
-          <!-- /.col -->
-        </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
+    </form>
     </section>
 
 <?php include ('../page/template/footer.php'); ?>
