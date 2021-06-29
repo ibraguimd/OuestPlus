@@ -117,6 +117,11 @@ class Users extends Model
         $this->password = $password;
     }
 
+    public function isDirection()
+    {
+        return $this->getRole()->isDirection();
+    }
+
     /**
      * @return Roles
      */
@@ -125,11 +130,6 @@ class Users extends Model
     {
         $this->role= Roles::find($this->role_id);
         return $this->role;
-    }
-
-    public function isDirection()
-    {
-        return $this->getRole()->isDirection();
     }
 
     public function can($label)

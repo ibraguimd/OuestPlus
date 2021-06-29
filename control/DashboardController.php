@@ -14,8 +14,8 @@ class DashboardController
     private static function defaultAction()
     {
         $user = unserialize($_SESSION['user']);
-        $taskNotDone = Tasks::tasksNumberNotDone($user->getId());
-        $nbTaskDone = Tasks::count('user_id='.$user->getId().' AND doneDate IS NOT NULL');
+        $nbTaskNotDoneByUser = Tasks::count('assign_user_id='.$user->getId().' AND doneDate IS NULL');
+        $nbTaskDoneByUser = Tasks::count('assign_user_id='.$user->getId().' AND doneDate IS NOT NULL');
 
         if ($user->can('displayStat'))
         {

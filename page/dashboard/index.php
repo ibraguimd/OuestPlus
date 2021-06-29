@@ -12,8 +12,8 @@ echo $html ;
 ?>
 
 <div class="d-flex justify-content-center">
-<?= SmallBox::success('Nombre de tâches effectuées',$nbTaskDone,'taskList'); ?>
-<?= SmallBox::warning('Tâches non effectuées',$taskNotDone[0]->getTasks(),'taskList'); ?>
+<?= SmallBox::success('Nombre de tâches effectuées par l\'utilisateur',$nbTaskDoneByUser,'taskList'); ?>
+<?= SmallBox::warning('Nombre de tâches non effectuées par l\'utilisateur',$nbTaskNotDoneByUser,'taskList'); ?>
 
 </div>
 
@@ -43,7 +43,7 @@ echo $html ;
                         {
                             label: "Tâches non réalisées",
                             data: <?= json_encode($graphTasksNotDone) ?>,
-                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderColor: 'rgb(255,99,132)',
                             backgroundColor: 'rgba(255, 99, 132, 0.5)',
                             borderWidth: 1.5
                         }
@@ -55,6 +55,10 @@ echo $html ;
                         y: {
                             beginAtZero: true
                         }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Graphique d\'évolution du nombre de tâches traitées par ans et/ou par employé et/ou par service'
                     }
                 }
             });
@@ -64,6 +68,12 @@ echo $html ;
             var ctx = document.getElementById('myChart2');
             var myChart2 = new Chart(ctx, {
                 type: 'pie',
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Moyenne du temps passé à réaliser des tâches par services et par employé'
+                    }
+                },
                 data: {
                     labels: [
                         'Service de maintenance informatique',
@@ -73,14 +83,13 @@ echo $html ;
                         'Direction'
                     ],
                     datasets: [{
-                        label: ['Moyenne par rôle'],
                         data: <?= json_encode($avgWorkDuration) ?>,
                         backgroundColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(54, 162, 235)',
-                            'rgb(255, 205, 86)',
-                            'rgb(58, 255, 51)',
-                            'rgb(230, 24, 236)'
+                            'rgb(255,27,73)',
+                            'rgb(26,148,232)',
+                            'rgb(238,184,36)',
+                            'rgb(78,199,74)',
+                            'rgb(198,156,198)'
                         ],
                         hoverOffset: 4
                     }]

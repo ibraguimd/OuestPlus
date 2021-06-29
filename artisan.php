@@ -19,7 +19,14 @@ foreach (glob('./control/*.php') as $file) {
 
 include ('./page/fct_date.php');
 
+// La variable $faker permet de générer des données aléatoires
+// pour plus d'information, redirigez vous sur ce lien : https://fakerphp.github.io/
+
 $faker = Faker\Factory::create('fr_FR');
+
+// Dans le terminal, utiliser les commandes suivantes:
+//      - Pour créer des tables : "php artisan.php migrate"
+//      - Pour remplir les tables : "php artisan.php seed"
 
 switch ($argv[1]) {
     case "migrate" :
@@ -42,21 +49,19 @@ function artisan_migrate() {
 
 function artisan_seed() {
     artisan_seed_minimum();
-    artisan_seed_project();
 }
 
-
-//function artisan_migrate_project() {
-//    // Here is the begining of your project. You can create all the tables you need
-//    // A example is made with a table named "example"
+//Voici un exemple d'une création d'une table pour vous aider
 //
-//    // First :  drop the tables if exists
+//function artisan_migrate_project() {
+//
+//    // Premièrement : Supprimer vos tables existante
 //    echo "DROPPING ALL YOUR TABLES : ";
 //    echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
 //    echo (0 ==Connection::exec('DROP TABLE IF EXISTS example;')) ? '-' : 'x';
 //    echo (0 ==Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
 //
-//    // Second : create your tables
+//    // Deuxièmement : Créer vos tables
 //    echo "\nCREATING ALL YOUR TABLES : ";
 //    $request =  'CREATE TABLE IF NOT EXISTS example (
 //        id int AUTO_INCREMENT PRIMARY KEY,
@@ -64,25 +69,13 @@ function artisan_seed() {
 //        );';
 //    echo (0 ==Connection::exec($request)) ? '-' : 'x';
 //
-//    // Third : Alter tables to add Foreign Keys
+//    // Troisièmement : Ajouter des clés étrangères
 //    echo "\nADDING ALL YOUR FOREIGN KEYS : ";
 //    echo "\n";
 //
 //}
 
-function artisan_seed_project() {
-    // Here is the beginning of your project. You can seed all the tables you need
-    // A exemple is made with a table named "exemple"
 
-    // First : empty your tables 
-    echo "EMPTY ALL YOUR TABLES : ";
-    echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
-    echo (0 == Connection::exec('TRUNCATE example')) ? '-' : 'x';
-    echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
-    echo "\n";
-
-    // Thrid : calls the seeders functions here
-}
 
 
 function artisan_migrate_minimum() {
@@ -103,6 +96,7 @@ function artisan_migrate_minimum() {
     // Création des tables
     echo "\nCREATING ALL MINIMUM TABLES : ";
 
+    // Création de la table `histories`
     $request =  'CREATE TABLE IF NOT EXISTS histories (
                 id int AUTO_INCREMENT PRIMARY KEY,
                 datetime DATE,
@@ -112,6 +106,7 @@ function artisan_migrate_minimum() {
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    // Création de la table `users`
     $request =  'CREATE TABLE IF NOT EXISTS users (
         id int AUTO_INCREMENT PRIMARY KEY,
         firstName VARCHAR(255),
@@ -122,24 +117,28 @@ function artisan_migrate_minimum() {
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    // Création de la table `roles`
     $request =  'CREATE TABLE IF NOT EXISTS roles (
                 id int AUTO_INCREMENT PRIMARY KEY,
                 label VARCHAR(255)
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    // Création de la table `departments`
     $request =  'CREATE TABLE IF NOT EXISTS departments (
                 id int AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(255)
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    // Création de la table `locations`
     $request =  'CREATE TABLE IF NOT EXISTS locations (
                 id int AUTO_INCREMENT PRIMARY KEY,
                 label VARCHAR(255)
                 );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    // Création de la table `tasks`
     $request =  'CREATE TABLE IF NOT EXISTS tasks (
         id int AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255),
@@ -155,6 +154,7 @@ function artisan_migrate_minimum() {
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    // Création de la table `capacities`
     $request =  'CREATE TABLE IF NOT EXISTS capacities (
         id int AUTO_INCREMENT PRIMARY KEY,
         label VARCHAR(255),
@@ -162,6 +162,7 @@ function artisan_migrate_minimum() {
         );';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    // Création de la table `capacities_roles` par l'association de type N:N
     $request =  'CREATE TABLE IF NOT EXISTS capacities_roles (
         id int AUTO_INCREMENT PRIMARY KEY,
         role_id int REFERENCES roles(id),
@@ -171,6 +172,8 @@ function artisan_migrate_minimum() {
 
     // Création des clés étrangères
 
+    ////////////////////////////// Pour la table users ///////////////////////////////////
+
     echo "\nADDING ALL MINIMUM FOREIGN KEYS : ";
     $request =  'ALTER TABLE users 
                 ADD CONSTRAINT fk1_role_id
@@ -178,6 +181,9 @@ function artisan_migrate_minimum() {
                 ON DELETE RESTRICT
                 ON UPDATE RESTRICT;';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
+
+    ////////////////////////////// Pour la table histories ///////////////////////////////////
 
     $request =  'ALTER TABLE histories
                 ADD CONSTRAINT fk1_task_id
@@ -192,6 +198,8 @@ function artisan_migrate_minimum() {
                 ON DELETE RESTRICT
                 ON UPDATE RESTRICT;';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
+
+    ////////////////////////////// Pour la table tasks ///////////////////////////////////
 
     $request =  'ALTER TABLE tasks
                 ADD CONSTRAINT fk1_department_id
@@ -221,6 +229,8 @@ $request =  'ALTER TABLE tasks
                 ON UPDATE RESTRICT;';
     echo (0 ==Connection::exec($request)) ? '-' : 'x';
 
+    ////////////////////////////// Pour la table capacities_roles ///////////////////////////////////
+
     $request =  'ALTER TABLE capacities_roles
                 ADD CONSTRAINT fk2_role_id
                 FOREIGN KEY (role_id) REFERENCES roles(id)
@@ -240,7 +250,7 @@ $request =  'ALTER TABLE tasks
 
 function artisan_seed_minimum() {
     
-    // First : empty tables
+    // Première étape : Vider vos tables
     echo "EMPTY ALL MINIMUM TABLES : ";
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=0;')) ? '-' : 'x';
     echo (0 == Connection::exec('TRUNCATE users')) ? '-' : 'x';
@@ -254,7 +264,9 @@ function artisan_seed_minimum() {
     echo (0 == Connection::exec('SET FOREIGN_KEY_CHECKS=1;')) ? '-' : 'x';
     echo "\n";
     
-    // second : On insére des données dans les tables (seed)
+    // Deuxièmement : Insérer des données dans les tables (seed)
+
+    ////////////////////////////// Pour la table `roles` ///////////////////////////////////
     function seedRoles(){
         echo "ADD RECORDS IN TABLE roles : ";
         $roles=['Employé','Employé du service de maintenance informatique','Employé du service de maintenance technique','Employé du service ressources humaines',
@@ -265,6 +277,10 @@ function artisan_seed_minimum() {
         }
         echo "\n";
     }
+
+    ////////////////////////////// Pour la table `User` ///////////////////////////////////
+
+    // Création d'utilisateur aléatoire
 
     function seedRandomUser($nbUser){
         for ($i=0;$i<$nbUser;$i++){
@@ -296,6 +312,8 @@ function artisan_seed_minimum() {
         echo "\n";
     }
 
+    // Création de l'administrateur user SIO
+
     function seedUserSIO(){
         $user = [
             'firstName' => 'user',
@@ -314,6 +332,8 @@ function artisan_seed_minimum() {
         seedUserSIO();
         seedRandomUser($nbUsers);
     }
+
+    ////////////////////////////// Pour la table `departments` ///////////////////////////////////
 
     function seedDepartments($nbDepartments)
     {
@@ -337,6 +357,8 @@ function artisan_seed_minimum() {
         }
         echo "\n";
     }
+
+    ////////////////////////////// Pour la table `locations` ///////////////////////////////////
 
     function seedLocations($nbLocations)
     {
@@ -379,6 +401,8 @@ function artisan_seed_minimum() {
         echo "\n";
     }
 
+    // Création de la fonction dateUpper permettant d'obtenir une date supérieur à celle rentrer en paramètre
+
     function dateUpper($date)
     {
         $faker = Faker\Factory::create('fr_FR');
@@ -389,8 +413,13 @@ function artisan_seed_minimum() {
         return $nextDate;
     }
 
+    ////////////////////////////// Pour la table `tasks` ///////////////////////////////////
+
     function seedTasks($nbTasks){
         echo "ADD RECORDS IN TABLE tasks : ";
+
+        //on crée une première moitié des tâches n'ayant pas été affecté et terminée
+
         for ($i=0;$i<$nbTasks/2;$i++){
             $faker = Faker\Factory::create('fr_FR');
             $title = $faker->sentence(3);
@@ -401,7 +430,7 @@ function artisan_seed_minimum() {
             $workDuration = null;
             $departmentId = $faker->numberBetween(1,500);
             $locationId = $faker->numberBetween(1,20);
-            $userId = $faker->numberBetween(1,1000);
+            $userId = $faker->numberBetween(2,1000);
             $assignUserId = null;
             $task = [
                 'title' => $title,
@@ -427,6 +456,8 @@ function artisan_seed_minimum() {
             }
         }
 
+        // Puis enfin une deuxième moitié ayant un responsable qui a terminée la tâche
+
         for ($i=0;$i<$nbTasks/2;$i++){
             $faker = Faker\Factory::create('fr_FR');
             $title = $faker->sentence(3);
@@ -437,8 +468,8 @@ function artisan_seed_minimum() {
             $workDuration = $faker->time();
             $departmentId = $faker->numberBetween(1,500);
             $locationId = $faker->numberBetween(1,20);
-            $userId = $faker->numberBetween(1,1000);
-            $assignUserId = $faker->numberBetween(1,1000);
+            $userId = $faker->numberBetween(2,1000);
+            $assignUserId = $faker->numberBetween(2,1000);
             $task = [
                 'title' => $title,
                 'description' => $description,
@@ -456,6 +487,7 @@ function artisan_seed_minimum() {
             if (Tasks::count('title="'.$task['title'].'"')==0)
             {
                 Tasks::create($task);
+                Connection::insert('tasks',$task,null);
                 echo '-' ;
             }
             else{
@@ -466,6 +498,8 @@ function artisan_seed_minimum() {
         echo "\n";
 
     }
+
+    ////////////////////////////// Pour la table `capacities` ///////////////////////////////////
 
     function seedCapacities()
     {
@@ -485,6 +519,7 @@ function artisan_seed_minimum() {
             if (Capacities::count('label="'.$capacities['label'].'"')==0)
             {
                 Capacities::create($capacities);
+//                Connection::insert('capacities',$capacities,null);
             }
             else{
                 $i--;
@@ -493,6 +528,8 @@ function artisan_seed_minimum() {
         }
         echo "\n";
     }
+
+    ////////////////////////////// Pour la table `capacities_roles` ///////////////////////////////////
 
     function seedCapacityRoles()
     {
@@ -554,6 +591,8 @@ function artisan_seed_minimum() {
         }
         echo "\n";
     }
+
+    // On appelle les fonction que l'on a précédemeent créées pour qu'elle s'éxecute lors de la commande seed
 
     //roles
     seedRoles();
